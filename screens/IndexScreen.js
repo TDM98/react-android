@@ -98,6 +98,19 @@ class IndexScreen extends Component {
             }}
           />
         </View>
+          <View style = {styles.bottom1}>
+          <Chip
+            // iconLeft
+            title = 'New Calendar'
+            onPress = {() => this.props.navigation.navigate(constant.toCalendarScreen)} 
+            // color = {constant.buttonColor}
+            icon={{
+              name: 'add',
+              size: 20,
+              color: 'white'
+            }}
+          />
+        </View>
       </Fragment>
     );
   }
@@ -120,6 +133,12 @@ const styles = StyleSheet.create({
   bottom: {
     position: 'absolute',
     right: 10,
+    bottom: 10,
+    alignSelf: 'flex-end'
+  },
+  bottom1: {
+    position: 'absolute',
+    left: 10,
     bottom: 10,
     alignSelf: 'flex-end'
   }

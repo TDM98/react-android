@@ -10,3 +10,4 @@ export const activityIndicatorColor = '#9E9E9E';
 export const toIndexScreen = 'IndexScreen';
 export const toDetailsScreen = 'DetailsScreen';
 export const toFormScreen = 'FormScreen';
+export const toCalendarScreen= 'CalendarScreen';

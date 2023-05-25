@@ -24,12 +24,12 @@ class FormScreen extends Component {
   }
 
   storeMeeting() {
-    if(this.state.name === ''){
-     alert('Please give it a name.')
+    if (this.state.name === '') {
+      alert('Please give it a name.')
     } else {
       this.setState({
         isLoading: true,
-      });      
+      });
       this.dbRef.add({
         name: this.state.name,
         date: this.state.date,
@@ -41,44 +41,44 @@ class FormScreen extends Component {
         });
         this.props.navigation.navigate(constant.toIndexScreen)
       })
-      .catch((err) => {
-        console.error('Error: ', err);
-        this.setState({
-          isLoading: false,
+        .catch((err) => {
+          console.error('Error: ', err);
+          this.setState({
+            isLoading: false,
+          });
         });
-      });
     }
   }
 
   render() {
-    if(this.state.isLoading){
-      return(
-        <View style = {styles.preloader}>
-          <ActivityIndicator size = 'large' color = {constant.activityIndicatorColor}/>
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.preloader}>
+          <ActivityIndicator size='large' color={constant.activityIndicatorColor} />
         </View>
       )
     }
     return (
-      <ScrollView style = {styles.container}>
-        <View style = {styles.inputGroup}>
+      <ScrollView style={styles.container}>
+        <View style={styles.inputGroup}>
           <TextInput
-              placeholder = {'Name'}
-              value = {this.state.name}
-              onChangeText = {(val) => this.inputValueUpdate(val, 'name')}
+            placeholder={'Name'}
+            value={this.state.name}
+            onChangeText={(val) => this.inputValueUpdate(val, 'name')}
           />
         </View>
-        <View style = {styles.inputGroup}>
+        <View style={styles.inputGroup}>
           <TextInput
-              placeholder = {'Date'}
-              value = {this.state.date}
-              onChangeText = {(val) => this.inputValueUpdate(val, 'date')}
+            placeholder={'Date'}
+            value={this.state.date}
+            onChangeText={(val) => this.inputValueUpdate(val, 'date')}
           />
         </View>
-        <View style = {styles.button}>
+        <View style={styles.button}>
           <Button
-            title = 'Add Meeting'
-            onPress = {() => this.storeMeeting()} 
-            color = {constant.buttonColor}
+            title='Add Meeting'
+            onPress={() => this.storeMeeting()}
+            color={constant.buttonColor}
           />
         </View>
       </ScrollView>

@@ -5,8 +5,7 @@ import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
 import { Chip } from 'react-native-elements/dist/buttons/Chip';
 
 // Import constants.js, secrets.js and database.js.
-import * as constant from '../controllers/constants.js'
-
+import * as constant from '../controllers/constants.js';
 import firebase from '../database/firebase.js';
 import * as secret from '../controllers/secrets.js'
 class IndexScreen extends Component {

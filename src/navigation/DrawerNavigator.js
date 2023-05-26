@@ -4,18 +4,21 @@ import React from "react";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { MainStackNavigator } from "./StackNavigator";
+import { LoginNavigator, MainStackNavigator } from "./StackNavigator";
 import CalendarScreen from "../screens/CalendarSreen";
 import SettingScreen from "../screens/SettingScreen";
 import Room from "../screens/Room";
 import AppInfo from "../screens/AppInfo";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import IndexScreen from "../screens/IndexScreen";
+import LoginScreen1 from "../screens/LoginScreen1";
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
     return (
         <Drawer.Navigator>
-            <Drawer.Screen name="Home" component={MainStackNavigator} options={{
+            <Drawer.Screen name="Log in" component={MainStackNavigator} options={{
+                
                 title: 'Home',
                 drawerIcon: () => <Ionicons name="home-sharp" size={20} />
             }} />

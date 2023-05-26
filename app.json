@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Meeting Management",
-    "icon": "assets/logo.png",
+    "icon": "./src/assets/logo.png",
     "slug": "blank",
     "version": "1.0.0",
     "platforms": [

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/TabNavigator';
-import DrawerNavigator from './navigation/DrawerNavigator';
+
+import DrawerNavigator from './src/navigation/DrawerNavigator';
 // Declaration of the navigator stack.
 
 const adjustedTheme = {

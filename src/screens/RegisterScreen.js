@@ -10,15 +10,24 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
 
-const LoginScreen1 = ({navigation}) => {
+const RegisterScreen = ({navigation}) => {
+  const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const {isLoading, login} = useContext(AuthContext);
+
+  const {isLoading, register} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
+        <TextInput
+          style={styles.input}
+          value={name}
+          placeholder="Enter name"
+          onChangeText={text => setName(text)}
+        />
+
         <TextInput
           style={styles.input}
           value={email}
@@ -35,16 +44,16 @@ const LoginScreen1 = ({navigation}) => {
         />
 
         <Button
-          title="Login"
+          title="Register"
           onPress={() => {
-            login(email, password);
+            register(name, email, password);
           }}
         />
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
-          <Text>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.link}>Register</Text>
+          <Text>Already have an accoutn? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.link}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -73,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen1;
+export default RegisterScreen;

@@ -28,6 +28,7 @@ const MainStackNavigator = () => {
         component={IndexScreen}
         options={{ title: 'Meeting List' }}
       />
+ 
       <Stack.Screen
         name="CalendarScreen"
         component={CalendarScreen}

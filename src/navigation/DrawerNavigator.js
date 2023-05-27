@@ -12,6 +12,7 @@ import AppInfo from "../screens/AppInfo";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IndexScreen from "../screens/IndexScreen";
 import LoginScreen1 from "../screens/LoginScreen1";
+import Documents from '../screens/Documents.js'
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
@@ -29,6 +30,10 @@ const DrawerNavigator = () => {
             <Drawer.Screen name="Room Management" component={Room} options={{
                 title: 'Meeting Room',
                 drawerIcon: () => <Ionicons name="people-sharp" size={20} />
+            }} />
+            <Drawer.Screen name="Documents" component={Documents} options={{
+                title: 'Documents',
+                drawerIcon: () => <Ionicons name="documents-outline" size={20} />
             }} />
             <Drawer.Screen name="Setting" component={SettingScreen} options={{
                 title: 'Settings',

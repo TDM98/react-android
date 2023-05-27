@@ -1,25 +1,15 @@
-import * as React from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import {StatusBar, Text, View} from 'react-native';
+import Navigation from './src/components/Navigation';
+import {AuthProvider} from './src/context/AuthContext';
 
-
-import DrawerNavigator from './src/navigation/DrawerNavigator';
-// Declaration of the navigator stack.
-
-const adjustedTheme = {
-  ...DefaultTheme,
-  // colors: {
-  //   ...DefaultTheme.colors,
-  //   primary: '#E37399'
-  // },
+const App = () => {
+  return (
+    <AuthProvider>
+      <StatusBar backgroundColor="#06bcee" />
+      <Navigation />
+    </AuthProvider>
+  );
 };
 
-
-export default function App() {
-  return (
-    <NavigationContainer theme={adjustedTheme}>
-      <DrawerNavigator />
-    </NavigationContainer>
-
-  );
-}
+export default App;

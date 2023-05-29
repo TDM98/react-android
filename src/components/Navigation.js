@@ -1,30 +1,35 @@
-import React, {useContext} from 'react';
-import {Text, View} from 'react-native';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {useContext} from 'react';
+import {AuthContext} from '../../src/context/AuthContext';
 import HomeScreen from '../screens/HomeScreen';
-import LoginScreen1 from '../screens/LoginScreen1';
+import LoginScreen from '../screens/LoginScreen1';
+import PostCreateScreen from '../screens/PostCreateScreen';
+import PostEditScreen from '../screens/PostEditScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import {AuthContext} from '../context/AuthContext';
 import SplashScreen from '../screens/SplashScreen';
+import LoginScreen1 from '../screens/LoginScreen1';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  const {userInfo, splashLoading} = useContext(AuthContext);
+  const {user, splashLoading} = useContext(AuthContext);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {splashLoading ? (
           <Stack.Screen
-            name="Splash Screen"
+            name="Splash"
             component={SplashScreen}
             options={{headerShown: false}}
           />
-        ) : userInfo.access_token ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
+        ) : user.id_token ? (
+          <>
+            <Stack.Screen name="Room List" component={HomeScreen} />
+            <Stack.Screen name="Create" component={PostCreateScreen} />
+            <Stack.Screen name="Edit" component={PostEditScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen

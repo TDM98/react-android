@@ -1,57 +1,86 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {createContext, useEffect, useState} from 'react';
 import {BASE_URL} from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-  const [userInfo, setUserInfo] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
 
-
-
-  const login = (username, password) => {
-    setIsLoading(true);
+  const register = (name, email, password) => {
+    setLoading(true);
 
     axios
-      .post(`${BASE_URL}/authenticate`, {
-        username,
+      .post(`${BASE_URL}/register`, {
+        name,
+        email,
         password,
       })
       .then(res => {
-        let userInfo = res.data;
-        console.log(userInfo);
-        setUserInfo(userInfo);
-        AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-        setIsLoading(false);
+        let user = res.data;
+        setUser(user);
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        setLoading(false);
       })
       .catch(e => {
-        console.log(`login error ${e}`);
-        setIsLoading(false);
+        console.log(`Error on register ${e.message}`);
       });
   };
 
+  const login = (username, password) => {
+    setLoading(true);
 
+    axios
+      .post(`${BASE_URL}/authenticate`, {username, password})
+      .then(res => {
+        let user = res.data;
+        setUser(user);
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        setLoading(false);
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on login ${e.message}`);
+      });
+  };
 
+  const logout = () => {
+    setLoading(true);
+
+    axios
+      .post(
+        `${BASE_URL}/logout`,
+        {},
+        {
+          headers: {Authorization: `Bearer ${user.id_token}`},
+        },
+      )
+      .then(res => {
+        console.log(res.data);
+        AsyncStorage.removeItem('user');
+        setUser({});
+        setLoading(false);
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on logout ${e.message}`);
+      });
+  };
 
   const isLoggedIn = async () => {
-    try {
-      setSplashLoading(true);
+    setSplashLoading(true);
 
-      let userInfo = await AsyncStorage.getItem('userInfo');
-      userInfo = JSON.parse(userInfo);
+    let user = await AsyncStorage.getItem('user');
+    user = JSON.parse(user);
 
-      if (userInfo) {
-        setUserInfo(userInfo);
-      }
-
-      setSplashLoading(false);
-    } catch (e) {
-      setSplashLoading(false);
-      console.log(`is logged in error ${e}`);
+    if (user) {
+      setUser(user);
     }
+
+    setSplashLoading(false);
   };
 
   useEffect(() => {
@@ -60,13 +89,7 @@ export const AuthProvider = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{
-        isLoading,
-        userInfo,
-        splashLoading,
-        login,
-    
-      }}>
+      value={{login, register, logout, loading, user, splashLoading}}>
       {children}
     </AuthContext.Provider>
   );

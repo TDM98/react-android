@@ -1,0 +1,24 @@
+đăng nhập
+POST METHOD: http://172.25.200.194/authenticate
+method: 'POST'
+headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+    }
+body: JSON.stringify(BODY)
+
+
+BODY {
+    "username": ""
+    "password": ""
+    "rememberMe" : true
+}
+
+
+
+GET danh mục phòng: http://172.25.200.194/locations
+method: 'GET',
+	headers: {
+		'Content-type': 'application/json',
+		'Authorization': `Bearer ${token}`
+	}

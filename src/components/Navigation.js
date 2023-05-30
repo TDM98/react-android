@@ -3,13 +3,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useContext} from 'react';
 import {AuthContext} from '../../src/context/AuthContext';
 import HomeScreen from '../screens/HomeScreen';
-import LoginScreen from '../screens/LoginScreen1';
 import PostCreateScreen from '../screens/PostCreateScreen';
 import PostEditScreen from '../screens/PostEditScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen1 from '../screens/LoginScreen1';
-
+import CalendarScreen from '../screens/CalendarSreen';
+import AddMeetingScreen from '../screens/AddMeeting';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -29,6 +29,8 @@ const Navigation = () => {
             <Stack.Screen name="Room List" component={HomeScreen} />
             <Stack.Screen name="Create" component={PostCreateScreen} />
             <Stack.Screen name="Edit" component={PostEditScreen} />
+            <Stack.Screen name="Calendar" component={CalendarScreen} />
+            <Stack.Screen name="AddMeeting" component={AddMeetingScreen} />
           </>
         ) : (
           <>
@@ -43,7 +45,7 @@ const Navigation = () => {
               options={{headerShown: false}}
             />
           </>
-        )}
+        ) }
       </Stack.Navigator>
     </NavigationContainer>
   );

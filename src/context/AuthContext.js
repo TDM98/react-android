@@ -10,6 +10,8 @@ export const AuthProvider = ({children}) => {
   const [loading, setLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
 
+
+  // register
   const register = (name, email, password) => {
     setLoading(true);
 
@@ -30,6 +32,7 @@ export const AuthProvider = ({children}) => {
       });
   };
 
+  //login
   const login = (username, password) => {
     setLoading(true);
 
@@ -47,6 +50,8 @@ export const AuthProvider = ({children}) => {
       });
   };
 
+
+  //log out
   const logout = () => {
     setLoading(true);
 
@@ -69,6 +74,7 @@ export const AuthProvider = ({children}) => {
         console.log(`Error on logout ${e.message}`);
       });
   };
+
 
   const isLoggedIn = async () => {
     setSplashLoading(true);

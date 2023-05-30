@@ -18,11 +18,6 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
     return (
         <Drawer.Navigator>
-            <Drawer.Screen name="Log in" component={MainStackNavigator} options={{
-                
-                title: 'Home',
-                drawerIcon: () => <Ionicons name="home-sharp" size={20} />
-            }} />
             <Drawer.Screen name="Calendar Screen" component={CalendarScreen} options={{
                 title: 'Meeting Schedule',
                 drawerIcon: () => <Ionicons name="calendar-sharp" size={20} />

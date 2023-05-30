@@ -20,11 +20,23 @@ const actions = [
     icon: require('../assets/logout.png'),
     name: 'logout',
     position: 2,
-    color: '#014F5C',
+    color: '#FF5733',
   },
   {
     icon: require('../assets/add.png'),
     name: 'add_post',
+    position: 1,
+    color: '#FFC300',
+  },
+  {
+    icon: require('../assets/add.png'),
+    name: 'calendar',
+    position: 1,
+    color: '#C70039',
+  },
+  {
+    icon: require('../assets/add.png'),
+    name: 'addmeeting',
     position: 1,
     color: '#014F5C',
   },
@@ -40,7 +52,7 @@ const HomeScreen = ({navigation, route}) => {
         headers: {Authorization: `Bearer ${user.id_token}`},
       })
       .then(res => {
-        console.log(res.data);
+
         setPosts(res.data);
       })
       .catch(e => {
@@ -82,7 +94,12 @@ const HomeScreen = ({navigation, route}) => {
             logout();
           } else if (name === 'add_post') {
             navigation.navigate('Create');
+          } else if (name === 'calendar'){
+            navigation.navigate('Calendar');
+          } else if(name === 'addmeeting') {
+            navigation.navigate('AddMeeting')
           }
+          
         }}
       />
     </View>

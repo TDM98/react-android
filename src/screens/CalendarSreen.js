@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar, ActionButton, Button,Icon} from 'react-native';
 import { Agenda } from 'react-native-calendars';
 import { Card } from 'react-native-paper';
-
+import {FloatingAction} from 'react-native-floating-action';
+import {primary, borderColor} from '../screens/color';
+import { Chip } from 'react-native-elements/dist/buttons/Chip';
 
 const timeToString = (time) => {
     const date = new Date(time);
@@ -65,6 +67,15 @@ const CalendarScreen = () => {
                 renderItem={renderItem}
             />
             <StatusBar />
+            <View style = {styles.bottom}>
+          <Chip
+            // iconRight
+            title = 'New Meeting'
+            onPress = {() => navigation.navigate('AddMeeting')} 
+            // color = {constant.buttonColor}
+        
+          />
+        </View>
         </View>
     );
 }
@@ -81,6 +92,17 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginTop: 17
     },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+      },
+      bottom: {
+        position: 'absolute',
+        right: 10,
+        bottom: 10,
+        alignSelf: 'flex-end'
+      },
 });
 
 export default CalendarScreen

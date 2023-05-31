@@ -10,6 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import {MultipleSelectList} from 'react-native-dropdown-select-list';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import CheckBox from '@react-native-community/checkbox';
 const AddMeetingScreen = ({ navigation }) => {
   const [title, setTitle] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -26,7 +27,7 @@ const AddMeetingScreen = ({ navigation }) => {
   const [selected, setSelected] = React.useState("");
   const [data, setData] = React.useState([]);
 
-
+  const [isSelected, setSelection] = useState(false);
   React.useEffect(() =>
     //Get Values from database
     axios.get(`${BASE_URL}/locations`, {
@@ -190,6 +191,15 @@ const AddMeetingScreen = ({ navigation }) => {
         }}
       />
       <TouchableOpacity onPress={createMeeting} style={styles.button1}>
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          value={isSelected}
+          onValueChange={setSelection}
+          style={styles.checkbox}
+        />
+        <Text style={styles.label}>Important?</Text>
+      </View>
+      <Text>Is CheckBox selected: {isSelected ? '👍' : '👎'}</Text>
     <Text style={styles.buttontext}>Summit</Text>
   </TouchableOpacity>
     </View>
@@ -246,7 +256,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase"
-  }
+  },
+  checkbox: {
+    alignSelf: 'center',
+  },
+  label: {
+    margin: 8,
+  },
+
 });
 
 export default AddMeetingScreen;

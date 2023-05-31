@@ -1,45 +1,59 @@
-// ./navigation/DrawerNavigator.js
+import React from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {COLORS, ROUTES} from '../constants';
+import {CalendarScreen, SettingScreen} from '../screens';
+import BottomTabNavigator from './BottomTabNavigator';
+import Icon from 'react-native-vector-icons/Ionicons';
+import CustomDrawer from '../components/CustomDrawer';
 
-import React from "react";
-
-import { createDrawerNavigator } from "@react-navigation/drawer";
-
-import { LoginNavigator, MainStackNavigator } from "./StackNavigator";
-import CalendarScreen from "../screens/CalendarSreen";
-import SettingScreen from "../screens/SettingScreen";
-import Room from "../screens/Room";
-import AppInfo from "../screens/AppInfo";
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import IndexScreen from "../screens/IndexScreen";
-import LoginScreen1 from "../screens/LoginScreen1";
-import Documents from '../screens/Documents.js'
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigator = () => {
-    return (
-        <Drawer.Navigator>
-            <Drawer.Screen name="Calendar Screen" component={CalendarScreen} options={{
-                title: 'Meeting Schedule',
-                drawerIcon: () => <Ionicons name="calendar-sharp" size={20} />
-            }} />
-            <Drawer.Screen name="Room Management" component={Room} options={{
-                title: 'Meeting Room',
-                drawerIcon: () => <Ionicons name="people-sharp" size={20} />
-            }} />
-            <Drawer.Screen name="Documents" component={Documents} options={{
-                title: 'Documents',
-                drawerIcon: () => <Ionicons name="documents-outline" size={20} />
-            }} />
-            <Drawer.Screen name="Setting" component={SettingScreen} options={{
-                title: 'Settings',
-                drawerIcon: () => <Ionicons name="settings-sharp" size={20} />
-            }} />
-            <Drawer.Screen name="AppInfo" component={AppInfo} options={{
-                title: 'App Info',
-                drawerIcon: () => <Ionicons name="information-circle-sharp" size={20} />
-            }} />
-        </Drawer.Navigator>
-    );
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawer {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerActiveBackgroundColor: COLORS.primary,
+        drawerActiveTintColor: COLORS.white,
+        drawerLabelStyle: {
+          marginLeft: -20,
+        },
+      }}>
+      {/* <Drawer.Screen
+        name={ROUTES.HOME_DRAWER}
+        component={BottomTabNavigator}
+        options={{
+          title: 'Home',
+          drawerIcon: ({focused, color, size}) => (
+            <Icon name="home-sharp" size={18} color={color} />
+          ),
+        }}
+      /> */}
+
+      <Drawer.Screen
+        name={SettingScreen}
+        component={SettingScreen}
+        options={{
+          title: 'Setting',
+          drawerIcon: ({focused, color, size}) => (
+            <Icon name="wallet" size={18} color={color} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name={CalendarScreen}
+        component={CalendarScreen}
+        options={{
+          title: 'Calendar',
+          drawerIcon: ({focused, color, size}) => (
+            <Icon name="notifications" size={18} color={color} />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
 }
 
 export default DrawerNavigator;

@@ -52,29 +52,33 @@ export const AuthProvider = ({children}) => {
 
 
   //log out
-  const logout = () => {
-    setLoading(true);
+  // const logout = () => {
+  //   setLoading(true);
 
-    axios
-      .post(
-        `${BASE_URL}/logout`,
-        {},
-        {
-          headers: {Authorization: `Bearer ${user.id_token}`},
-        },
-      )
-      .then(res => {
-        console.log(res.data);
-        AsyncStorage.removeItem('user');
-        setUser({});
-        setLoading(false);
-      })
-      .catch(e => {
-        setLoading(false);
-        console.log(`Error on logout ${e.message}`);
-      });
-  };
-
+  //   axios
+  //     .post(
+  //       `${BASE_URL}/logout`,
+  //       {},
+  //       {
+  //         headers: {Authorization: `Bearer ${user.id_token}`},
+  //       },
+  //     )
+  //     .then(res => {
+  //       console.log(res.data);
+  //       AsyncStorage.removeItem('user');
+  //       setUser({});
+  //       setLoading(false);
+  //     })
+  //     .catch(e => {
+  //       setLoading(false);
+  //       console.log(`Error on logout ${e.message}`);
+  //     });
+  // };
+  const logout =() => {
+    AsyncStorage.removeItem('user');
+    setUser({});
+   setLoading(false);
+  }
 
   const isLoggedIn = async () => {
     setSplashLoading(true);

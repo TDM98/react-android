@@ -11,14 +11,11 @@ import LoginScreen1 from '../screens/LoginScreen1';
 import CalendarScreen from '../screens/CalendarSreen';
 import AddMeetingScreen from '../screens/AddMeeting';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
-const Navigation = () => {
-  const {user, splashLoading} = useContext(AuthContext);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
+const RootStack = createStackNavigator();
+
+const RootStackScreen = ({navigation}) => (
+    <RootStack.Navigator>
         {splashLoading ? (
           <Stack.Screen
             name="Splash"
@@ -47,9 +44,7 @@ const Navigation = () => {
             />
           </>
         ) }
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
+      </RootStack.Navigator>
+);
 
-export default Navigation;
+export default RootStackScreen;

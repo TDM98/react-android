@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Image,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
@@ -19,10 +20,16 @@ const LoginScreen1 = ({navigation}) => {
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
+      <Image
+          source={require('../assets/tvmlogo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        >
+        </Image>
         <TextInput
           style={styles.input}
           value={username}
-          placeholder="Enter email"
+          placeholder="Enter username"
           onChangeText={text => setUsername(text)}
         />
 
@@ -70,6 +77,14 @@ const styles = StyleSheet.create({
   },
   link: {
     color: 'blue',
+  },
+  logo: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    height: "30%",
+
   },
 });
 

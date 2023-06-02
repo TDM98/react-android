@@ -5,7 +5,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { LoginNavigator, MainStackNavigator } from "./StackNavigator";
-import CalendarScreen from "../screens/CalendarSreen";
+import CalendarScreen from "../screens/CalendarScreen";
 import SettingScreen from "../screens/SettingScreen";
 import AppInfo from "../screens/AppInfo";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,11 +16,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
     return (
         <Drawer.Navigator>
-            <Drawer.Screen name ="Home" component={Navigation}  />
-            <Drawer.Screen name="Calendar Screen" component={CalendarScreen} options={{
-                title: 'Meeting Schedule',
-                drawerIcon: () => <Ionicons name="calendar-sharp" size={20} />
-            }} />
+            <Drawer.Screen name="Login" component={MainStackNavigator}></Drawer.Screen>
             <Drawer.Screen name="Documents" component={Documents} options={{
                 title: 'Documents',
                 drawerIcon: () => <Ionicons name="documents-outline" size={20} />

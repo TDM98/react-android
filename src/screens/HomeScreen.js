@@ -30,12 +30,6 @@ const actions = [
   },
   {
     icon: require('../assets/add.png'),
-    name: 'calendar',
-    position: 1,
-    color: '#C70039',
-  },
-  {
-    icon: require('../assets/add.png'),
     name: 'addmeeting',
     position: 1,
     color: '#014F5C',

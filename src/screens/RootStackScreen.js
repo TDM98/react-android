@@ -8,7 +8,7 @@ import PostEditScreen from '../screens/PostEditScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen1 from '../screens/LoginScreen1';
-import CalendarScreen from '../screens/CalendarSreen';
+import CalendarScreen from './CalendarScreen';
 import AddMeetingScreen from '../screens/AddMeeting';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 

@@ -7,10 +7,11 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import { max } from 'react-native-reanimated';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
 import { SelectList } from 'react-native-dropdown-select-list';
-import {MultipleSelectList} from 'react-native-dropdown-select-list';
+import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import CheckBox from '@react-native-community/checkbox';
+import Checkbox from 'expo-checkbox';
 const AddMeetingScreen = ({ navigation }) => {
   const [title, setTitle] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -26,8 +27,20 @@ const AddMeetingScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [selected, setSelected] = React.useState("");
   const [data, setData] = React.useState([]);
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [isChecked, setChecked] = useState(false);
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
 
-  const [isSelected, setSelection] = useState(false);
+  const onChange = (event, value) => {
+    setStartDate(value);
+    if (Platform.OS === 'android') {
+      setIsPickerShow(false);
+    }
+  };
   React.useEffect(() =>
     //Get Values from database
     axios.get(`${BASE_URL}/locations`, {
@@ -45,7 +58,7 @@ const AddMeetingScreen = ({ navigation }) => {
         console.log(e)
       })
     , [])
-    // Event type
+  // Event type
   const data1 = [
     { key: '1', value: 'Họp' },
     { key: '2', value: 'Hội thảo' },
@@ -57,20 +70,20 @@ const AddMeetingScreen = ({ navigation }) => {
 
   // Meeting Chairman
   const data2 = [
-    {key: '1', value:"Trương Quang Duy"},
-    {key: '2', value:"Lê Quốc Bảo"},
-    {key: '3', value:"Nguyễn Hoàng Duy"},
-    {key: '4', value:"Trần Bửu Đạt"},
-    {key: '5', value:"Nguyễn Mạnh Hùng"},
+    { key: '1', value: "Trương Quang Duy" },
+    { key: '2', value: "Lê Quốc Bảo" },
+    { key: '3', value: "Nguyễn Hoàng Duy" },
+    { key: '4', value: "Trần Bửu Đạt" },
+    { key: '5', value: "Nguyễn Mạnh Hùng" },
   ]
   const [selected2, setSelected2] = React.useState([]);
   // Participants
   const data3 = [
-    {key: '1', value:"Trương Quang Duy"},
-    {key: '2', value:"Lê Quốc Bảo"},
-    {key: '3', value:"Nguyễn Hoàng Duy"},
-    {key: '4', value:"Trần Bửu Đạt"},
-    {key: '5', value:"Nguyễn Mạnh Hùng"},
+    { key: '1', value: "Trương Quang Duy" },
+    { key: '2', value: "Lê Quốc Bảo" },
+    { key: '3', value: "Nguyễn Hoàng Duy" },
+    { key: '4', value: "Trần Bửu Đạt" },
+    { key: '5', value: "Nguyễn Mạnh Hùng" },
   ]
   const [selected3, setSelected3] = React.useState([]);
   const createMeeting = () => {
@@ -109,7 +122,7 @@ const AddMeetingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
-        <Text style={styles.text1}>Title:</Text>
+      <Text style={styles.text1}>Title:</Text>
       <TextInput
         placeholder="Title"
         style={styles.input}
@@ -118,46 +131,33 @@ const AddMeetingScreen = ({ navigation }) => {
           setTitle(val);
         }}
       />
-      {/* <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-          <Text style={styles.text}>Birth Date :</Text>
-          <DateTimePicker
-            style={styles.datePickerStyle}
 
-            mode="date"
-            placeholder="select date"
-            format="DD/MM/YYYY"
-            minDate="01-01-1900"
-            maxDate="01-01-2000"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                right: -5,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                borderColor: "gray",
-                alignItems: "flex-start",
-                borderWidth: 0,
-                borderBottomWidth: 1,
-              },
-              placeholderText: {
-                fontSize: 17,
-                color: "gray"
-              },
-              dateText: {
-                fontSize: 17,
-              }
-            }}
-            onDateChange={(startDate) => {
-              setStartDate(startDate);
-            }}
-          />
+          <View style={styles.pickedDateContainer}>
+            <Text style={styles.pickedDate}>{date.toUTCString()}</Text>
+          </View>
+
+          {/* The button that used to trigger the date picker */}
+          {!isPickerShow && (
+            <View style={styles.btnContainer}>
+              <Button title="Show Picker" color="blue" onPress={showPicker} />
+            </View>
+          )}
+
+          {/* The date picker */}
+          {isPickerShow && (
+            <DateTimePicker
+              value={date}
+              mode={'date'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChange}
+              style={styles.datePicker}
+            />
+          )}
         </View>
-      </SafeAreaView> */}
+      </SafeAreaView>
       <Text style={styles.text1}>Location:</Text>
       <SelectList setSelected={setSelected} data={data} onSelect={() => alert(selected)} />
       <Text style={styles.text1}>Event type:</Text>
@@ -190,18 +190,18 @@ const AddMeetingScreen = ({ navigation }) => {
           setDescription(val);
         }}
       />
-      <TouchableOpacity onPress={createMeeting} style={styles.button1}>
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          value={isSelected}
-          onValueChange={setSelection}
+      <View style={styles.section}>
+        <Checkbox
           style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? '#00BFFF' : undefined}
         />
-        <Text style={styles.label}>Important?</Text>
+        <Text style={styles.paragraph}>Important?</Text>
       </View>
-      <Text>Is CheckBox selected: {isSelected ? '👍' : '👎'}</Text>
-    <Text style={styles.buttontext}>Summit</Text>
-  </TouchableOpacity>
+      <TouchableOpacity onPress={createMeeting} style={styles.button1}>
+        <Text style={styles.buttontext}>Summit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -237,18 +237,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text1: {
-    fontSize:15,
-    fontWeight:'bold',
-    marginVertical:10,
-    
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginVertical: 10,
+
   },
   button1: {
     elevation: 8,
-    backgroundColor: "#009688",
+    backgroundColor: "#1E90FF",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    marginVertical:20,
+    marginVertical: 20,
   },
   buttontext: {
     fontSize: 18,
@@ -257,11 +257,42 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase"
   },
-  checkbox: {
-    alignSelf: 'center',
-  },
   label: {
     margin: 8,
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paragraph: {
+    fontSize: 15,
+  },
+  checkbox: {
+    margin: 8,
+  },
+  datePickerStyle: {
+    width: 200,
+    marginTop: 20,
+  },
+  pickedDateContainer: {
+    padding: 20,
+    backgroundColor: '#eee',
+    borderRadius: 10,
+  },
+  pickedDate: {
+    fontSize: 18,
+    color: 'black',
+  },
+  btnContainer: {
+    padding: 30,
+  },
+  // This only works on iOS
+  datePicker: {
+    width: 320,
+    height: 260,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
 
 });

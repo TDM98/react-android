@@ -1,21 +1,34 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import SingleSelect from '../dropdown/Single';
-import MultipleSelect from '../dropdown/Multiple';
-
-
+import React, { useState } from 'react';
+import { StyleSheet, View, ScrollView, Text, Switch, SafeAreaView } from 'react-native';
 
 const SettingScreen = () => {
-  
+  const [switchValue, setSwitchValue] = useState(false);
+
+  const toggleSwitch = (value) => {
+    //onValueChange of the switch this function will be called
+    setSwitchValue(value);
+    //state changes according to switch
+    //which will result in re-render the text
+  };
+
+
+
   return (
-    <View style={styles.container}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}>    
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {/*Text to show the text according to switch condition*/}
+        <Text>{switchValue ? 'Darkmode is ON' : 'Darkmode is OFF'}</Text>
+        {/*Switch with value set in constructor*/}
+        {/*onValueChange will be triggered after switch condition changes*/}
+        <View style={styles.switch}>
+        <Switch 
+          onValueChange={toggleSwitch}
+          value={switchValue}
+        />
         <Text style={styles.title}>Language: </Text>
-        <Text style={styles.title}>Dark mode: </Text>
-      </ScrollView>
-    </View>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -25,7 +38,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingVertical: 50,
-    marginHorizontal: 10,
+
+   
   },
-});
+  switch: {
+    margin: 10
+  }
+}); 

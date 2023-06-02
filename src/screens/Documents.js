@@ -12,8 +12,7 @@ const AppInfo = () => {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>    
-        <Text style={styles.title}>App version 1.0.0</Text>
-        <Text style={styles.title}>Contact: 123 456 789</Text>
+        <Text style={styles.title}>Add Documents</Text>
       </ScrollView>
     </View>
   );

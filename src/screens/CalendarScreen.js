@@ -93,7 +93,7 @@
 // https://aboutreact.com/example-of-calendar-with-events-listed-in-react-native/
 
 // import React in our code
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 // import all the components we are going to use
 import {
@@ -107,7 +107,7 @@ import {
 import EventCalendar from 'react-native-events-calendar';
 
 //get the size of device
-let {width} = Dimensions.get('window');
+let { width } = Dimensions.get('window');
 
 const CalendarScreen = () => {
   const [events, setEvents] = useState([
@@ -135,7 +135,7 @@ const CalendarScreen = () => {
       title: 'test',
       summary: 'test',
     },
-  
+
   ]);
 
   const eventClicked = (event) => {
@@ -160,7 +160,7 @@ const CalendarScreen = () => {
           initDate={'2023-06-02'}
           // Show initial date (default is today)
           scrollToFirst
-          // Scroll to first event of the day (default true)
+        // Scroll to first event of the day (default true)
         />
       </View>
     </SafeAreaView>

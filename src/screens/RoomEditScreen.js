@@ -1,19 +1,21 @@
 import axios from 'axios';
-import React, {useContext, useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {BASE_URL} from '../config';
-import {primary, borderColor} from '../screens/color';
-import {AuthContext} from '../context/AuthContext';
+import { BASE_URL } from '../config';
+import { primary, borderColor } from './color';
+import { AuthContext } from '../context/AuthContext';
 
-const PostEditScreen = ({navigation, route}) => {
+const PostEditScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [locationName, setname] = useState(post.locationName);
+  const [locationDescription, setDescription] = useState(post.locationDescription);
+  const [notes, setNotes] = useState(post.notes);
   const [floorNumber, setfloor] = useState(post.floorNumber);
-  const [maxOccupancy,setoccupancy] = useState(post.setoccupancy);
+  const [maxOccupancy, setoccupancy] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const editPost = () => {
     setLoading(true);
@@ -23,11 +25,13 @@ const PostEditScreen = ({navigation, route}) => {
         `${BASE_URL}/posts/${post.id}`,
         {
           locationName,
+          locationDescription,
+          notes,
           floorNumber,
           maxOccupancy
         },
         {
-          headers: {Authorization: `Bearer ${user.token}`},
+          headers: { Authorization: `Bearer ${user.token}` },
         },
       )
       .then(res => {
@@ -50,12 +54,12 @@ const PostEditScreen = ({navigation, route}) => {
 
     axios
       .delete(`${BASE_URL}/posts/${post.id}`, {
-        headers: {Authorization: `Bearer ${user.token}`},
+        headers: { Authorization: `Bearer ${user.token}` },
       })
       .then(res => {
         let post = res.data;
         setLoading(false);
-        navigation.navigate('Home', {post: post});
+        navigation.navigate('Home', { post: post });
       })
       .catch(e => {
         setLoading(false);
@@ -73,6 +77,22 @@ const PostEditScreen = ({navigation, route}) => {
         value={locationName}
         onChangeText={val => {
           setname(val);
+        }}
+      />
+      <TextInput
+        placeholder='Description'
+        style={styles.input}
+        value={locationDescription}
+        onChangeText={val => {
+          setDescription(val);
+        }}
+      />
+      <TextInput
+        placeholder='Note'
+        style={styles.input}
+        value={notes}
+        onChangeText={val => {
+          setNotes(val);
         }}
       />
       <TextInput
@@ -94,7 +114,7 @@ const PostEditScreen = ({navigation, route}) => {
 
 
       <Button title="Update" color={primary} onPress={editPost} />
-      <View style={{marginTop: 4}}>
+      <View style={{ marginTop: 4 }}>
         <Button title="Delete" color="red" onPress={deletePost} />
       </View>
     </View>

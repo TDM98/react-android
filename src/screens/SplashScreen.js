@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 import { primary } from '../screens/color';
 
 const SplashScreen = () => {

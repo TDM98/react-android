@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
@@ -26,11 +26,11 @@ const AddMeetingScreen = ({ navigation }) => {
 
   const { user } = useContext(AuthContext);
   const [selected, setSelected] = React.useState("");
-  const [data, setData] = React.useState([]);
+  const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date(Date.now()));
   const [isChecked, setChecked] = useState(false);
   const [isPickerShow, setIsPickerShow] = useState(false);
-  
+
   const showPicker = () => {
     setIsPickerShow(true);
   };
@@ -41,23 +41,7 @@ const AddMeetingScreen = ({ navigation }) => {
       setIsPickerShow(false);
     }
   };
-  React.useEffect(() =>
-    //Get Values from database
-    axios.get(`${BASE_URL}/locations`, {
-      headers: { Authorization: `Bearer ${user.id_token}` },
-    })
-      .then((response) => {
-        // Store Values in Temporary Array
-        let newArray = response.data.map((item) => {
-          return { key: item.id, value: item.locationName }
-        })
-        //Set Data Variable
-        setData(newArray)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-    , [])
+
   // Event type
   const data1 = [
     { key: '1', value: 'Họp' },
@@ -86,6 +70,28 @@ const AddMeetingScreen = ({ navigation }) => {
     { key: '5', value: "Nguyễn Mạnh Hùng" },
   ]
   const [selected3, setSelected3] = React.useState([]);
+  //get location
+  useEffect(() => {
+    async function fetchData() {
+      //Get Values from database
+      axios.get(`${BASE_URL}/locations`, {
+        headers: { Authorization: `Bearer ${user.id_token}` },
+      })
+        .then((response) => {
+          // Store Values in Temporary Array
+          let newArray = response.data.map((item) => {
+            return { key: item.id, value: item.locationName }
+          })
+          //Set Data Variable
+          setData(newArray)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+    fetchData();
+  }, [])
+
   const createMeeting = () => {
     setLoading(true);
 

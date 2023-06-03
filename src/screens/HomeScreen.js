@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Button,
   FlatList,
@@ -8,42 +8,35 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {FloatingAction} from 'react-native-floating-action';
+import { FloatingAction } from 'react-native-floating-action';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {useState} from 'react/cjs/react.development';
-import {BASE_URL} from '../config';
-import {primary, borderColor} from '../screens/color';
-import {AuthContext} from '../context/AuthContext'
+import { useState } from 'react/cjs/react.development';
+import { BASE_URL } from '../config';
+import { primary, borderColor } from '../screens/color';
+import { AuthContext } from '../context/AuthContext'
+// const actions = [
+//   {
+//     icon: require('../assets/add.png'),
+//     name: 'add_post',
+//     position: 1,
+//     color: '#FFC300',
+//   },
+//   {
+//     icon: require('../assets/add.png'),
+//     name: 'addmeeting',
+//     position: 1,
+//     color: '#014F5C',
+//   },
+// ];
 
-const actions = [
-  {
-    icon: require('../assets/logout.png'),
-    name: 'logout',
-    position: 2,
-    color: '#FF5733',
-  },
-  {
-    icon: require('../assets/add.png'),
-    name: 'add_post',
-    position: 1,
-    color: '#FFC300',
-  },
-  {
-    icon: require('../assets/add.png'),
-    name: 'addmeeting',
-    position: 1,
-    color: '#014F5C',
-  },
-];
-
-const HomeScreen = ({navigation, route}) => {
+const HomeScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState({});
-  const {user, logout, loading} = useContext(AuthContext);
+  const { user, logout, loading } = useContext(AuthContext);
 
   const getPosts = () => {
     axios
       .get(`${BASE_URL}/locations`, {
-        headers: {Authorization: `Bearer ${user.id_token}`},
+        headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {
 
@@ -64,12 +57,12 @@ const HomeScreen = ({navigation, route}) => {
 
       <FlatList
         data={posts}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
             <TouchableOpacity
               style={styles.itemWrapper}
               onPress={() => {
-                navigation.navigate('Edit', {post: item});
+                navigation.navigate('Edit', { post: item });
               }}>
               <Text style={styles.title}>{item.locationName}</Text>
               <Text>{item.body}</Text>
@@ -80,7 +73,7 @@ const HomeScreen = ({navigation, route}) => {
         }}
         keyExtractor={item => item.id}
       />
-      <FloatingAction
+      {/* <FloatingAction
         color={primary}
         actions={actions}
         onPressItem={name => {
@@ -88,14 +81,14 @@ const HomeScreen = ({navigation, route}) => {
             logout();
           } else if (name === 'add_post') {
             navigation.navigate('Create');
-          } else if (name === 'calendar'){
+          } else if (name === 'calendar') {
             navigation.navigate('Calendar');
-          } else if(name === 'addmeeting') {
+          } else if (name === 'addmeeting') {
             navigation.navigate('AddMeeting')
           }
-          
+
         }}
-      />
+      /> */}
     </View>
   );
 };

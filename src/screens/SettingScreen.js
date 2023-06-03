@@ -21,11 +21,11 @@ const SettingScreen = () => {
         {/*Switch with value set in constructor*/}
         {/*onValueChange will be triggered after switch condition changes*/}
         <View style={styles.switch}>
-        <Switch 
-          onValueChange={toggleSwitch}
-          value={switchValue}
-        />
-        <Text style={styles.title}>Language: </Text>
+          <Switch
+            onValueChange={toggleSwitch}
+            value={switchValue}
+          />
+          <Text style={styles.title}>Language: </Text>
         </View>
       </View>
     </SafeAreaView>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
 
-   
+
   },
   switch: {
     margin: 10

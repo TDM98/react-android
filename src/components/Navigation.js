@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../src/context/AuthContext';
 import HomeScreen from '../screens/HomeScreen';
-import PostCreateScreen from '../screens/PostCreateScreen';
-import PostEditScreen from '../screens/PostEditScreen';
+import PostCreateScreen from '../screens/RoomCreateScreen';
+import PostEditScreen from '../screens/RoomEditScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen1 from '../screens/LoginScreen1';
@@ -17,16 +17,17 @@ import AppInfo from '../screens/AppInfo';
 import UserInfo from '../screens/UserInfo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 
 function CustomDrawerContent(props) {
+  const {logout} = useContext(AuthContext);
   const BASE_PATH =
-  'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
-const proileImage = 'react_logo.png';
+    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
+  const proileImage = 'react_logo.png';
   return (
 
     <DrawerContentScrollView {...props}>
@@ -70,7 +71,7 @@ const DrawerHome = () => (
       title: 'Settings',
       drawerIcon: () => <Ionicons name="settings-sharp" size={20} />
     }} />
-     <Drawer.Screen name="User Info" component={UserInfo} options={{
+    <Drawer.Screen name="User Info" component={UserInfo} options={{
       title: 'User Info',
       drawerIcon: () => <Ionicons name="person-circle-sharp" size={20} />
     }} />
@@ -78,7 +79,6 @@ const DrawerHome = () => (
       title: 'App Info',
       drawerIcon: () => <Ionicons name="information-circle-sharp" size={20} />
     }} />
-
   </Drawer.Navigator>
 );
 

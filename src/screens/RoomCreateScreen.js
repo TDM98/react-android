@@ -1,19 +1,21 @@
 import axios from 'axios';
-import React, {useContext, useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {BASE_URL} from '../config';
-import {primary, borderColor} from '../screens/color';
-import {AuthContext} from '../context/AuthContext';
+import { BASE_URL } from '../config';
+import { primary, borderColor } from './color';
+import { AuthContext } from '../context/AuthContext';
 import { max } from 'react-native-reanimated';
 
-const PostCreateScreen = ({navigation}) => {
+const PostCreateScreen = ({ navigation }) => {
   const [locationName, setname] = useState(null);
+  const [locationDescription, setDescription] = useState(null);
+  const [notes, setNotes] = useState(null);
   const [floorNumber, setfloor] = useState(null);
   const [maxOccupancy, setoccupancy] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const createPost = () => {
     setLoading(true);
@@ -23,11 +25,13 @@ const PostCreateScreen = ({navigation}) => {
         `${BASE_URL}/posts`,
         {
           locationName,
+          locationDescription,
+          notes,
           floorNumber,
           maxOccupancy
 
         },
-        {headers: {Authorization: `Bearer ${user.id_token}`}},
+        { headers: { Authorization: `Bearer ${user.id_token}` } },
       )
       .then(res => {
         let post = res.data;
@@ -56,6 +60,22 @@ const PostCreateScreen = ({navigation}) => {
         }}
       />
       <TextInput
+        placeholder='Description'
+        style={styles.input}
+        value={locationDescription}
+        onChangeText={val => {
+          setDescription(val);
+        }}
+      />
+      <TextInput
+        placeholder='Note'
+        style={styles.input}
+        value={notes}
+        onChangeText={val => {
+          setNotes(val);
+        }}
+      />
+      <TextInput
         placeholder="Floor"
         style={styles.input}
         value={floorNumber}
@@ -64,12 +84,12 @@ const PostCreateScreen = ({navigation}) => {
         }}
       />
       <TextInput
-      placeholder='Max Occupancy'
-      style={styles.input}
-      value={maxOccupancy}
-      onChangeText={val => {
-        setoccupancy(val);
-      }}
+        placeholder='Max Occupancy'
+        style={styles.input}
+        value={maxOccupancy}
+        onChangeText={val => {
+          setoccupancy(val);
+        }}
       />
       <Button title="Submit" color={primary} onPress={createPost} />
     </View>

@@ -6,12 +6,12 @@ import MultipleSelect from '../dropdown/Multiple';
 
 
 const AppInfo = () => {
-  
+
   return (
     <View style={styles.container}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}>    
+        showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Add Documents</Text>
       </ScrollView>
     </View>

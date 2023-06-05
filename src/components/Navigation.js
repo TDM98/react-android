@@ -2,7 +2,7 @@ import { NavigationContainer, SafeAreaView, Image, StyleSheet } from '@react-nav
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../src/context/AuthContext';
-import HomeScreen from '../screens/HomeScreen';
+import RoomScreen from '../screens/RoomManagement';
 import PostCreateScreen from '../screens/RoomCreateScreen';
 import PostEditScreen from '../screens/RoomEditScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -10,58 +10,94 @@ import SplashScreen from '../screens/SplashScreen';
 import LoginScreen1 from '../screens/LoginScreen1';
 import CalendarScreen from '../screens/CalendarScreen';
 import AddMeetingScreen from '../screens/AddMeeting';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import Documents from '../screens/Documents';
 import SettingScreen from '../screens/SettingScreen';
 import AppInfo from '../screens/AppInfo';
 import UserInfo from '../screens/UserInfo';
+import HomeScreen from '../screens/HomeScreen';
+import MeetingListScreen from '../screens/MeetingListScreen';
+import EditMeetingScreen from '../screens/EditMeetingScreen';
+import CreatMeeting from '../screens/CreateMeetingScreen';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
+
+import CustomDrawerContent from './CustomDrawerContent';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 
-function CustomDrawerContent(props) {
-  const {logout} = useContext(AuthContext);
-  const BASE_PATH =
-    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
-  const proileImage = 'react_logo.png';
-  return (
+// function CustomDrawerContent(props) {
+//   const { logout } = useContext(AuthContext);
+//   const BASE_PATH =
+//     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
+//   const proileImage = 'react_logo.png';
+//   return (
 
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
+//     <DrawerContentScrollView {...props}>
+//       <DrawerItemList {...props} />
 
-      <DrawerItem icon={({ color, size }) => (
-        <Ionicons
-          name="log-out-outline"
-          color={color}
-          size={size}
-        />
-      )} label="Log out" onPress={() => logout()} />
-    </DrawerContentScrollView>
-  );
-}
+//       <DrawerItem icon={({ color, size }) => (
+//         <Ionicons
+//           name="log-out-outline"
+//           color={color}
+//           size={size}
+//         />
+//       )} label="Log out" onPress={() => {
+//         props.navigation.toggleDrawer();
+//         Alert.alert(
+//           'Log out',
+//           'Are you sure log out?',
+//           [
+//             {
+//               text: 'Cancel',
+//               onPress: () => {
+//                 return null;
+//               },
+//             },
+//             {
+//               text: 'Confirm',
+//               onPress: () => {
+//                 logout();
+//               },
+//             },
+//           ],
+//           { cancelable: false },
+//         )
+//       }} />
+//     </DrawerContentScrollView>
+//   );
+// }
 
 // Side bar
 const DrawerHome = () => (
   <Drawer.Navigator screenOptions={{ headerShown: true }} drawerContent={props => <CustomDrawerContent {...props} />}>
     <Drawer.Screen name="Home" component={HomeScreen} options={{
-      title: 'Home',
+      title: 'Home', 
       drawerIcon: () => <Ionicons name="home-outline" size={20} />
     }} />
+    <Drawer.Screen name="Room" component={RoomScreen} options={{
+      title: 'Room Management',
+      drawerIcon: () => <Ionicons name="business-outline" size={20} />
+    }} />
+    <Drawer.Screen name="CreateRoom" component={PostCreateScreen} options={{
+      title: 'Create room',
+      drawerIcon: () => <Ionicons name="globe-outline" size={20} />
+    }} />
     <Drawer.Screen name="Calendar" component={CalendarScreen} options={{
-      title: 'Calendar',
+      title: 'Meeting Calendar',
       drawerIcon: () => <Ionicons name="calendar-outline" size={20} />
     }} />
     <Drawer.Screen name="AddMeetingScreen" component={AddMeetingScreen} options={{
       title: 'Add Meeting',
       drawerIcon: () => <Ionicons name="people-circle-outline" size={20} />
     }} />
-    <Drawer.Screen name="CreateRoom" component={PostCreateScreen} options={{
-      title: 'Create room',
-      drawerIcon: () => <Ionicons name="globe-outline" size={20} />
+    <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
+      title: 'Meeting List',
+      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} />
     }} />
     <Drawer.Screen name="Documents" component={Documents} options={{
       title: 'Documents',
@@ -102,12 +138,15 @@ const MainStackNavigator = () => {
               component={DrawerHome}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="Room List" component={HomeScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Room List" component={RoomScreen} />
             <Stack.Screen name="Create" component={PostCreateScreen} />
             <Stack.Screen name="Edit" component={PostEditScreen} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
             <Stack.Screen name="AddMeeting" component={AddMeetingScreen} />
             <Stack.Screen name="User" component={UserInfo} />
+            <Stack.Screen name="EditMeeting" component={EditMeetingScreen} />
+            <Stack.Screen name="CreateMeeting" component={CreatMeeting} />
           </>
         ) : (
           <>

@@ -5,65 +5,45 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
+import { max } from 'react-native-reanimated';
 
-const PostEditScreen = ({ navigation, route }) => {
-  const post = route.params.post;
-  const [locationName, setname] = useState(post.locationName);
-  const [locationDescription, setDescription] = useState(post.locationDescription);
-  const [notes, setNotes] = useState(post.notes);
-  const [floorNumber, setfloor] = useState(post.floorNumber);
+const CreatMeeting = ({ navigation }) => {
+  const [locationName, setname] = useState(null);
+  const [locationDescription, setDescription] = useState(null);
+  const [notes, setNotes] = useState(null);
+  const [floorNumber, setfloor] = useState(null);
   const [maxOccupancy, setoccupancy] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const { user } = useContext(AuthContext);
 
-  const editPost = () => {
+  const createPost = () => {
     setLoading(true);
 
     axios
-      .put(
-        `${BASE_URL}/posts/${post.id}`,
+      .post(
+        `${BASE_URL}/posts`,
         {
           locationName,
           locationDescription,
           notes,
           floorNumber,
           maxOccupancy
+
         },
-        {
-          headers: { Authorization: `Bearer ${user.token}` },
-        },
+        { headers: { Authorization: `Bearer ${user.id_token}` } },
       )
       .then(res => {
         let post = res.data;
-
         setLoading(false);
-        navigation.navigate('Room', {
+        navigation.navigate('Home', {
           post: post,
         });
         console.log(res.data);
       })
       .catch(e => {
         setLoading(false);
-        console.log(`Error on updating post ${e.message}`);
-      });
-  };
-
-  const deletePost = () => {
-    setLoading(true);
-
-    axios
-      .delete(`${BASE_URL}/posts/${post.id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then(res => {
-        let post = res.data;
-        setLoading(false);
-        navigation.navigate('Home', { post: post });
-      })
-      .catch(e => {
-        setLoading(false);
-        console.log(`Error on deleting post ${e.message}`);
+        console.log(`Error on creating post ${e.message}`);
       });
   };
 
@@ -72,7 +52,7 @@ const PostEditScreen = ({ navigation, route }) => {
       <Spinner visible={loading} />
 
       <TextInput
-        placeholder="Location Name"
+        placeholder="Room Name"
         style={styles.input}
         value={locationName}
         onChangeText={val => {
@@ -96,27 +76,22 @@ const PostEditScreen = ({ navigation, route }) => {
         }}
       />
       <TextInput
-        placeholder="Floor Number"
+        placeholder="Floor"
         style={styles.input}
-        value={String(floorNumber)}
+        value={floorNumber}
         onChangeText={val => {
           setfloor(val);
         }}
       />
       <TextInput
-        placeholder="Max Occupancy"
+        placeholder='Max Occupancy'
         style={styles.input}
         value={maxOccupancy}
         onChangeText={val => {
           setoccupancy(val);
         }}
       />
-
-
-      <Button title="Update" color={primary} onPress={editPost} />
-      <View style={{ marginTop: 4 }}>
-        <Button title="Delete" color="red" onPress={deletePost} />
-      </View>
+      <Button title="Submit" color={primary} onPress={createPost} />
     </View>
   );
 };
@@ -140,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostEditScreen;
+export default CreatMeeting;

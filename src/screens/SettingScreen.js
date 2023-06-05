@@ -26,6 +26,8 @@ const SettingScreen = () => {
             value={switchValue}
           />
           <Text style={styles.title}>Language: </Text>
+          <Text style={styles.title}>Vietnamese</Text>
+          <Text style={styles.title}>English</Text>
         </View>
       </View>
     </SafeAreaView>

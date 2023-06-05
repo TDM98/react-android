@@ -42,6 +42,8 @@ const AddMeetingScreen = ({ navigation }) => {
     }
   };
 
+
+
   // Event type
   const data1 = [
     { key: '1', value: 'Họp' },
@@ -114,7 +116,7 @@ const AddMeetingScreen = ({ navigation }) => {
       .then(res => {
         let post = res.data;
         setLoading(false);
-        navigation.navigate('Home', {
+        navigation.navigate('Room', {
           post: post,
         });
         console.log(res.data);
@@ -147,7 +149,7 @@ const AddMeetingScreen = ({ navigation }) => {
           {/* The button that used to trigger the date picker */}
           {!isPickerShow && (
             <View style={styles.btnContainer}>
-              <Button title="Show Picker" color="blue" onPress={showPicker} />
+              <Button title="Show Picker" color="#03b6fc" onPress={showPicker} />
             </View>
           )}
 
@@ -172,6 +174,7 @@ const AddMeetingScreen = ({ navigation }) => {
         data={data1}
         save="value"
         label="Event Type"
+
       />
       <Text style={styles.text1}>Meeting Chairman:</Text>
       <SelectList
@@ -179,6 +182,7 @@ const AddMeetingScreen = ({ navigation }) => {
         data={data2}
         save="value"
         label="Meeting Chairman"
+
       />
       <Text style={styles.text1}>Participants:</Text>
       <MultipleSelectList

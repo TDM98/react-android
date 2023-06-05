@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
+    "@syncfusion/ej2-react-calendars": "^21.2.8",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "expo": "^48.0.7",

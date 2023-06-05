@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     backgroundColor: 'white',
-    margin: 5,
+    margin: 10,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'stretch',
-    textAlign:'left',
+    textAlign:'center',
     flex: 1,
   },
 });

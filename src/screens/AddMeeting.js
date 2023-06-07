@@ -13,19 +13,21 @@ import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Checkbox from 'expo-checkbox';
 const AddMeetingScreen = ({ navigation }) => {
-  const [title, setTitle] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [vEventType, setVEventType] = useState(null)
-  const [meetingChairman, setMeetingCharirman] = useState(null);
-  const [participants, setParticipants] = useState(null);
-  const [isImportant, setIsImportant] = useState(null);
-  const [description, setDescription] = useState(null);
-
+  const[id,setId]=useState("");
+  const[locationID,setLocationID]= useState("");
+  const[createdBy,setCreateBy] = useState("");
+  const[createdDate,setCreateDate] = useState("");
+  const[meetingChairman,setMeetingChairman] = useState("");
+  const[meetingChairmanName,setMeetingChairmanName]=useState("");
+  const[participants,setParticipants] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { user } = useContext(AuthContext);
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = useState("");
   const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date(Date.now()));
   const [isChecked, setChecked] = useState(false);
@@ -41,8 +43,6 @@ const AddMeetingScreen = ({ navigation }) => {
       setIsPickerShow(false);
     }
   };
-
-
 
   // Event type
   const data1 = [
@@ -98,35 +98,40 @@ const AddMeetingScreen = ({ navigation }) => {
     setLoading(true);
 
     axios
-      .post(
+      .put(
         `${BASE_URL}/sm-details`,
         {
-          title,
-          startDate,
-          endDate,
-          vEventType,
+          id,
+          locationID,
+          createdBy,
+          createdDate,
           meetingChairman,
+          meetingChairmanName,
           participants,
-          isImportant,
+          title,
           description,
-
+          startDate,
+          endDate
         },
-        { headers: { Authorization: `Bearer ${user.id_token}` } },
+        {
+          headers: { Authorization: `Bearer ${user.id_token}` },
+        },
       )
       .then(res => {
         let post = res.data;
         setLoading(false);
-        navigation.navigate('Room', {
+        navigation.navigate('MeetingListScreen', {
           post: post,
         });
-        console.log(res.data);
       })
       .catch(e => {
         setLoading(false);
-        console.log(`Error on creating post ${e.message}`);
+        console.log(`Error on updating post ${e.message}`);
       });
   };
+  const deleteMeeting = () => {
 
+  }
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
@@ -281,7 +286,7 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   datePickerStyle: {
-    width: 200,
+    width: 50,
     marginTop: 20,
   },
   pickedDateContainer: {

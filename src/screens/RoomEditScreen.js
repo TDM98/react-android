@@ -19,11 +19,11 @@ const PostEditScreen = ({ navigation, route }) => {
 
   const editPost = () => {
     setLoading(true);
-
     axios
       .put(
-        `${BASE_URL}/posts/${post.id}`,
+        `${BASE_URL}/locations/${id}`,
         {
+          id,
           locationName,
           locationDescription,
           notes,
@@ -31,23 +31,22 @@ const PostEditScreen = ({ navigation, route }) => {
           maxOccupancy
         },
         {
-          headers: { Authorization: `Bearer ${user.token}` },
+          headers: { Authorization: `Bearer ${user.id_token}` },
         },
       )
       .then(res => {
         let post = res.data;
-
         setLoading(false);
-        navigation.navigate('Room', {
+        navigation.navigate('MeetingListScreen', {
           post: post,
         });
-        console.log(res.data);
       })
       .catch(e => {
         setLoading(false);
         console.log(`Error on updating post ${e.message}`);
       });
   };
+
 
   const deletePost = () => {
     setLoading(true);
@@ -113,10 +112,10 @@ const PostEditScreen = ({ navigation, route }) => {
       />
 
 
-      <Button title="Update" color={primary} onPress={editPost} />
+      {/* <Button title="Update" color={primary} onPress={editPost} />
       <View style={{ marginTop: 4 }}>
         <Button title="Delete" color="red" onPress={deletePost} />
-      </View>
+      </View> */}
     </View>
   );
 };

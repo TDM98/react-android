@@ -17,7 +17,7 @@ import UserInfo from '../screens/UserInfo';
 import HomeScreen from '../screens/HomeScreen';
 import MeetingListScreen from '../screens/MeetingListScreen';
 import EditMeetingScreen from '../screens/EditMeetingScreen';
-import CreatMeeting from '../screens/CreateMeetingScreen';
+
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,10 +25,35 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
 import CustomDrawerContent from './CustomDrawerContent';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
+const TabHome = () => {
+
+  <Tab.Navigator
+    tabBarOptions={{
+      labelStyle: { fontSize: 18 },
+      activeTintColor: 'red',
+      inactiveTintColor: 'black'
+    }}
+  >
+    <Tab.Screen
+      name="Screen 1"
+      component={HomeScreen}  // Replaced Screen 1
+    />
+    <Tab.Screen
+      name="Screen 2"
+      component={SettingScreen}  // Replaced Screen 2
+    />
+    <Tab.Screen
+      name="Screen 3"
+      component={AddMeetingScreen}  // Replaced Screen 3
+    />
+  </Tab.Navigator>
+
+};
 
 // function CustomDrawerContent(props) {
 //   const { logout } = useContext(AuthContext);
@@ -76,7 +101,7 @@ const Drawer = createDrawerNavigator();
 const DrawerHome = () => (
   <Drawer.Navigator screenOptions={{ headerShown: true }} drawerContent={props => <CustomDrawerContent {...props} />}>
     <Drawer.Screen name="Home" component={HomeScreen} options={{
-      title: 'Home', 
+      title: 'Home',
       drawerIcon: () => <Ionicons name="home-outline" size={20} />
     }} />
     <Drawer.Screen name="Room" component={RoomScreen} options={{
@@ -133,11 +158,13 @@ const MainStackNavigator = () => {
           />
         ) : user.id_token ? (
           <>
+
             <Stack.Screen
               name="DrawerHome"
               component={DrawerHome}
               options={{ headerShown: false }}
             />
+            <Stack.Screen name="Tab" component={TabHome} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Room List" component={RoomScreen} />
             <Stack.Screen name="Create" component={PostCreateScreen} />
@@ -146,7 +173,8 @@ const MainStackNavigator = () => {
             <Stack.Screen name="AddMeeting" component={AddMeetingScreen} />
             <Stack.Screen name="User" component={UserInfo} />
             <Stack.Screen name="EditMeeting" component={EditMeetingScreen} />
-            <Stack.Screen name="CreateMeeting" component={CreatMeeting} />
+
+
           </>
         ) : (
           <>

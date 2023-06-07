@@ -17,14 +17,14 @@ const SettingScreen = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         {/*Text to show the text according to switch condition*/}
-        <Text>{switchValue ? 'Darkmode is ON' : 'Darkmode is OFF'}</Text>
+        <Text>{switchValue ? 'Darkmode is ON' : 'Darkmode is OFF'}  <Switch
+            onValueChange={toggleSwitch}
+            value={switchValue}
+          /></Text>
         {/*Switch with value set in constructor*/}
         {/*onValueChange will be triggered after switch condition changes*/}
         <View style={styles.switch}>
-          <Switch
-            onValueChange={toggleSwitch}
-            value={switchValue}
-          />
+        
           <Text style={styles.title}>Language: </Text>
           <Text style={styles.title}>Vietnamese</Text>
           <Text style={styles.title}>English</Text>
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
 
   },
   switch: {
-    margin: 10
+   
   }
 }); 

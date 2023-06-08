@@ -83,7 +83,7 @@ const MeetingListScreen = ({ navigation, route }) => {
         }}
         keyExtractor={item => item.id}
       />
-      <FloatingAction
+      {/* <FloatingAction
         color={primary}
         actions={actions}
         onPressItem={name => {
@@ -95,7 +95,7 @@ const MeetingListScreen = ({ navigation, route }) => {
           }
         }
         }
-      />
+      /> */}
     </View>
 
   );

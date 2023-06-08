@@ -1,82 +1,82 @@
-import React, {useState, useEffect} from 'react';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import { FloatingAction } from 'react-native-floating-action';
-import { primary, borderColor } from './color';
-import Clock from 'react-live-clock';
-const image = {uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg'};
-const actions = [
-  {
-    icon: require('../assets/add.png'),
-    name: 'add_meeting',
-    position: 1,
-    color: '#FFC300',
-  },
-  {
-    icon: require('../assets/add.png'),
-    name: 'edit_meeting',
-    position: 1,
-    color: '#014F5C',
-  },
-];
-// const [currentDate, setCurrentDate] = useState('');
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
+const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-// useEffect(() => {
-//   var date = new Date().getDate(); //Current Date
-//   var month = new Date().getMonth() + 1; //Current Month
-//   var year = new Date().getFullYear(); //Current Year
-//   var hours = new Date().getHours(); //Current Hours
-//   var min = new Date().getMinutes(); //Current Minutes
-//   var sec = new Date().getSeconds(); //Current Seconds
-//   setCurrentDate(
-//     date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec
-//   );
-// }, []);
-const HomeScreen = () => (
-  <View style={styles.container}>
-    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+
+const HomeScreen =() => {
+  const [date, setDate] = useState(dayjs());
+  useEffect(() => {
+    let timer = setInterval(() => {
+      setDate(dayjs());
+    }, 1000 * 60);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <ImageBackground source={image} style={StyleSheet.absoluteFill}>
+      <View style={styles.header}>
+        <Text style={styles.date}>{date.format("dddd, DD MMMM")}</Text>
+        <Text style={styles.time}>{date.format("hh:mm")}</Text>
+      </View>
+
+      {/* footer */}
+      <View style={styles.footer}>
+      <View style={styles.icon}>
+          <MaterialCommunityIcons  name="calendar-outline" size={24} color="white" />
+        </View>
+        <View style={styles.icon}>
+          <MaterialCommunityIcons  name="account-group" size={24} color="white" />
+        </View>
+        <View style={styles.icon}>
+          <Ionicons name="person-circle-outline" size={24} color="white" />
+        </View>
+        <View style={styles.icon}>
+          <Ionicons name="md-settings-outline" size={24} color="white" />
+        </View>
+      </View>
     </ImageBackground>
-    {/* <FloatingAction
-        color={primary}
-        actions={actions}
-        onPressItem={name => {
-          if (name === 'add_meeting') {
-            navigation.navigate('AddMeeting')
-
-          } else if (name === 'edit_meeting') {
-            navigation.navigate('EditMeeting');
-
-          }
-        }
-        }
-      /> */}
-           {/* <Text style={styles.textStyle}>Current Date Time</Text>
-          <Text style={styles.textStyle}>{currentDate}</Text> */}
-   
-  </View>
-  
-);
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "stretch",
   },
-  image: {
-    flex: 1,
-    justifyContent: 'center',
+  header: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 250,
   },
-  text: {
-    color: 'white',
-    fontSize: 42,
-    lineHeight: 84,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: '#000000c0',
+  date: {
+    color: "#C3FFFE",
+    fontSize: 20,
+    fontWeight: "500",
+    marginTop: 20,
   },
-  textStyle: {
-    textAlign: 'center',
-    fontSize: 18,
-    color: 'black',
-  },  
+  time: {
+    fontSize: 82,
+    fontWeight: "bold",
+    color: "#C3FFFE",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: "auto",
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    height: 75,
+  },
+  icon: {
+    backgroundColor: "#00000050",
+    width: 50,
+    aspectRatio: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+  },
 });
 
 export default HomeScreen;

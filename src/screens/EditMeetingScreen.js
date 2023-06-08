@@ -7,6 +7,8 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SelectList } from 'react-native-dropdown-select-list';
+
+import DateTimePicker from '@react-native-community/datetimepicker';
 const EditMeetingScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
@@ -18,8 +20,6 @@ const EditMeetingScreen = ({ navigation, route }) => {
   const [participants, setParticipants] = useState(post.participants);
   const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
-  const [startDate, setStartDate] = useState(post.startDate);
-  const [endDate, setEndDate] = useState(post.endDate);
   const [loading, setLoading] = useState(false);
 
   const [selected, setSelected] = useState("");
@@ -85,8 +85,47 @@ const EditMeetingScreen = ({ navigation, route }) => {
 
   //delete meeting
   const deleteMeeting = () => {
-  }
+    setLoading(true);
 
+    axios
+      .delete(`${BASE_URL}/sm-details/${id}`, {
+        headers: {Authorization: `Bearer ${user.id_token}`},
+      })
+      .then(res => {
+        let post = res.data;
+        setLoading(false);
+        navigation.navigate('MeetingListScreen', {post: post});
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on deleting post ${e.message}`);
+      });
+  };
+
+  const [isPickerShow, setIsPickerShow] = useState(false);
+
+  const [isPickerShowEnd, setIsPickerShowEnd] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
+  const showPickerEnd = () => {
+    setIsPickerShowEnd(true);
+  };
+
+  const onChange = (event, value) => {
+    setStartDate(value);
+    if (Platform.OS === 'android') {
+      setIsPickerShow(false);
+    }
+  };
+  const onChangeEnd = (event, value1) => {
+    setEndDate(value1);
+    if (Platform.OS === 'android') {
+      setIsPickerShowEnd(false);
+    }
+  };
   return (
     <View style={styles.container}>
       <ScrollView
@@ -160,24 +199,53 @@ const EditMeetingScreen = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.text1}>From:</Text>
-        <TextInput
-          placeholder='From'
-          style={styles.input}
-          value={startDate}
-          onChangeText={val => {
-            setStartDate(val);
-          }}
-        />
-        <Text style={styles.text1}>To:</Text>
-        <TextInput
-          placeholder="To:"
-          style={styles.input}
-          value={endDate}
-          onChangeText={val => {
-            setEndDate(val);
-          }}
-        />
+        {/* Display the selected date */}
+        <View style={styles.pickedDateContainer}>
+          <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
+        </View>
 
+        {/* The button that used to trigger the date picker */}
+        {!isPickerShow && (
+          <View style={styles.btnContainer}>
+            <Button title="Pick Date" color="#eb9b34" onPress={showPicker} />
+          </View>
+        )}
+
+        {/* The date picker */}
+        {isPickerShow && (
+          <DateTimePicker
+            value={startDate}
+            mode={'date'}
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            is24Hour={true}
+            onChange={onChange}
+            style={styles.datePicker}
+          />
+        )}
+        <Text style={styles.text1}>To:</Text>
+        {/* Display the selected date */}
+        <View style={styles.pickedDateContainer}>
+          <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
+        </View>
+
+        {/* The button that used to trigger the date picker */}
+        {!isPickerShowEnd && (
+          <View style={styles.btnContainer}>
+            <Button title="Pick Date" color="#eb9b34" onPress={showPickerEnd} />
+          </View>
+        )}
+
+        {/* The date picker */}
+        {isPickerShowEnd && (
+          <DateTimePicker
+            value={endDate}
+            mode={'date'}
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            is24Hour={true}
+            onChange={onChangeEnd}
+            style={styles.datePicker}
+          />
+        )}
         <Button title="Update" color={primary} onPress={EditMeeting} />
         <View style={{ marginTop: 4 }}>
           <Button title="Delete" color="red" onPress={deleteMeeting} />
@@ -199,17 +267,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    marginBottom: 16,
+    padding: 10,
+    backgroundColor: '#eee',
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor,
-    borderRadius: 5,
-    paddingHorizontal: 16,
+    fontSize:15
   },
   text1: {
     fontSize: 15,
     fontWeight: 'bold',
     marginVertical: 10,
-  }
+  },
+  pickedDateContainer: {
+    padding: 10,
+    backgroundColor: '#eee',
+    borderRadius: 10,
+    borderWidth: 1
+  },
+  pickedDate: {
+    fontSize: 15,
+    color: 'black',
+  },
+  btnContainer: {
+    padding: 30,
+  },
+  // This only works on iOS
+  datePicker: {
+    width: 320,
+    height: 260,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+
 });
 
 export default EditMeetingScreen;

@@ -12,64 +12,64 @@ const PostEditScreen = ({ navigation, route }) => {
   const [locationDescription, setDescription] = useState(post.locationDescription);
   const [notes, setNotes] = useState(post.notes);
   const [floorNumber, setfloor] = useState(post.floorNumber);
-  const [maxOccupancy, setoccupancy] = useState(null);
+  const [maxOccupancy, setoccupancy] = useState(post.maxOccupancy);
   const [loading, setLoading] = useState(false);
 
   const { user } = useContext(AuthContext);
 
   const editPost = () => {
-    setLoading(true);
-    axios
-      .put(
-        `${BASE_URL}/locations/${id}`,
-        {
-          id,
-          locationName,
-          locationDescription,
-          notes,
-          floorNumber,
-          maxOccupancy
-        },
-        {
-          headers: { Authorization: `Bearer ${user.id_token}` },
-        },
-      )
-      .then(res => {
-        let post = res.data;
-        setLoading(false);
-        navigation.navigate('MeetingListScreen', {
-          post: post,
-        });
-      })
-      .catch(e => {
-        setLoading(false);
-        console.log(`Error on updating post ${e.message}`);
-      });
+    // setLoading(true);
+    // axios
+    //   .put(
+    //     `${BASE_URL}/locations/${id}`,
+    //     {
+    //       id,
+    //       locationName,
+    //       locationDescription,
+    //       notes,
+    //       floorNumber,
+    //       maxOccupancy
+    //     },
+    //     {
+    //       headers: { Authorization: `Bearer ${user.id_token}` },
+    //     },
+    //   )
+    //   .then(res => {
+    //     let post = res.data;
+    //     setLoading(false);
+    //     navigation.navigate('MeetingListScreen', {
+    //       post: post,
+    //     });
+    //   })
+    //   .catch(e => {
+    //     setLoading(false);
+    //     console.log(`Error on updating post ${e.message}`);
+    //   });
   };
 
 
   const deletePost = () => {
-    setLoading(true);
+    // setLoading(true);
 
-    axios
-      .delete(`${BASE_URL}/posts/${post.id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
-      .then(res => {
-        let post = res.data;
-        setLoading(false);
-        navigation.navigate('Home', { post: post });
-      })
-      .catch(e => {
-        setLoading(false);
-        console.log(`Error on deleting post ${e.message}`);
-      });
+    // axios
+    //   .delete(`${BASE_URL}/posts/${post.id}`, {
+    //     headers: { Authorization: `Bearer ${user.token}` },
+    //   })
+    //   .then(res => {
+    //     let post = res.data;
+    //     setLoading(false);
+    //     navigation.navigate('Home', { post: post });
+    //   })
+    //   .catch(e => {
+    //     setLoading(false);
+    //     console.log(`Error on deleting post ${e.message}`);
+    //   });
   };
 
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
-
+      <Text style={styles.text1}>Location Name: </Text>
       <TextInput
         placeholder="Location Name"
         style={styles.input}
@@ -78,6 +78,7 @@ const PostEditScreen = ({ navigation, route }) => {
           setname(val);
         }}
       />
+      <Text style={styles.text1}>Description: </Text>
       <TextInput
         placeholder='Description'
         style={styles.input}
@@ -86,6 +87,7 @@ const PostEditScreen = ({ navigation, route }) => {
           setDescription(val);
         }}
       />
+      <Text style={styles.text1}>Note: </Text>
       <TextInput
         placeholder='Note'
         style={styles.input}
@@ -94,6 +96,7 @@ const PostEditScreen = ({ navigation, route }) => {
           setNotes(val);
         }}
       />
+      <Text style={styles.text1}>Floor Number: </Text>
       <TextInput
         placeholder="Floor Number"
         style={styles.input}
@@ -102,20 +105,21 @@ const PostEditScreen = ({ navigation, route }) => {
           setfloor(val);
         }}
       />
+      <Text style={styles.text1}>Max Occupancy: </Text>
       <TextInput
         placeholder="Max Occupancy"
         style={styles.input}
-        value={maxOccupancy}
+        value={String(maxOccupancy)}
         onChangeText={val => {
           setoccupancy(val);
         }}
       />
 
 
-      {/* <Button title="Update" color={primary} onPress={editPost} />
+      <Button title="Update" color={primary} onPress={editPost} />
       <View style={{ marginTop: 4 }}>
         <Button title="Delete" color="red" onPress={deletePost} />
-      </View> */}
+      </View>
     </View>
   );
 };
@@ -137,6 +141,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 16,
   },
+  text1: {
+    fontWeight: 'bold',
+    marginVertical: 10,
+    fontSize: 15
+  }
 });
 
 export default PostEditScreen;

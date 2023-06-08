@@ -102,31 +102,31 @@ const DrawerHome = () => (
   <Drawer.Navigator screenOptions={{ headerShown: true }} drawerContent={props => <CustomDrawerContent {...props} />}>
     <Drawer.Screen name="Home" component={HomeScreen} options={{
       title: 'Home',
-      drawerIcon: () => <Ionicons name="home-outline" size={20} />
+      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#0096FF"/>
     }} />
     <Drawer.Screen name="Room" component={RoomScreen} options={{
       title: 'Room Management',
-      drawerIcon: () => <Ionicons name="business-outline" size={20} />
+      drawerIcon: () => <Ionicons name="business-outline" size={20} color="#FFBF00"/>
     }} />
     <Drawer.Screen name="CreateRoom" component={PostCreateScreen} options={{
       title: 'Create room',
-      drawerIcon: () => <Ionicons name="globe-outline" size={20} />
+      drawerIcon: () => <Ionicons name="globe-outline" size={20} color="#FFBF00"/>
     }} />
     <Drawer.Screen name="Calendar" component={CalendarScreen} options={{
       title: 'Meeting Calendar',
-      drawerIcon: () => <Ionicons name="calendar-outline" size={20} />
+      drawerIcon: () => <Ionicons name="calendar-outline" size={20} color="#e75784"/>
     }} />
     <Drawer.Screen name="AddMeetingScreen" component={AddMeetingScreen} options={{
       title: 'Add Meeting',
-      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} />
+      drawerIcon: () => <Ionicons name="person-add-outline" size={20} color="#ff6e40"/>
     }} />
     <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
       title: 'Meeting List',
-      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} />
+      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40"/>
     }} />
     <Drawer.Screen name="Documents" component={Documents} options={{
       title: 'Documents',
-      drawerIcon: () => <Ionicons name="documents-outline" size={20} />
+      drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f"/>
     }} />
     <Drawer.Screen name="Setting" component={SettingScreen} options={{
       title: 'Settings',

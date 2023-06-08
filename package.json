@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@ant-design/react-native": "^5.0.4",
     "@expo/webpack-config": "^18.0.1",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",

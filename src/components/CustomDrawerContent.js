@@ -16,7 +16,7 @@ const CustomDrawerContent = (props) => {
                 <DrawerItem icon={({ color, size }) => (
                     <Ionicons
                         name="log-out-outline"
-                        color={color}
+                        color="#d71b3b"
                         size={size}
                     />
                 )} label="Log out" onPress={() => {

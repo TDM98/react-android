@@ -19,7 +19,7 @@ const CustomDrawerContent = (props) => {
                         color="#d71b3b"
                         size={size}
                     />
-                )} label="Log out" onPress={() => {
+                )} label="Đăng xuất" onPress={() => {
                     props.navigation.toggleDrawer();
                     Alert.alert(
                         'Log out',

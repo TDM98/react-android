@@ -16,20 +16,21 @@ import { useState } from 'react/cjs/react.development';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext'
-// const actions = [
-//   {
-//     icon: require('../assets/add.png'),
-//     name: 'add_post',
-//     position: 1,
-//     color: '#FFC300',
-//   },
-//   {
-//     icon: require('../assets/add.png'),
-//     name: 'addmeeting',
-//     position: 1,
-//     color: '#014F5C',
-//   },
-// ];
+const actions = [
+  {
+    text: 'Tạo mới',
+    icon: require('../assets/add.png'),
+    name: 'add_room',
+    position: 1,
+    color: '#e28743',
+  },
+  {
+    icon: require('../assets/logout.png'),
+    name: 'gr',
+    position: 1,
+    color: '#014F5C',
+  }
+];
 
 const RoomScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState({});
@@ -68,30 +69,24 @@ const RoomScreen = ({ navigation, route }) => {
               }}>
               <Text style={styles.title}>{item.locationName}</Text>
               <Text>{item.body}</Text>
-              <Text style={styles.info}>Floor: {item.floorNumber}</Text>
-              <Text style={styles.info}>Max Occupancy: {item.maxOccupancy}</Text>
+              <Text style={styles.info}>Tầng: {item.floorNumber}</Text>
+              <Text style={styles.info}>Tối đa: {item.maxOccupancy} người</Text>
             </TouchableOpacity>
           );
         }}
         keyExtractor={item => item.id}
       />
-      {/* <FloatingAction
+      <FloatingAction
         color={primary}
         actions={actions}
         onPressItem={name => {
-          if (name === 'logout') {
-            logout();
-          } else if (name === 'add_post') {
+          if (name === 'gr') {
+          } else if (name === 'add_room') {
             navigation.navigate('Create');
-          } else if (name === 'calendar') {
-            navigation.navigate('Calendar');
-          } else if (name === 'addmeeting') {
-            navigation.navigate('AddMeeting')
           }
-
         }}
-      /> */}
-     
+      />
+
     </View>
   );
 };
@@ -114,7 +109,6 @@ const styles = StyleSheet.create({
   info: {
     fontWeight: '600',
     textAlign: 'right',
-    fontStyle: 'italic',
   },
 });
 

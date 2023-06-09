@@ -23,14 +23,15 @@ import { AuthContext } from '../context/AuthContext'
  
 const actions = [
   {
+    text: "Thêm mới",
     icon: require('../assets/add.png'),
     name: 'add_meeting',
     position: 1,
-    color: '#FFC300',
+    color: '#e28743',
   },
   {
-    icon: require('../assets/add.png'),
-    name: 'edit_meeting',
+    icon: require('../assets/react.png'),
+    name: 'test',
     position: 1,
     color: '#014F5C',
   },
@@ -74,28 +75,26 @@ const MeetingListScreen = ({ navigation, route }) => {
               }}>
               <Text style={styles.title}>{item.title}</Text>
               <Text>{item.body}</Text>
-              <Text style={styles.info}>Des: {item.description}</Text>
-              <Text style={styles.info}>From: {item.startDate}</Text>
-              <Text style={styles.info}>To: {item.endDate}</Text>
+              <Text style={styles.info}>Mô tả: {item.description}</Text>
+              <Text style={styles.info}>Bắt đầu: {item.startDate}</Text>
+              <Text style={styles.info}>Kết thúc: {item.endDate}</Text>
             </TouchableOpacity>
             
           );
         }}
         keyExtractor={item => item.id}
       />
-      {/* <FloatingAction
+      <FloatingAction
         color={primary}
         actions={actions}
         onPressItem={name => {
           if (name === 'add_meeting') {
             navigation.navigate('AddMeeting')
-
-          } else if (name === 'edit_meeting') {
-            navigation.navigate('EditMeeting');
+          } else if (name === 'test') {
           }
         }
         }
-      /> */}
+      />
     </View>
 
   );

@@ -42,18 +42,19 @@ const LoginScreen1 = ({ navigation }) => {
         />
 
         <Button
+          style={styles.btn}
           title="Login"
           onPress={() => {
             login(username, password);
           }}
         />
 
-        <View style={{ flexDirection: 'row', marginTop: 20 }}>
+        {/* <View style={{ flexDirection: 'row', marginTop: 20 }}>
           <Text>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.link}>Register</Text>
+            <Text style={styles.link} >Register</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -70,10 +71,12 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 12,
-    borderWidth: 1,
     borderColor: '#bbb',
-    borderRadius: 5,
-    paddingHorizontal: 14,
+    padding: 10,
+    backgroundColor: '#eee',
+    borderRadius: 10,
+    borderWidth: 1,
+    fontSize: 15
   },
   link: {
     color: 'blue',
@@ -84,8 +87,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     height: "30%",
+    width: 200,
+    height: 200,
 
   },
+  btn: {
+    borderRadius: 10,
+  }
 });
 
 export default LoginScreen1;

@@ -100,25 +100,26 @@ const TabHome = () => {
 // Side bar
 const DrawerHome = () => (
   <Drawer.Navigator screenOptions={{ headerShown: true }} drawerContent={props => <CustomDrawerContent {...props} />}>
+
     <Drawer.Screen name="Home" component={HomeScreen} options={{
       title: 'Trang chủ',
-      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#0096FF"/>
+      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#0096FF" />
     }} />
     <Drawer.Screen name="Room" component={RoomScreen} options={{
       title: 'Quản lý phòng',
-      drawerIcon: () => <Ionicons name="business-outline" size={20} color="#FFBF00"/>
+      drawerIcon: () => <Ionicons name="business-outline" size={20} color="#FFBF00" />
     }} />
     <Drawer.Screen name="Calendar" component={CalendarScreen} options={{
       title: 'Quản lý lịch họp',
-      drawerIcon: () => <Ionicons name="calendar-outline" size={20} color="#e75784"/>
+      drawerIcon: () => <Ionicons name="calendar-outline" size={20} color="#e75784" />
     }} />
     <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
       title: 'Danh sách lịch họp',
-      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40"/>
+      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40" />
     }} />
     <Drawer.Screen name="Documents" component={Documents} options={{
       title: 'Quản lý tài liệu',
-      drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f"/>
+      drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f" />
     }} />
     <Drawer.Screen name="Setting" component={SettingScreen} options={{
       title: 'Cài đặt',
@@ -156,16 +157,22 @@ const MainStackNavigator = () => {
               component={DrawerHome}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="Tab" component={TabHome} />
+            
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Room List" component={RoomScreen} />
-            <Stack.Screen name="Create" component={PostCreateScreen} />
-            <Stack.Screen name="Edit" component={RoomEditScreen} />
+            <Stack.Screen name="Create" component={PostCreateScreen} options={{
+              title: 'Tạo phòng mới'
+            }} />
+            <Stack.Screen name="Edit" component={RoomEditScreen} options={{
+              title: 'Cập nhật phòng'
+            }}/>
             <Stack.Screen name="Calendar" component={CalendarScreen} />
-            <Stack.Screen name="AddMeeting" component={AddMeetingScreen} />
+      
             <Stack.Screen name="User" component={UserInfo} />
-            <Stack.Screen name="EditMeeting" component={EditMeetingScreen} />
+         
             <Stack.Screen name="Meeting List" component={MeetingListScreen} />
+            <Stack.Screen name="EditMeeting" component={EditMeetingScreen} />
+            <Stack.Screen name="AddMeeting" component={AddMeetingScreen} />
           </>
         ) : (
           <>

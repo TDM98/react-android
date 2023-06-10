@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     borderRadius: 10,
     borderWidth: 1,
-    fontSize: 15
+    fontSize: 15,
   },
   text1: {
     fontWeight: 'bold',

@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from "react-native";
 const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
-const HomeScreen =() => {
+const HomeScreen = (navigation,route) => {
   const [date, setDate] = useState(dayjs());
   useEffect(() => {
     let timer = setInterval(() => {
@@ -23,11 +23,13 @@ const HomeScreen =() => {
 
       {/* footer */}
       <View style={styles.footer}>
-      <View style={styles.icon}>
-          <MaterialCommunityIcons  name="calendar-outline" size={24} color="white" />
+        <View style={styles.icon}>
+          <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+            <MaterialCommunityIcons name="calendar-outline" size={24} color="white" />
+          </TouchableOpacity>
         </View>
         <View style={styles.icon}>
-          <MaterialCommunityIcons  name="account-group" size={24} color="white" />
+          <MaterialCommunityIcons name="account-group" size={24} color="white" />
         </View>
         <View style={styles.icon}>
           <Ionicons name="person-circle-outline" size={24} color="white" />

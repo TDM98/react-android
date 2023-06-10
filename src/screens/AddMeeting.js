@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
@@ -106,7 +106,6 @@ const AddMeetingScreen = ({ navigation }) => {
 
   const createMeeting = () => {
     setLoading(true);
-
     axios
       .post(
         `${BASE_URL}/sm-details`,
@@ -129,6 +128,7 @@ const AddMeetingScreen = ({ navigation }) => {
       .then(res => {
         let post = res.data;
         setLoading(false);
+        console.log('ok');
         navigation.navigate('MeetingListScreen', {
           post: post,
         });
@@ -138,7 +138,9 @@ const AddMeetingScreen = ({ navigation }) => {
         console.log(`Error on updating post ${e.message}`);
       });
   };
-
+  const test = () => {
+    console.log('test');
+  }
   return (
     <View style={styles.container}>
       <ScrollView
@@ -164,7 +166,7 @@ const AddMeetingScreen = ({ navigation }) => {
             setTitle(val);
           }}
         />
-          <Text style={styles.text1}>From:</Text>
+        <Text style={styles.text1}>From:</Text>
         {/* Display the selected date */}
         <View style={styles.pickedDateContainer}>
           <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
@@ -255,9 +257,30 @@ const AddMeetingScreen = ({ navigation }) => {
           />
           <Text style={styles.paragraph}>Important?</Text>
         </View>
-        <TouchableOpacity onPress={createMeeting} style={styles.button1}>
+        <TouchableOpacity onPress={test} style={styles.button1}>
           <Text style={styles.buttontext}>Summit</Text>
         </TouchableOpacity>
+        <Button title="Tạo mới" onPress={() => {
+          Alert.alert(
+            'Tạo mới',
+            'Xác nhận tạo lịch mới',
+            [
+              {
+                text: 'Hủy',
+                onPress: () => {
+                  return null;
+                }
+              },
+              {
+                text: 'Xác nhận',
+                onPress: () => {
+                  createMeeting();
+                },
+              },
+            ],
+            { cancelable: false }
+          )
+        }}></Button>
       </ScrollView>
     </View>
   );
@@ -278,7 +301,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     borderRadius: 10,
     borderWidth: 1,
-    fontSize:15
+    fontSize: 15
   },
   datePickerStyle: {
     width: 230,

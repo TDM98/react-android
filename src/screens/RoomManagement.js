@@ -26,7 +26,7 @@ const actions = [
   },
   {
     icon: require('../assets/logout.png'),
-    name: 'gr',
+    name: 'add_meeting',
     position: 1,
     color: '#014F5C',
   }
@@ -80,7 +80,7 @@ const RoomScreen = ({ navigation, route }) => {
         color={primary}
         actions={actions}
         onPressItem={name => {
-          if (name === 'gr') {
+          if (name === 'add_meeting') {
           } else if (name === 'add_room') {
             navigation.navigate('Create');
           }

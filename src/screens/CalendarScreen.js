@@ -5,27 +5,33 @@ import { Agenda } from "react-native-calendars"
 import { AuthContext } from "../context/AuthContext"
 import { FloatingAction } from "react-native-floating-action"
 import { primary } from "./color"
+import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { BASE_URL } from '../config';
+
+
 // type Item = {
 //   name: string;
 //   cookies: boolean;
 // };
+ 
 const actions = [
   {
-    icon: require("../assets/react.png"),
-    name: "meeting list",
+    text: "Thêm mới",
+    icon: require('../assets/add.png'),
+    name: 'add_meeting',
     position: 1,
-    color: "#e28743"
+    color: '#e28743',
   },
   {
-    text: "Thêm mới",
-    icon: require("../assets/add.png"),
-    name: "add meeting",
+    icon: require('../assets/react.png'),
+    name: 'test',
     position: 1,
-    color: "#014F5C"
-  }
-]
+    color: '#014F5C',
+  },
+];
 
-const CalendarScreen = () => {
+const CalendarScreen = ({navigation, route}) => {
   const [items, setItems] = useState({})
   const { user, logout, loading } = useContext(AuthContext)
   useEffect(() => {
@@ -83,12 +89,12 @@ const CalendarScreen = () => {
         color={primary}
         actions={actions}
         onPressItem={name => {
-          if (name === "add meeting") {
-            navigation.navigate("AddMeeting")
-          } else if (name === "meeting list") {
-            navigation.navigate("Meeting List")
+          if (name === 'add_meeting') {
+            navigation.navigate('AddMeeting')
+          } else if (name === 'test') {
           }
-        }}
+        }
+        }
       />
     </SafeAreaView>
   )

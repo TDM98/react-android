@@ -9,7 +9,7 @@ import {
   View,
   TextInput,
   Image,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react/cjs/react.development';

@@ -6,7 +6,9 @@ import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import { max } from 'react-native-reanimated';
-
+import OutlineInput from 'react-native-outline-input';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { FloatingLabelInput } from 'react-native-floating-label-input';
 const PostCreateScreen = ({ navigation }) => {
   const [locationName, setname] = useState(null);
   const [locationDescription, setDescription] = useState(null);
@@ -50,49 +52,76 @@ const PostCreateScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
-
-      <TextInput
-        placeholder="Room Name"
+      <OutlineInput
         style={styles.input}
         value={locationName}
         onChangeText={val => {
           setname(val);
         }}
+        label="Tên phòng"
+        activeValueColor="#6c63fe"
+        activeBorderColor="#6c63fe"
+        activeLabelColor="#6c63fe"
+        passiveBorderColor="#bbb7ff"
+        passiveLabelColor="#bbb7ff"
+        passiveValueColor="#bbb7ff"
       />
-      <TextInput
-        placeholder='Description'
-        style={styles.input}
+      <OutlineInput
         value={locationDescription}
         onChangeText={val => {
           setDescription(val);
         }}
+        label="Mô tả"
+        activeValueColor="#6c63fe"
+        activeBorderColor="#6c63fe"
+        activeLabelColor="#6c63fe"
+        passiveBorderColor="#bbb7ff"
+        passiveLabelColor="#bbb7ff"
+        passiveValueColor="#bbb7ff"
       />
-      <TextInput
-        placeholder='Note'
-        style={styles.input}
+      <OutlineInput
         value={notes}
         onChangeText={val => {
           setNotes(val);
         }}
+        label="Ghi chú"
+        activeValueColor="#6c63fe"
+        activeBorderColor="#6c63fe"
+        activeLabelColor="#6c63fe"
+        passiveBorderColor="#bbb7ff"
+        passiveLabelColor="#bbb7ff"
+        passiveValueColor="#bbb7ff"
       />
-      <TextInput
-        placeholder="Floor"
-        style={styles.input}
+      <OutlineInput
         value={floorNumber}
         onChangeText={val => {
           setfloor(val);
         }}
+        label="Tầng"
+        activeValueColor="#6c63fe"
+        activeBorderColor="#6c63fe"
+        activeLabelColor="#6c63fe"
+        passiveBorderColor="#bbb7ff"
+        passiveLabelColor="#bbb7ff"
+        passiveValueColor="#bbb7ff"
       />
-      <TextInput
-        placeholder='Max Occupancy'
+      <OutlineInput
         style={styles.input}
         value={maxOccupancy}
         onChangeText={val => {
           setoccupancy(val);
         }}
+        label="Sức chứa (Số người)"
+        activeValueColor="#6c63fe"
+        activeBorderColor="#6c63fe"
+        activeLabelColor="#6c63fe"
+        passiveBorderColor="#bbb7ff"
+        passiveLabelColor="#bbb7ff"
+        passiveValueColor="#bbb7ff"
       />
-      <Button title="Submit" color={primary} onPress={createPost} />
+      <Button title="Cập nhật" color={primary} onPress={createPost} />
     </View>
+
   );
 };
 
@@ -107,11 +136,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    marginBottom: 16,
+    padding: 10,
+    backgroundColor: '#eee',
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor,
-    borderRadius: 5,
-    paddingHorizontal: 16,
+    fontSize: 15,
+    marginBottom:50
+  },
+  text1: {
+    fontWeight: 'bold',
+    marginVertical: 10,
+    fontSize: 15
   },
 });
 

@@ -24,7 +24,9 @@ const HomeScreen = (navigation,route) => {
       {/* footer */}
       <View style={styles.footer}>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+          <TouchableOpacity  onPress={() => {
+          navigation.navigate('EditMeeting');
+        }}>
             <MaterialCommunityIcons name="calendar-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>

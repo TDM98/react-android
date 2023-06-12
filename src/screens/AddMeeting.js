@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { Button, Pressable, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
@@ -129,7 +129,7 @@ const AddMeetingScreen = ({ navigation }) => {
         let post = res.data;
         setLoading(false);
         console.log('ok');
-        navigation.navigate('MeetingListScreen', {
+        navigation.navigate('Calendar', {
           post: post,
         });
       })
@@ -257,30 +257,40 @@ const AddMeetingScreen = ({ navigation }) => {
           />
           <Text style={styles.paragraph}>Important?</Text>
         </View>
-        <TouchableOpacity onPress={test} style={styles.button1}>
-          <Text style={styles.buttontext}>Summit</Text>
-        </TouchableOpacity>
-        <Button title="Tạo mới" onPress={() => {
-          Alert.alert(
-            'Tạo mới',
-            'Xác nhận tạo lịch mới',
-            [
+        <View style={styles.btnView}>
+          <Pressable
+            style={({ pressed }) => [
               {
-                text: 'Hủy',
-                onPress: () => {
-                  return null;
-                }
+                opacity: pressed
+                  ? 0.2
+                  : 1,
               },
-              {
-                text: 'Xác nhận',
-                onPress: () => {
-                  createMeeting();
-                },
-              },
-            ],
-            { cancelable: false }
-          )
-        }}></Button>
+              styles.btnEdit,
+            ]}
+            onPress={() => {
+              Alert.alert(
+                'Thêm mới',
+                'Thêm mới lịch',
+                [
+                  {
+                    text: 'Hủy',
+                    onPress: () => {
+                      return null;
+                    }
+                  },
+                  {
+                    text: 'Xác nhận',
+                    onPress: () => {
+                      createMeeting();
+                    },
+                  },
+                ],
+                { cancelable: false }
+              )
+            }}>
+            <Text style={styles.buttonText}>Thêm mới</Text>
+          </Pressable>
+</View>
       </ScrollView>
     </View>
   );
@@ -377,7 +387,28 @@ const styles = StyleSheet.create({
   btnContainer: {
     padding: 30,
   },
-
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  btnEdit: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#0096FF',
+    marginTop: 20,
+  },
+  btnView: {
+   justifyContent:'center',
+   justifyItem:'center',
+    margin: 10
+  },
 });
 
 export default AddMeetingScreen;

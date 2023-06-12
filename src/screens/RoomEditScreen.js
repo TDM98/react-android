@@ -1,74 +1,92 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, Alert, Pressable, ScrollView } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 
+
 const RoomEditScreen = ({ navigation, route }) => {
   const post = route.params.post;
+  const [id, setId] = useState(post.id);
+  const[locationType,setLocationType]=useState(post.locationType);
   const [locationName, setname] = useState(post.locationName);
   const [locationDescription, setDescription] = useState(post.locationDescription);
   const [notes, setNotes] = useState(post.notes);
   const [floorNumber, setfloor] = useState(post.floorNumber);
   const [maxOccupancy, setoccupancy] = useState(post.maxOccupancy);
   const [loading, setLoading] = useState(false);
-
+  const [isMaintenance, setIsMaintenance]=useState(post.isMaintenance);
+const [isDeleted, setIsDeleted] = useState(post.isDeleted);
   const { user } = useContext(AuthContext);
 
   const editRoom = () => {
-    // setLoading(true);
-    // axios
-    //   .put(
-    //     `${BASE_URL}/locations/${id}`,
-    //     {
-    //       id,
-    //       locationName,
-    //       locationDescription,
-    //       notes,
-    //       floorNumber,
-    //       maxOccupancy
-    //     },
-    //     {
-    //       headers: { Authorization: `Bearer ${user.id_token}` },
-    //     },
-    //   )
-    //   .then(res => {
-    //     let post = res.data;
-    //     setLoading(false);
-    //     navigation.navigate('MeetingListScreen', {
-    //       post: post,
-    //     });
-    //   })
-    //   .catch(e => {
-    //     setLoading(false);
-    //     console.log(`Error on updating post ${e.message}`);
-    //   });
+    setLoading(true);
+    axios
+      .put(
+        `${BASE_URL}/locations/${id}`,
+        {
+          id,
+          locationType,
+          locationName,
+          locationDescription,
+          notes,
+          floorNumber,
+          maxOccupancy,
+          isMaintenance,
+          isDeleted
+        },
+        {
+          headers: { Authorization: `Bearer ${user.id_token}` },
+        },
+      )
+      .then(res => {
+        let post = res.data;
+        setLoading(false);
+        navigation.navigate('Room', {
+          post: post,
+        });
+        console.log(`ok`)
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on updating post ${e.message}`);
+      });
   };
 
 
   const deleteRoom = () => {
-    // setLoading(true);
+    setLoading(true);
 
-    // axios
-    //   .delete(`${BASE_URL}/posts/${post.id}`, {
-    //     headers: { Authorization: `Bearer ${user.token}` },
-    //   })
-    //   .then(res => {
-    //     let post = res.data;
-    //     setLoading(false);
-    //     navigation.navigate('Home', { post: post });
-    //   })
-    //   .catch(e => {
-    //     setLoading(false);
-    //     console.log(`Error on deleting post ${e.message}`);
-    //   });
+    axios
+      .delete(`${BASE_URL}/locations/${id}`, {
+        headers: { Authorization: `Bearer ${user.id_token}` },
+      })
+      .then(res => {
+        let post = res.data;
+        setLoading(false);
+        navigation.navigate('Room', { post: post });
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on deleting post ${e.message}`);
+      });
   };
 
   return (
     <View style={styles.container}>
+      <ScrollView>
       <Spinner visible={loading} />
+      <Text style={styles.text1}>location type: </Text>
+      <TextInput
+        placeholder="dasdasdasd"
+        style={styles.input}
+        value={locationType}
+        onChangeText={val => {
+          setLocationType(val);
+        }}
+      />
       <Text style={styles.text1}>Tên phòng: </Text>
       <TextInput
         placeholder="Location Name"
@@ -114,51 +132,91 @@ const RoomEditScreen = ({ navigation, route }) => {
           setoccupancy(val);
         }}
       />
-
-      <Button style={styles.btn} title="Cập nhật" color={primary} onPress={() => {
-        Alert.alert(
-          'Update',
-          'Update this room?',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => {
-                return null;
+      <Text style={styles.text1}>maitainanced: </Text>
+      <TextInput
+        placeholder=""
+        style={styles.input}
+        value={String(isMaintenance)}
+        onChangeText={val => {
+          setIsMaintenance(val);
+        }}
+      />
+      <Text style={styles.text1}>Sức chứa (Số người): </Text>
+      <TextInput
+        placeholder="Max Occupancy"
+        style={styles.input}
+        value={String(isDeleted)}
+        onChangeText={val => {
+          setIsDeleted(val);
+        }}
+      />
+       <View style={styles.btnView}>
+          <Pressable
+            style={({ pressed }) => [
+              {
+                opacity: pressed
+                ? 0.2
+                : 1,
               },
-            },
-            {
-              text: 'Confirm',
-              onpress: () => {
-                editRoom();
+              styles.btnEdit,
+            ]}
+            onPress={() => {
+              Alert.alert(
+                'Cập nhật',
+                'Lưu thông tin cập nhật',
+                [
+                  {
+                    text: 'Hủy',
+                    onPress: () => {
+                      return null;
+                    }
+                  },
+                  {
+                    text: 'Xác nhận',
+                    onPress: () => {
+                      editRoom();
+                    },
+                  },
+                ],
+                { cancelable: false }
+              )
+            }}>
+            <Text style={styles.buttonText}>Cập nhật</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              {
+                opacity: pressed
+                ? 0.2
+                : 1,
               },
-            },
-          ],
-          { cancelable: false },
-        )
-      }} />
-
-      <Button title="Xóa" color="red" onPress={() => {
-        Alert.alert(
-          'Delete',
-          'Delete this room?',
-          [
-            {
-              text: 'Cancel',
-              onpress: () => {
-                return null;
-              },
-            },
-            {
-              text: 'Confirm',
-              onPress: () => {
-                deleteRoom();
-              },
-            },
-          ],
-          { cancelable: false },
-        )
-      }} />
-
+              styles.btnDel,
+            ]}
+            onPress={() => {
+              Alert.alert(
+                'Xóa',
+                'Xác nhận xóa',
+                [
+                  {
+                    text: 'Hủy',
+                    onPress: () => {
+                      return null;
+                    }
+                  },
+                  {
+                    text: 'Xác nhận',
+                    onPress: () => {
+                      deleteRoom();
+                    },
+                  },
+                ],
+                { cancelable: false }
+              )
+            }}>
+            <Text style={styles.buttonText}>Xóa</Text>
+          </Pressable>
+        </View>
+        </ScrollView>
     </View>
   );
 };
@@ -185,9 +243,36 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontSize: 15
   },
-  btn: {
-
-  }
+  btnEdit: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor:'#0096FF'
+  },
+  btnDel:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor:'#EE4B2B',
+    marginLeft:10,
+  },
+  btnView: {
+    flexDirection: 'row',
+    margin: 10
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
 });
 
 export default RoomEditScreen;

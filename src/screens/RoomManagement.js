@@ -15,7 +15,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react/cjs/react.development';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../context/AuthContext';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const actions = [
   {
     text: 'Tạo mới',
@@ -69,8 +70,14 @@ const RoomScreen = ({ navigation, route }) => {
               }}>
               <Text style={styles.title}>{item.locationName}</Text>
               <Text>{item.body}</Text>
-              <Text style={styles.info}>Tầng: {item.floorNumber}</Text>
-              <Text style={styles.info}>Tối đa: {item.maxOccupancy} người</Text>
+              <View style={styles.rowInfo}>
+              <Ionicons name="business-outline" size={17} color="#4169E1" />
+              <Text style={styles.info}>   {item.floorNumber}</Text>
+              </View>
+              <View style={styles.rowInfo}>
+              <Ionicons name="people-outline" size={17} color="#4169E1" />
+              <Text style={styles.info}>   {item.maxOccupancy} người</Text>
+              </View>
             </TouchableOpacity>
           );
         }}
@@ -100,15 +107,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderColor,
+    backgroundColor:'#f0e9da',
+    margin: 10,
+    borderRadius:20,
+
   },
   title: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: 'bold',
     marginBottom: 4,
+  },
+  rowInfo:{
+    flexDirection:'row',
+    margin:5,
   },
   info: {
     fontWeight: '600',
-    textAlign: 'right',
+    fontSize:16,
   },
 });
 

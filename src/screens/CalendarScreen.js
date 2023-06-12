@@ -1,6 +1,6 @@
 import { addDays, format } from "date-fns"
 import React, { useEffect, useState, useContext } from "react"
-import { SafeAreaView, StyleSheet, Text, View } from "react-native"
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native"
 import { Agenda } from "react-native-calendars"
 import { AuthContext } from "../context/AuthContext"
 import { FloatingAction } from "react-native-floating-action"
@@ -8,13 +8,13 @@ import { primary } from "./color"
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // type Item = {
 //   name: string;
 //   cookies: boolean;
 // };
- 
+
 const actions = [
   {
     text: "Thêm mới",
@@ -31,7 +31,7 @@ const actions = [
   },
 ];
 
-const CalendarScreen = ({navigation, route}) => {
+const CalendarScreen = ({ navigation, route }) => {
   const [items, setItems] = useState({})
   const { user, logout, loading } = useContext(AuthContext)
   useEffect(() => {
@@ -73,12 +73,21 @@ const CalendarScreen = ({navigation, route}) => {
 
   const renderItem = item => {
     return (
-      <View style={styles.itemContainer}>
-        <Text>Tiêu đề: {item.title}</Text>
-        <Text>Mô tả: {item.description}</Text>
-        <Text>Người chủ trì: {item.meetingChairman}</Text>
-        <Text>Người tham gia: {item.participants}</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.itemWrapper}
+        onPress={() => {
+          navigation.navigate('EditMeeting', { post: item });
+        }}>
+        <View style={styles.itemContainer}>
+          <Ionicons name="radio-button-on-outline" size={20} style={styles.iconTitle} color="#Ee161b" >
+            <Text style={styles.itemtitle} > {item.title}</Text>
+          </Ionicons>
+          <Text style={styles.itemtext}>Người tham gia: {item.participants}</Text>
+          <Ionicons name="location-outline" size={15} style={styles.icon} color="#4169E1" >
+            <Text style={styles.itemtext1}>  Phòng họp IT Lầu 3</Text>
+          </Ionicons>
+        </View>
+      </TouchableOpacity>
     )
   }
 
@@ -102,16 +111,39 @@ const CalendarScreen = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   safe: {
-    flex: 1
+    flex: 1,
   },
   itemContainer: {
-    backgroundColor: "white",
-    margin: 10,
-    borderRadius: 15,
+    backgroundColor: 'white',
+    margin: 15,
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "stretch",
     textAlign: "center",
     flex: 1
+  },
+  itemtitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 10,
+    marginLeft: 10,
+    color: '#Ee9e16'
+  },
+  itemtext: {
+    margin: 15,
+    fontWeight: '600'
+  },
+  itemtext1: {
+    margin: 15,
+    fontWeight: '100',
+  },
+  icon: {
+    marginBottom: 10,
+    marginLeft: 10,
+  },
+  iconTitle:{
+    marginTop: 10,
+    marginLeft:10
   }
 })
 

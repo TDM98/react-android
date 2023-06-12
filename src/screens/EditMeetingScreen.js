@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, ScrollView, Alert } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, ScrollView, Alert, Pressable, TouchableOpacity, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
@@ -73,9 +73,11 @@ const EditMeetingScreen = ({ navigation, route }) => {
       .then(res => {
         let post = res.data;
         setLoading(false);
-        navigation.navigate('MeetingListScreen', {
+        navigation.navigate('Calendar', {
           post: post,
+
         });
+        console.log(`ok`);
       })
       .catch(e => {
         setLoading(false);
@@ -88,13 +90,13 @@ const EditMeetingScreen = ({ navigation, route }) => {
     setLoading(true);
 
     axios
-      .delete(`${BASE_URL}/sm-details/${id}`, {
+      .delete(`${BASE_URL}/locations/${id}`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {
         let post = res.data;
         setLoading(false);
-        navigation.navigate('MeetingListScreen', { post: post });
+        navigation.navigate('Calendar', { post: post });
       })
       .catch(e => {
         setLoading(false);
@@ -194,20 +196,26 @@ const EditMeetingScreen = ({ navigation, route }) => {
             setDescription(val);
           }}
         />
-        <Text style={styles.text1}>Bắt đầu:</Text>
-        {/* Display the selected date */}
-        <View style={styles.pickedDateContainer}>
+
+
+
+
+
+<Text style={styles.text1}>Bắt đầu:</Text>
+<TouchableOpacity
+          style={styles.buttonFacebookStyle}
+          activeOpacity={0.5} onPress={showPicker}>
+          <Image
+            source={{
+              uri:
+                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+            }}
+            style={styles.buttonImageIconStyle}
+          />
+          <View style={styles.buttonIconSeparatorStyle} />
           <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
-        </View>
-
-        {/* The button that used to trigger the date picker */}
-        {!isPickerShow && (
-          <View style={styles.btnContainer}>
-            <Button title="Chọn ngày" color="#eb9b34" onPress={showPicker} />
-          </View>
-        )}
-
-        {/* The date picker */}
+          
+        </TouchableOpacity>
         {isPickerShow && (
           <DateTimePicker
             value={startDate}
@@ -218,20 +226,21 @@ const EditMeetingScreen = ({ navigation, route }) => {
             style={styles.datePicker}
           />
         )}
-        <Text style={styles.text1}>Kết thúc:</Text>
-        {/* Display the selected date */}
-        <View style={styles.pickedDateContainer}>
+<Text style={styles.text1}>Kết thúc:</Text>
+        <TouchableOpacity
+          style={styles.buttonFacebookStyle}
+          activeOpacity={0.5} onPress={showPickerEnd}>
+          <Image
+            source={{
+              uri:
+                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
+            }}
+            style={styles.buttonImageIconStyle}
+          />
+          <View style={styles.buttonIconSeparatorStyle} />
           <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
-        </View>
-
-        {/* The button that used to trigger the date picker */}
-        {!isPickerShowEnd && (
-          <View style={styles.btnContainer}>
-            <Button title="Chon ngày" color="#eb9b34" onPress={showPickerEnd} />
-          </View>
-        )}
-
-        {/* The date picker */}
+          
+        </TouchableOpacity>
         {isPickerShowEnd && (
           <DateTimePicker
             value={endDate}
@@ -242,51 +251,71 @@ const EditMeetingScreen = ({ navigation, route }) => {
             style={styles.datePicker}
           />
         )}
-        <Button title="Cập nhật" color={primary} onPress={() => {
-
-          Alert.alert(
-            'Update',
-            'Update this meeting?',
-            [
+        <View style={styles.btnView}>
+          <Pressable
+            style={({ pressed }) => [
               {
-                text: 'Cancel',
-                onPress: () => {
-                  return null;
-                },
+                opacity: pressed
+                  ? 0.2
+                  : 1,
               },
+              styles.btnEdit,
+            ]}
+            onPress={() => {
+              Alert.alert(
+                'Cập nhật',
+                'Lưu thông tin cập nhật',
+                [
+                  {
+                    text: 'Hủy',
+                    onPress: () => {
+                      return null;
+                    }
+                  },
+                  {
+                    text: 'Xác nhận',
+                    onPress: () => {
+                      EditMeeting();
+                    },
+                  },
+                ],
+                { cancelable: false }
+              )
+            }}>
+            <Text style={styles.buttonText}>Cập nhật</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
               {
-                text: 'Confirm',
-                onPress: () => {
-                  EditMeeting();
-                },
+                opacity: pressed
+                  ? 0.2
+                  : 1,
               },
-            ],
-            { cancelable: false },
-          )
-        }} />
-        <View style={{ marginTop: 4 }}>
-          <Button title="Xóa" color="red" onPress={() => {
-
-            Alert.alert(
-              'Delete',
-              'Delete this meeting?',
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => {
-                    return null;
+              styles.btnDel,
+            ]}
+            onPress={() => {
+              Alert.alert(
+                'Xóa',
+                'Xác nhận xóa',
+                [
+                  {
+                    text: 'Hủy',
+                    onPress: () => {
+                      return null;
+                    }
                   },
-                },
-                {
-                  text: 'Confirm',
-                  onPress: () => {
-                    deleteMeeting();
+                  {
+                    text: 'Xác nhận',
+                    onPress: () => {
+                      deleteMeeting();
+                    },
                   },
-                },
-              ],
-              { cancelable: false },
-            )
-          }} />
+                ],
+                { cancelable: false }
+              )
+            }}>
+            <Text style={styles.buttonText}>Xóa</Text>
+          </Pressable>
         </View>
       </ScrollView>
     </View>
@@ -337,7 +366,77 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  btnEdit: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#0096FF',
+    marginTop: 20,
+  },
+  btnDel: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#EE4B2B',
+    marginTop: 20,
+    marginLeft: 10,
 
+  },
+  btnView: {
+    flexDirection: 'row',
+    margin: 10
+  },
+
+  buttonGPlusStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#dc4e41',
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    height: 40,
+    borderRadius: 5,
+    margin: 5,
+  },
+  buttonFacebookStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#485a96',
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    height: 40,
+    borderRadius: 5,
+    margin: 5,
+  },
+  buttonImageIconStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
+  },
+  buttonTextStyle: {
+    color: '#fff',
+    marginBottom: 4,
+    marginLeft: 10,
+  },
+  buttonIconSeparatorStyle: {
+    backgroundColor: '#fff',
+    width: 1,
+    height: 40,
+  },
 });
 
 export default EditMeetingScreen;

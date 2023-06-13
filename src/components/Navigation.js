@@ -103,7 +103,7 @@ const DrawerHome = () => (
 
     <Drawer.Screen name="Home" component={HomeScreen} options={{
       title: 'Trang chủ',
-      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#0096FF" />
+      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#1F51FF" />
     }} />
     <Drawer.Screen name="Room" component={RoomScreen} options={{
       title: 'Quản lý phòng',
@@ -113,10 +113,10 @@ const DrawerHome = () => (
       title: 'Quản lý lịch họp',
       drawerIcon: () => <Ionicons name="calendar-outline" size={20} color="#e75784" />
     }} />
-    <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
+    {/* <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
       title: 'Danh sách lịch họp',
       drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40" />
-    }} />
+    }} /> */}
     <Drawer.Screen name="Documents" component={Documents} options={{
       title: 'Quản lý tài liệu',
       drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f" />
@@ -157,7 +157,7 @@ const MainStackNavigator = () => {
               component={DrawerHome}
               options={{ headerShown: false }}
             />
-            
+
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Room List" component={RoomScreen} />
             <Stack.Screen name="Create" component={PostCreateScreen} options={{
@@ -165,14 +165,18 @@ const MainStackNavigator = () => {
             }} />
             <Stack.Screen name="Edit" component={RoomEditScreen} options={{
               title: 'Cập nhật phòng'
-            }}/>
+            }} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
-      
+
             <Stack.Screen name="User" component={UserInfo} />
-         
+
             <Stack.Screen name="Meeting List" component={MeetingListScreen} />
-            <Stack.Screen name="EditMeeting" component={EditMeetingScreen} />
-            <Stack.Screen name="AddMeeting" component={AddMeetingScreen} />
+            <Stack.Screen name="EditMeeting" component={EditMeetingScreen} options={{
+              title: 'Chỉnh sửa lịch'
+            }} />
+            <Stack.Screen name="AddMeeting" component={AddMeetingScreen} options={{
+              title: 'Thêm lịch mới'
+            }}/>
           </>
         ) : (
           <>

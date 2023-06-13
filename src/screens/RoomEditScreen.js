@@ -10,21 +10,21 @@ import { AuthContext } from '../context/AuthContext';
 const RoomEditScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
-  const[locationType,setLocationType]=useState(post.locationType);
+  const [locationType, setLocationType] = useState(post.locationType);
   const [locationName, setname] = useState(post.locationName);
   const [locationDescription, setDescription] = useState(post.locationDescription);
   const [notes, setNotes] = useState(post.notes);
   const [floorNumber, setfloor] = useState(post.floorNumber);
   const [maxOccupancy, setoccupancy] = useState(post.maxOccupancy);
+  const [isMaintenance, setIsMaintenance] = useState(post.isMaintenance);
+  const [isDeleted, setIsDeleted] = useState(post.isDeleted);
   const [loading, setLoading] = useState(false);
-  const [isMaintenance, setIsMaintenance]=useState(post.isMaintenance);
-const [isDeleted, setIsDeleted] = useState(post.isDeleted);
   const { user } = useContext(AuthContext);
 
   const editRoom = () => {
     setLoading(true);
     axios
-      .put(
+      .patch(
         `${BASE_URL}/locations/${id}`,
         {
           id,
@@ -77,86 +77,85 @@ const [isDeleted, setIsDeleted] = useState(post.isDeleted);
   return (
     <View style={styles.container}>
       <ScrollView>
-      <Spinner visible={loading} />
-      <Text style={styles.text1}>location type: </Text>
-      <TextInput
-        placeholder="dasdasdasd"
-        style={styles.input}
-        value={locationType}
-        onChangeText={val => {
-          setLocationType(val);
-        }}
-      />
-      <Text style={styles.text1}>Tên phòng: </Text>
-      <TextInput
-        placeholder="Location Name"
-        style={styles.input}
-        value={locationName}
-        onChangeText={val => {
-          setname(val);
-        }}
-      />
-      <Text style={styles.text1}>Mô tả: </Text>
-      <TextInput
-        placeholder='Description'
-        style={styles.input}
-        value={locationDescription}
-        onChangeText={val => {
-          setDescription(val);
-        }}
-      />
-      <Text style={styles.text1}>Ghi chú: </Text>
-      <TextInput
-        placeholder='Note'
-        style={styles.input}
-        value={notes}
-        onChangeText={val => {
-          setNotes(val);
-        }}
-      />
-      <Text style={styles.text1}>Tầng: </Text>
-      <TextInput
-        placeholder="Floor Number"
-        style={styles.input}
-        value={String(floorNumber)}
-        onChangeText={val => {
-          setfloor(val);
-        }}
-      />
-      <Text style={styles.text1}>Sức chứa (Số người): </Text>
-      <TextInput
-        placeholder="Max Occupancy"
-        style={styles.input}
-        value={String(maxOccupancy)}
-        onChangeText={val => {
-          setoccupancy(val);
-        }}
-      />
-      <Text style={styles.text1}>maitainanced: </Text>
-      <TextInput
-        placeholder=""
-        style={styles.input}
-        value={String(isMaintenance)}
-        onChangeText={val => {
-          setIsMaintenance(val);
-        }}
-      />
-      <Text style={styles.text1}>Sức chứa (Số người): </Text>
-      <TextInput
-        placeholder="Max Occupancy"
-        style={styles.input}
-        value={String(isDeleted)}
-        onChangeText={val => {
-          setIsDeleted(val);
-        }}
-      />
-       <View style={styles.btnView}>
+        <Spinner visible={loading} />
+        <Text style={styles.text1}>Loại phòng: </Text>
+        <TextInput
+          placeholder=""
+          keyboardType='numeric'
+          style={styles.input}
+          value={String(locationType)}
+          onChangeText={val => {
+            setLocationType(val);
+          }}
+        />
+        <Text style={styles.text1}>Tên phòng: </Text>
+        <TextInput
+          style={styles.input}
+          value={locationName}
+          onChangeText={val => {
+            setname(val);
+          }}
+        />
+        <Text style={styles.text1}>Mô tả: </Text>
+        <TextInput
+          placeholder='Description'
+          style={styles.input}
+          value={locationDescription}
+          onChangeText={val => {
+            setDescription(val);
+          }}
+        />
+        <Text style={styles.text1}>Ghi chú: </Text>
+        <TextInput
+          style={styles.input}
+          value={notes}
+          onChangeText={val => {
+            setNotes(val);
+          }}
+        />
+        <Text style={styles.text1}>Tầng: </Text>
+        <TextInput
+          keyboardType='numeric'
+          style={styles.input}
+          value={String(floorNumber)}
+          onChangeText={val => {
+            setfloor(val);
+          }}
+        />
+        <Text style={styles.text1}>Sức chứa (Số người): </Text>
+        <TextInput
+          keyboardType='numeric'
+          style={styles.input}
+          value={String(maxOccupancy)}
+          onChangeText={val => {
+            setoccupancy(val);
+          }}
+        />
+        {/* <Text style={styles.text1}>maitainanced: </Text>
+        <TextInput
+          placeholder=""
+          style={styles.input}
+          value={String(isMaintenance)}
+          onChangeText={val => {
+            setIsMaintenance(val);
+          }}
+        />
+        <Text style={styles.text1}>deleted </Text>
+        <TextInput
+          placeholder="Max Occupancy"
+          style={styles.input}
+          value={String(isDeleted)}
+          onChangeText={val => {
+            setIsDeleted(val);
+          }}
+        /> */}
+        <View style={styles.btnView}>
           <Pressable
             style={({ pressed }) => [
               {
                 opacity: pressed
-                ? 0.2
-                : 1,
+                  ? 0.2
+                  : 1,
               },
               styles.btnEdit,
             ]}
@@ -187,8 +186,8 @@ const [isDeleted, setIsDeleted] = useState(post.isDeleted);
             style={({ pressed }) => [
               {
                 opacity: pressed
-                ? 0.2
-                : 1,
+                  ? 0.2
+                  : 1,
               },
               styles.btnDel,
             ]}
@@ -216,7 +215,7 @@ const [isDeleted, setIsDeleted] = useState(post.isDeleted);
             <Text style={styles.buttonText}>Xóa</Text>
           </Pressable>
         </View>
-        </ScrollView>
+      </ScrollView>
     </View>
   );
 };
@@ -226,6 +225,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
+    backgroundColor: '#eee'
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: '#FAF9F6',
     borderRadius: 10,
     borderWidth: 1,
     fontSize: 15,
@@ -250,17 +250,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor:'#0096FF'
+    backgroundColor: '#1F51FF'
   },
-  btnDel:{
+  btnDel: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor:'#EE4B2B',
-    marginLeft:10,
+    backgroundColor: '#EE4B2B',
+    marginLeft: 10,
   },
   btnView: {
     flexDirection: 'row',

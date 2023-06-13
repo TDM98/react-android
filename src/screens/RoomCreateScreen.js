@@ -5,22 +5,23 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
-import { max } from 'react-native-reanimated';
+import { floor, max } from 'react-native-reanimated';
 import OutlineInput from 'react-native-outline-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FloatingLabelInput } from 'react-native-floating-label-input';
-
+import { ScrollView } from 'react-native-gesture-handler';
+import NumericInput from 'react-native-numeric-input'
 const PostCreateScreen = ({ navigation }) => {
-  const[locationType,setLocatiobType] = useState(null);
-  const [locationName, setname] = useState(null);
+  const [locationType, setLocatiobType] = useState(null);
+  const [locationName, setName] = useState('');
   const [locationDescription, setDescription] = useState(null);
   const [notes, setNotes] = useState(null);
-  const [floorNumber, setfloor] = useState(null);
-  const [maxOccupancy, setOccupancy] = useState(null);
-  const[isMaintenanced, setIsMaintenanced] = useState(null);
-  const[isDeleted, setIsDeleted] = useState(null);
+  const [floorNumber, setFloor] = useState(null);
+  const [maxOccupancy, setOccupancy] = useState('');
+  const [isMaintenanced, setIsMaintenanced] = useState(null);
+  const [isDeleted, setIsDeleted] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [errors, setErrors] = useState({})
   const { user } = useContext(AuthContext);
 
   const createPost = () => {
@@ -55,151 +56,127 @@ const PostCreateScreen = ({ navigation }) => {
         console.log(`Error on creating post ${e.message}`);
       });
   };
+  const checkTextInput = () => {
+    //Check for the Name TextInput
+    if (!locationName.trim()) {
+      alert(`Tên phòng không được để trống`);
+      return;
+    }
+    createPost();
+  };
 
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
-      <OutlineInput
-        style={styles.input}
-        value={locationType}
-        onChangeText={val => {
-          setLocatiobType(val);
-        }}
-        label="location type"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-      <OutlineInput
-        style={styles.input}
-        value={locationName}
-        onChangeText={val => {
-          setname(val);
-        }}
-        label="Tên phòng"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-      <OutlineInput
-        value={locationDescription}
-        onChangeText={val => {
-          setDescription(val);
-        }}
-        label="Mô tả"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-      <OutlineInput
-        value={notes}
-        onChangeText={val => {
-          setNotes(val);
-        }}
-        label="Ghi chú"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-      <OutlineInput
-        value={floorNumber}
-        onChangeText={val => {
-          setfloor(val);
-        }}
-        label="Tầng"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-      <OutlineInput
-        style={styles.input}
-        value={maxOccupancy}
-        onChangeText={val => {
-          setOccupancy(val);
-        }}
-        label="Sức chứa (Số người)"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-         <OutlineInput
-        style={styles.input}
-        value={isMaintenanced}
-        onChangeText={val => {
-          setIsMaintenanced(val);
-        }}
-        label="maitainanced"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-         <OutlineInput
-        style={styles.input}
-        value={isDeleted}
-        onChangeText={val => {
-          setIsDeleted(val);
-        }}
-        label="deleted"
-        activeValueColor="#6c63fe"
-        activeBorderColor="#6c63fe"
-        activeLabelColor="#6c63fe"
-        passiveBorderColor="#bbb7ff"
-        passiveLabelColor="#bbb7ff"
-        passiveValueColor="#bbb7ff"
-      />
-         <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed
+      <ScrollView>
+        <Text style={styles.text1}>Loại phòng: </Text>
+        <TextInput
+          keyboardType='numeric'
+          style={styles.input}
+          value={locationType}
+          maxLength={4}
+          onChangeText={val => {
+            setLocatiobType(val);
+          }}
+        />
+        <Text style={styles.text1}>Tên phòng: </Text>
+        <TextInput
+          style={styles.input}
+          value={locationName}
+          maxLength={4}
+          onChangeText={val => {
+            setName(val);
+          }}
+        />
+        <Text style={styles.text1}>Mô tả: </Text>
+        <TextInput
+          style={styles.input}
+          value={locationDescription}
+          maxLength={4}
+          onChangeText={val => {
+            setDescription(val);
+          }}
+        />
+        <Text style={styles.text1}>Ghi chú: </Text>
+        <TextInput
+          style={styles.input}
+          value={notes}
+          maxLength={4}
+          onChangeText={val => {
+            setNotes(val);
+          }}
+        />
+        <View style={styles.inputNum}>
+        <Text style={styles.text1}>Tầng: </Text>
+        <NumericInput
+          value={floorNumber}
+          onChange={val => {
+            setFloor(val);
+          }}
+          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+          iconSize={25}
+          step={1}
+          maxValue={6}
+          minValue={0}
+          valueType='real'
+          rounded
+
+          iconStyle={{ color: 'black' }}
+          rightButtonBackgroundColor='#FFDEAD'
+          leftButtonBackgroundColor='#FFDEAD'
+        />
+        <Text style={styles.text1}>Sức chứa (người): </Text>
+        <NumericInput
+          value={maxOccupancy}
+          onChange={val => {
+            setOccupancy(val);
+          }}
+          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+          iconSize={25}
+          step={1}
+          maxValue={6}
+          minValue={0}
+          valueType='real'
+          rounded
+
+          iconStyle={{ color: 'black' }}
+          rightButtonBackgroundColor='#FF5733'
+          leftButtonBackgroundColor='#FF5733'
+        />
+        </View>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              opacity: pressed
                 ? 0.2
                 : 1,
-              },
-              styles.btnAdd,
-            ]}
-            onPress={() => {
-              Alert.alert(
-                'Thêm mới phòng',
-                'Xác nhận thêm mới',
-                [
-                  {
-                    text: 'Hủy',
-                    onPress: () => {
-                      return null;
-                    }
+            },
+            styles.btnAdd,
+          ]}
+          onPress={() => {
+            Alert.alert(
+              'Thêm mới phòng',
+              'Xác nhận thêm mới',
+              [
+                {
+                  text: 'Hủy',
+                  onPress: () => {
+                    return null;
+                  }
+                },
+                {
+                  text: 'Xác nhận',
+                  onPress: () => {
+                    checkTextInput();
                   },
-                  {
-                    text: 'Xác nhận',
-                    onPress: () => {
-                      createPost();
-                    },
-                  },
-                ],
-                { cancelable: false }
-              )
-            }}>
-            <Text style={styles.buttonText}>Thêm mới</Text>
-          </Pressable>
+                },
+              ],
+              { cancelable: false }
+            )
+          }}>
+          <Text style={styles.buttonText}>Thêm mới</Text>
+        </Pressable>
+      </ScrollView>
     </View>
 
   );
@@ -210,6 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
+    backgroundColor: '#eee'
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -217,11 +195,11 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: '#FAF9F6',
     borderRadius: 10,
     borderWidth: 1,
     fontSize: 15,
-    marginBottom: 50
+    marginBottom: 20
   },
   text1: {
     fontWeight: 'bold',
@@ -249,11 +227,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#0096FF',
+    backgroundColor: '#1F51FF',
     marginTop: 20,
   },
-
-
+  inputNum:{
+    flexDirection:'row',
+    flex:1
+  }
 });
 
 export default PostCreateScreen;

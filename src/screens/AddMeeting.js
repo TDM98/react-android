@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useState, useEffect } from 'react';
-import { Button, Pressable, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { Button, Pressable, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Alert, Image, TouchableOpacity } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
@@ -10,7 +10,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { SelectList } from 'react-native-dropdown-select-list';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Checkbox from 'expo-checkbox';
 const AddMeetingScreen = ({ navigation }) => {
 
@@ -148,38 +147,35 @@ const AddMeetingScreen = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <Spinner visible={loading} />
-        <Text style={styles.text1}>location id</Text>
+        <Text style={styles.text1}>Mã phòng</Text>
         <TextInput
-          placeholder="location id"
+          keyboardType = 'numeric'
           style={styles.input}
           value={locationID}
           onChangeText={val => {
             setLocationID(val);
           }}
         />
-        <Text style={styles.text1}>Title:</Text>
+        <Text style={styles.text1}>Tiêu đề:</Text>
         <TextInput
-          placeholder="Title"
           style={styles.input}
           value={title}
           onChangeText={val => {
             setTitle(val);
           }}
         />
-        <Text style={styles.text1}>From:</Text>
-        {/* Display the selected date */}
-        <View style={styles.pickedDateContainer}>
+        {/* Start */}
+        <Text style={styles.text1}>Bắt đầu:</Text>
+        <TouchableOpacity
+          style={styles.buttonFacebookStyle}
+          activeOpacity={0.5} onPress={showPicker}>
           <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
-        </View>
-
-        {/* The button that used to trigger the date picker */}
-        {!isPickerShow && (
-          <View style={styles.btnContainer}>
-            <Button title="Pick Date" color="#eb9b34" onPress={showPicker} />
-          </View>
-        )}
-
-        {/* The date picker */}
+          <View style={styles.buttonIconSeparatorStyle} />
+          <Image
+            source={require('../assets/calendar.png')}
+            style={styles.buttonImageIconStyle}
+          />
+        </TouchableOpacity>
         {isPickerShow && (
           <DateTimePicker
             value={startDate}
@@ -190,20 +186,20 @@ const AddMeetingScreen = ({ navigation }) => {
             style={styles.datePicker}
           />
         )}
-        <Text style={styles.text1}>To:</Text>
-        {/* Display the selected date */}
-        <View style={styles.pickedDateContainer}>
+
+        {/* End */}
+        <Text style={styles.text1}>Kết thúc:</Text>
+        <TouchableOpacity
+          style={styles.buttonFacebookStyle}
+          activeOpacity={0.5} onPress={showPickerEnd}>
           <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
-        </View>
+          <View style={styles.buttonIconSeparatorStyle} />
 
-        {/* The button that used to trigger the date picker */}
-        {!isPickerShowEnd && (
-          <View style={styles.btnContainer}>
-            <Button title="Pick Date" color="#eb9b34" onPress={showPickerEnd} />
-          </View>
-        )}
-
-        {/* The date picker */}
+          <Image
+            source={require('../assets/calendar.png')}
+            style={styles.buttonImageIconStyle}
+          />
+        </TouchableOpacity>
         {isPickerShowEnd && (
           <DateTimePicker
             value={endDate}
@@ -214,9 +210,9 @@ const AddMeetingScreen = ({ navigation }) => {
             style={styles.datePicker}
           />
         )}
-        <Text style={styles.text1}>Location:</Text>
+        <Text style={styles.text1}>Phòng:</Text>
         <SelectList setSelected={setSelected} data={data} onSelect={() => alert(selected)} />
-        <Text style={styles.text1}>Event type:</Text>
+        <Text style={styles.text1}>Phân loại:</Text>
         <SelectList
           setSelected={(val) => setSelected1(val)}
           data={data1}
@@ -224,7 +220,7 @@ const AddMeetingScreen = ({ navigation }) => {
           label="Event Type"
 
         />
-        <Text style={styles.text1}>Meeting Chairman:</Text>
+        <Text style={styles.text1}>Người chủ trì:</Text>
         <SelectList
           setSelected={(val) => setSelected2(val)}
           data={data2}
@@ -232,14 +228,14 @@ const AddMeetingScreen = ({ navigation }) => {
           label="Meeting Chairman"
 
         />
-        <Text style={styles.text1}>Participants:</Text>
+        <Text style={styles.text1}>Người tham gia:</Text>
         <MultipleSelectList
           setSelected={(val) => setSelected3(val)}
           data={data3}
           save="value"
           label="Participants"
         />
-        <Text style={styles.text1}>Description:</Text>
+        <Text style={styles.text1}>Mô tả:</Text>
         <TextInput
           placeholder='Meeting Description'
           style={styles.input}
@@ -255,7 +251,7 @@ const AddMeetingScreen = ({ navigation }) => {
             onValueChange={setChecked}
             color={isChecked ? '#00BFFF' : undefined}
           />
-          <Text style={styles.paragraph}>Important?</Text>
+          <Text style={styles.paragraph}>Quan trọng?</Text>
         </View>
         <View style={styles.btnView}>
           <Pressable
@@ -290,7 +286,7 @@ const AddMeetingScreen = ({ navigation }) => {
             }}>
             <Text style={styles.buttonText}>Thêm mới</Text>
           </Pressable>
-</View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -301,6 +297,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
+    backgroundColor: '#eee',
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: '#FAF9F6',
     borderRadius: 10,
     borderWidth: 1,
     fontSize: 15
@@ -374,6 +371,10 @@ const styles = StyleSheet.create({
   pickedDate: {
     fontSize: 15,
     color: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    flex: 1
   },
 
   // This only works on iOS
@@ -401,13 +402,52 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#0096FF',
+    backgroundColor: '#1F51FF',
     marginTop: 20,
   },
   btnView: {
-   justifyContent:'center',
-   justifyItem:'center',
+    justifyContent: 'center',
+    justifyItem: 'center',
     margin: 10
+  },
+  buttonGPlusStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f5eeda',
+    borderWidth: 0.5,
+    borderColor: '#f5eeda',
+    height: 40,
+    borderRadius: 5,
+    margin: 5,
+  },
+  buttonFacebookStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#eab676',
+    borderWidth: 0.5,
+    borderColor: '#f5eeda',
+    height: 40,
+    borderRadius: 10,
+    margin: 5,
+    padding: 10
+  },
+  buttonImageIconStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
+    marginHorizontal:5
+  },
+  buttonTextStyle: {
+    color: '#f5eeda',
+    marginBottom: 4,
+    marginLeft: 10,
+  },
+  buttonIconSeparatorStyle: {
+    backgroundColor: '#f5eeda',
+    width: 1,
+    height: 40,
   },
 });
 

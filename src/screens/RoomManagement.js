@@ -39,7 +39,7 @@ const RoomScreen = ({ navigation, route }) => {
 
   const getPosts = () => {
     axios
-      .get(`${BASE_URL}/locations`, {
+      .get(`${BASE_URL}/locations?page=0&size=30`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {
@@ -55,6 +55,7 @@ const RoomScreen = ({ navigation, route }) => {
     getPosts();
   }, [route.params?.post]);
 
+  
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />

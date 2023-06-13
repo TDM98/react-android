@@ -145,7 +145,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
           }}
         />
         <Text style={styles.text1}>Vị trí:</Text>
-        <SelectList setSelected={setSelected} data={data} onSelect={() => alert(selected)} />
+        <SelectList style={styles.input} setSelected={setSelected} data={data} onSelect={() => alert(selected)} />
         <Text style={styles.text1}>Người tạo:</Text>
         <TextInput
           style={styles.input}
@@ -196,25 +196,17 @@ const EditMeetingScreen = ({ navigation, route }) => {
             setDescription(val);
           }}
         />
-
-
-
-
-
-<Text style={styles.text1}>Bắt đầu:</Text>
-<TouchableOpacity
+        {/* Start */}
+        <Text style={styles.text1}>Bắt đầu:</Text>
+        <TouchableOpacity
           style={styles.buttonFacebookStyle}
           activeOpacity={0.5} onPress={showPicker}>
+          <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
+          <View style={styles.buttonIconSeparatorStyle} />
           <Image
-            source={{
-              uri:
-                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
-            }}
+            source={require('../assets/calendar.png')}
             style={styles.buttonImageIconStyle}
           />
-          <View style={styles.buttonIconSeparatorStyle} />
-          <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
-          
         </TouchableOpacity>
         {isPickerShow && (
           <DateTimePicker
@@ -226,20 +218,18 @@ const EditMeetingScreen = ({ navigation, route }) => {
             style={styles.datePicker}
           />
         )}
-<Text style={styles.text1}>Kết thúc:</Text>
+
+        {/* End */}
+        <Text style={styles.text1}>Kết thúc:</Text>
         <TouchableOpacity
           style={styles.buttonFacebookStyle}
           activeOpacity={0.5} onPress={showPickerEnd}>
+          <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
+          <View style={styles.buttonIconSeparatorStyle} />
           <Image
-            source={{
-              uri:
-                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/facebook.png',
-            }}
+            source={require('../assets/calendar.png')}
             style={styles.buttonImageIconStyle}
           />
-          <View style={styles.buttonIconSeparatorStyle} />
-          <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
-          
         </TouchableOpacity>
         {isPickerShowEnd && (
           <DateTimePicker
@@ -327,7 +317,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
-    marginBottom: 50
+    marginBottom: 50,
+    backgroundColor: '#eee'
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -335,7 +326,7 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: '#FAF9F6',
     borderRadius: 10,
     borderWidth: 1,
     fontSize: 15
@@ -354,6 +345,10 @@ const styles = StyleSheet.create({
   pickedDate: {
     fontSize: 15,
     color: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    flex: 1
   },
   btnContainer: {
     padding: 30,
@@ -380,7 +375,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#0096FF',
+    backgroundColor: '#1F51FF',
     marginTop: 20,
   },
   btnDel: {
@@ -403,9 +398,9 @@ const styles = StyleSheet.create({
   buttonGPlusStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#dc4e41',
+    backgroundColor: '#f5eeda',
     borderWidth: 0.5,
-    borderColor: '#fff',
+    borderColor: '#f5eeda',
     height: 40,
     borderRadius: 5,
     margin: 5,
@@ -413,27 +408,29 @@ const styles = StyleSheet.create({
   buttonFacebookStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#485a96',
+    backgroundColor: '#eab676',
     borderWidth: 0.5,
-    borderColor: '#fff',
+    borderColor: '#f5eeda',
     height: 40,
-    borderRadius: 5,
+    borderRadius: 10,
     margin: 5,
+    padding:10
   },
   buttonImageIconStyle: {
     padding: 10,
-    margin: 5,
     height: 25,
     width: 25,
     resizeMode: 'stretch',
+    marginHorizontal:5,
+
   },
   buttonTextStyle: {
-    color: '#fff',
+    color: '#f5eeda',
     marginBottom: 4,
     marginLeft: 10,
   },
   buttonIconSeparatorStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f5eeda',
     width: 1,
     height: 40,
   },

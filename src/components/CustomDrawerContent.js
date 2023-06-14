@@ -22,8 +22,8 @@ const CustomDrawerContent = (props) => {
                 )} label="Đăng xuất" onPress={() => {
                     props.navigation.toggleDrawer();
                     Alert.alert(
-                        'Log out',
-                        'Are you sure log out?',
+                        'Đăng xuất',
+                        'Đăng  xuất?',
                         [
                             {
                                 text: 'Cancel',

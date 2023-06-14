@@ -22,10 +22,12 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
+import { Alert ,Button} from 'react-native';
 
 import CustomDrawerContent from './CustomDrawerContent';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -118,8 +120,16 @@ const DrawerHome = () => (
       drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40" />
     }} /> */}
     <Drawer.Screen name="Documents" component={Documents} options={{
+         headerTitle: (props) => <LogoTitle {...props} />,
+         headerRight: () => (
+           <Button
+             onPress={() => alert('This is a button!')}
+             title="Info"
+             color="#fff"
+           />
+         ),
       title: 'Quản lý tài liệu',
-      drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f" />
+      drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f"  />
     }} />
     <Drawer.Screen name="Setting" component={SettingScreen} options={{
       title: 'Cài đặt',

@@ -5,8 +5,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
-
-
+import { Input } from 'react-native-elements';
+import NumericInput from 'react-native-numeric-input';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 const RoomEditScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
@@ -54,7 +56,14 @@ const RoomEditScreen = ({ navigation, route }) => {
         console.log(`Error on updating post ${e.message}`);
       });
   };
-
+  const checkTextInput = () => {
+    //Check for the Name TextInput
+    if (!locationName.trim()) {
+      alert(`Tên phòng không được để trống`);
+      return;
+    }
+    createPost();
+  };
 
   const deleteRoom = () => {
     setLoading(true);
@@ -76,61 +85,112 @@ const RoomEditScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <Spinner visible={loading} />
       <ScrollView>
-        <Spinner visible={loading} />
-        <Text style={styles.text1}>Loại phòng: </Text>
-        <TextInput
-          placeholder=""
-          keyboardType='numeric'
-          style={styles.input}
-          value={String(locationType)}
-          onChangeText={val => {
-            setLocationType(val);
-          }}
-        />
-        <Text style={styles.text1}>Tên phòng: </Text>
-        <TextInput
-          style={styles.input}
+        <Text style={styles.text1}>Tên phòng: <Text style={styles.highlight}>(*)</Text></Text>
+        <Input
           value={locationName}
+          maxLength={50}
           onChangeText={val => {
             setname(val);
           }}
+          leftIcon={
+            <Icon
+              name='circle'
+              size={20}
+              color='#DC143C'
+            />
+          }
         />
+        <Text style={styles.text1}>Loại phòng: </Text>
+        <Input
+          value={locationType}
+          maxLength={20}
+          onChangeText={val => {
+            setLocationType(val);
+          }}
+          leftIcon={
+            <Ionicons
+              name='pricetag-outline'
+              size={20}
+
+            />
+          }
+        />
+
         <Text style={styles.text1}>Mô tả: </Text>
-        <TextInput
-          placeholder='Description'
-          style={styles.input}
+        <Input
           value={locationDescription}
+          maxLength={100}
           onChangeText={val => {
             setDescription(val);
           }}
+          leftIcon={
+            <Icon
+              name='list-ul'
+              size={20}
+            />
+          }
         />
         <Text style={styles.text1}>Ghi chú: </Text>
-        <TextInput
-          style={styles.input}
+        <Input
           value={notes}
+          maxLength={100}
           onChangeText={val => {
             setNotes(val);
           }}
+          leftIcon={
+            <Icon
+              name='file-text'
+              size={20}
+              color='black'
+            />
+          }
         />
-        <Text style={styles.text1}>Tầng: </Text>
-        <TextInput
-          keyboardType='numeric'
-          style={styles.input}
-          value={String(floorNumber)}
-          onChangeText={val => {
-            setfloor(val);
-          }}
-        />
-        <Text style={styles.text1}>Sức chứa (Số người): </Text>
-        <TextInput
-          keyboardType='numeric'
-          style={styles.input}
-          value={String(maxOccupancy)}
-          onChangeText={val => {
-            setoccupancy(val);
-          }}
-        />
+        <View style={styles.inputNum}>
+          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3'/>  Số người:  </Text>
+          <NumericInput
+            value={maxOccupancy}
+            onChange={val => {
+              setoccupancy(val);
+            }}
+
+            iconSize={25}
+            step={1}
+            maxValue={200}
+            minValue={1}
+            valueType='real'
+            rounded
+            totalHeight={40}
+            iconStyle={{ color: 'black' }}
+            rightButtonBackgroundColor='#d3eaf2'
+            leftButtonBackgroundColor='#d3eaf2'
+          />
+        </View>
+
+        <View style={styles.inputNum}>
+          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520'/>  Tầng:  </Text>
+
+          <View style={styles.NumericInput}>
+            <NumericInput
+              value={floorNumber}
+              onChange={val => {
+                setfloor(val);
+              }}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              iconSize={25}
+              step={1}
+              maxValue={6}
+              minValue={0}
+              valueType='real'
+              rounded
+              totalHeight={40}
+              iconStyle={{ color: 'black' }}
+              rightButtonBackgroundColor='#d3eaf2'
+              leftButtonBackgroundColor='#d3eaf2'
+            />
+          </View>
+        </View>
         {/* <Text style={styles.text1}>maitainanced: </Text>
         <TextInput
           placeholder=""
@@ -225,7 +285,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
-    backgroundColor: '#eee'
+    backgroundColor: 'white'
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -241,7 +301,8 @@ const styles = StyleSheet.create({
   text1: {
     fontWeight: 'bold',
     marginVertical: 10,
-    fontSize: 15
+    marginLeft: 15,
+    fontSize: 18
   },
   btnEdit: {
     alignItems: 'center',
@@ -273,6 +334,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
+  inputNum: {
+    flexDirection: 'row',
+    flex: 1,
+    marginBottom: 20,
+    marginVertical: 10
+  },
+  highlight: {
+    color: 'red'
+  }
 });
 
 export default RoomEditScreen;

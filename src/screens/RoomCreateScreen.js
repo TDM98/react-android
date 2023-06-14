@@ -7,17 +7,20 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import { floor, max } from 'react-native-reanimated';
 import OutlineInput from 'react-native-outline-input';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { ScrollView } from 'react-native-gesture-handler';
-import NumericInput from 'react-native-numeric-input'
+import NumericInput from 'react-native-numeric-input';
+import { Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const PostCreateScreen = ({ navigation }) => {
   const [locationType, setLocatiobType] = useState(null);
   const [locationName, setName] = useState('');
   const [locationDescription, setDescription] = useState(null);
   const [notes, setNotes] = useState(null);
   const [floorNumber, setFloor] = useState(null);
-  const [maxOccupancy, setOccupancy] = useState('');
+  const [maxOccupancy, setOccupancy] = useState(null);
   const [isMaintenanced, setIsMaintenanced] = useState(null);
   const [isDeleted, setIsDeleted] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -69,81 +72,111 @@ const PostCreateScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Spinner visible={loading} />
       <ScrollView>
-        <Text style={styles.text1}>Loại phòng: </Text>
-        <TextInput
-          keyboardType='numeric'
-          style={styles.input}
-          value={locationType}
-          maxLength={4}
-          onChangeText={val => {
-            setLocatiobType(val);
-          }}
-        />
-        <Text style={styles.text1}>Tên phòng: </Text>
-        <TextInput
-          style={styles.input}
+        <Text style={styles.text1}>Tên phòng: <Text style={styles.highlight}>(*)</Text></Text>
+        <Input
           value={locationName}
-          maxLength={4}
+          maxLength={50}
           onChangeText={val => {
             setName(val);
           }}
+          leftIcon={
+            <Icon
+              name='circle'
+              size={20}
+              color='#DC143C'
+            />
+          }
         />
+        <Text style={styles.text1}>Loại phòng: </Text>
+        <Input
+          value={locationType}
+          maxLength={20}
+          onChangeText={val => {
+            setLocatiobType(val);
+          }}
+          leftIcon={
+            <Ionicons
+              name='pricetag-outline'
+              size={20}
+
+            />
+          }
+        />
+
         <Text style={styles.text1}>Mô tả: </Text>
-        <TextInput
-          style={styles.input}
+        <Input
           value={locationDescription}
-          maxLength={4}
+          maxLength={100}
           onChangeText={val => {
             setDescription(val);
           }}
+          leftIcon={
+            <Icon
+              name='list-ul'
+              size={20}
+            />
+          }
         />
         <Text style={styles.text1}>Ghi chú: </Text>
-        <TextInput
-          style={styles.input}
+        <Input
           value={notes}
-          maxLength={4}
+          maxLength={100}
           onChangeText={val => {
             setNotes(val);
           }}
+          leftIcon={
+            <Icon
+              name='file-text'
+              size={20}
+              color='black'
+            />
+          }
         />
         <View style={styles.inputNum}>
-        <Text style={styles.text1}>Tầng: </Text>
-        <NumericInput
-          value={floorNumber}
-          onChange={val => {
-            setFloor(val);
-          }}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          iconSize={25}
-          step={1}
-          maxValue={6}
-          minValue={0}
-          valueType='real'
-          rounded
+          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3'/>  Số người:  </Text>
+          <NumericInput
+            value={maxOccupancy}
+            onChange={val => {
+              setOccupancy(val);
+            }}
 
-          iconStyle={{ color: 'black' }}
-          rightButtonBackgroundColor='#FFDEAD'
-          leftButtonBackgroundColor='#FFDEAD'
-        />
-        <Text style={styles.text1}>Sức chứa (người): </Text>
-        <NumericInput
-          value={maxOccupancy}
-          onChange={val => {
-            setOccupancy(val);
-          }}
-          onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-          iconSize={25}
-          step={1}
-          maxValue={6}
-          minValue={0}
-          valueType='real'
-          rounded
-
-          iconStyle={{ color: 'black' }}
-          rightButtonBackgroundColor='#FF5733'
-          leftButtonBackgroundColor='#FF5733'
-        />
+            iconSize={25}
+            step={1}
+            maxValue={200}
+            minValue={1}
+            valueType='real'
+            rounded
+            totalHeight={40}
+            iconStyle={{ color: 'black' }}
+            rightButtonBackgroundColor='#d3eaf2'
+            leftButtonBackgroundColor='#d3eaf2'
+          />
         </View>
+
+        <View style={styles.inputNum}>
+          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520'/>  Tầng:  </Text>
+
+          <View style={styles.NumericInput}>
+            <NumericInput
+              value={floorNumber}
+              onChange={val => {
+                setFloor(val);
+              }}
+              onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+              iconSize={25}
+              step={1}
+              maxValue={6}
+              minValue={0}
+              valueType='real'
+              rounded
+              totalHeight={40}
+              iconStyle={{ color: 'black' }}
+              rightButtonBackgroundColor='#d3eaf2'
+              leftButtonBackgroundColor='#d3eaf2'
+            />
+          </View>
+        </View>
+
         <Pressable
           style={({ pressed }) => [
             {
@@ -187,7 +220,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
-    backgroundColor: '#eee'
+    backgroundColor: 'white'
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -204,7 +237,8 @@ const styles = StyleSheet.create({
   text1: {
     fontWeight: 'bold',
     marginVertical: 10,
-    fontSize: 15
+    marginLeft: 15,
+    fontSize: 18
   },
   text: {
     fontSize: 16,
@@ -225,14 +259,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
+    borderRadius: 20,
     elevation: 3,
     backgroundColor: '#1F51FF',
-    marginTop: 20,
+    marginVertical: 20
   },
-  inputNum:{
-    flexDirection:'row',
-    flex:1
+  inputNum: {
+    flexDirection: 'row',
+    flex: 1,
+    marginBottom: 20,
+    marginVertical: 10
+  },
+  highlight: {
+    color: 'red'
   }
 });
 

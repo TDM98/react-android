@@ -10,12 +10,18 @@ import {
   TextInput,
   Image,
   ScrollView,
+  Pressable,
+  Alert
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react/cjs/react.development';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from '../screens/color';
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../context/AuthContext';
+import { Input } from 'react-native-elements';
+import NumericInput from 'react-native-numeric-input';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const UserInfo = ({ navigation, route }) => {
   const [users, setUsers] = useState({});
@@ -67,51 +73,118 @@ const UserInfo = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.form}>
-          <Text style={styles.label} >First Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder='Enter First Name'
-            value={users.firstName}
-            onChangeText={setFirstname}
-          />
-          <Text style={styles.label} >Last Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder='Enter Last Name'
-            value={users.lastName}
-            onChangeText={setLastname}
-          />
-          <Text style={styles.label}>Full Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder='Enter Full Name'
-            value={users.fullName}
-            onChangeText={setFullname}
-          />
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Email"
-            value={users.email}
-            onChangeText={setEmail}
-          />
-          <Text style={styles.label}>User name</Text>
-          <TextInput
-            editable={false}
-            style={styles.input}
-            value={users.login}
-            onChangeText={setEmail}
-          />
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Password"
+          <View style={styles.direct}>
+            <Text style={styles.label} >Họ</Text>
+            <Input
+              value={users.firstName}
+              maxLength={20}
+              onChangeText={val => {
+                setFirstname(val);
+              }}
+              leftIcon={
+                <Icon
+                  name='list-ul'
+                  size={20}
+                  marginRight={20}
+                />
+              }
+            />
+          </View>
+          <View style={styles.direct}>
+            <Text style={styles.label} >Tên</Text>
+            <Input
+              value={users.lastName}
+              maxLength={20}
+              onChangeText={val => {
+                setLastname(val);
+              }}
+              leftIcon={
+                <Icon
+                  name='list-ul'
+                  size={20}
+                  marginRight={20}
+                />
+              }
+            />
+          </View>
+          <View style={styles.direct}>
+            <Text style={styles.label} >Họ tên</Text>
+            <Input
+              value={users.fullName}
+              maxLength={20}
+              editable={false}
+              onChangeText={val => {
+                setFullname(val);
+              }}
+
+            />
+          </View>
+          <View style={styles.direct}>
+            <Text style={styles.label} >Email</Text>
+            <Input
+              value={users.email}
+              maxLength={20}
+              onChangeText={val => {
+                setEmail(val);
+              }}
+
+            />
+          </View>
+          <View style={styles.direct}>
+            <Text style={styles.label} >Tài khoản</Text>
+            <Input
+              value={users.login}
+              maxLength={20}
+              onChangeText={val => {
+                setUsers(val);
+              }}
+            />
+          </View>
+          <View style={styles.direct}>
+          <Text style={styles.label} >Mật khẩu</Text>
+          <Input
             value={users.password}
-            onChangeText={setPassword}
+            maxLength={200}
+            onChangeText={val => {
+              setPassword(val);
+            }}
           />
-          <TouchableOpacity style={styles.button} onPress={() => handleSubmit({ firstName, lastName, fullName, email, password })}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
+          </View>
+          <View style={styles.btnView}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed
+                    ? 0.2
+                    : 1,
+                },
+                styles.btnSummit,
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Cập nhật',
+                  'Lưu thông tin cập nhật',
+                  [
+                    {
+                      text: 'Hủy',
+                      onPress: () => {
+                        return null;
+                      }
+                    },
+                    {
+                      text: 'Xác nhận',
+                      onPress: () => {
+                        handleSubmit({ firstName, lastName, fullName, email, password });
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              <Text style={styles.buttonText}>Cập nhật</Text>
+            </Pressable>
+          </View>
+
         </View>
       </ScrollView>
     </View>
@@ -130,9 +203,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
-  label: {
-    marginTop: 20,
-  },
   input: {
     borderColor: '#ccc',
     borderWidth: 1,
@@ -140,13 +210,19 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
   },
+  label: {
+    fontWeight: 'bold',
+    marginVertical: 10,
+    fontSize: 18,
+    marginRight : 20
+  },
   button: {
     marginTop: 20,
     backgroundColor: '#1E90FF',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginBottom:50
+    marginBottom: 50
   },
   buttonText: {
     color: '#fff',
@@ -167,6 +243,32 @@ const styles = StyleSheet.create({
   changeAvatarButtonText: {
     color: '#1E90FF',
     fontSize: 18,
+  },
+  direct: {
+    flexDirection: 'row'
+  },
+  btnSummit: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#1F51FF'
+  },
+  btnDel: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#EE4B2B',
+    marginLeft: 10,
+  },
+  btnView: {
+    flexDirection: 'row',
+    margin: 10
   },
 });
 

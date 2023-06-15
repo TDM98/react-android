@@ -79,12 +79,13 @@ const CalendarScreen = ({ navigation, route }) => {
           navigation.navigate('EditMeeting', { post: item });
         }}>
         <View style={styles.itemContainer}>
+          <Spinner visible={loading} />
           <Ionicons name="radio-button-on-outline" size={20} style={styles.iconTitle} color="#Ee161b" >
             <Text style={styles.itemtitle} > {item.title}</Text>
           </Ionicons>
           <Text style={styles.itemtext}>Người tham gia: {item.participants}</Text>
           <Ionicons name="location-outline" size={15} style={styles.icon} color="#4169E1" >
-            <Text style={styles.itemtext1}>  Phòng họp IT Lầu 3</Text>
+            <Text style={styles.itemtext1}>  {item.locationID}</Text>
           </Ionicons>
         </View>
       </TouchableOpacity>

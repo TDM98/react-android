@@ -5,12 +5,14 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
-import { max } from 'react-native-reanimated';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
 import { SelectList } from 'react-native-dropdown-select-list';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import Checkbox from 'expo-checkbox';
+import NumericInput from 'react-native-numeric-input';
+import { Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 const AddMeetingScreen = ({ navigation }) => {
 
   const [locationID, setLocationID] = useState("");
@@ -22,7 +24,7 @@ const AddMeetingScreen = ({ navigation }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-
+const [vEventType, SetVEvenType] = useState("")
   const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState("");
   const [data, setData] = useState([]);
@@ -137,8 +139,12 @@ const AddMeetingScreen = ({ navigation }) => {
         console.log(`Error on updating post ${e.message}`);
       });
   };
-  const test = () => {
-    console.log('test');
+  const checkInput = () => {
+    if(!title.trim()) {
+      alert('Nhập tiêu đề')
+      return;
+    }
+    createMeeting();
   }
   return (
     <View style={styles.container}>
@@ -147,25 +153,25 @@ const AddMeetingScreen = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <Spinner visible={loading} />
-        <Text style={styles.text1}>Mã phòng</Text>
-        <TextInput
-          keyboardType = 'numeric'
-          style={styles.input}
-          value={locationID}
-          onChangeText={val => {
-            setLocationID(val);
-          }}
-        />
-        <Text style={styles.text1}>Tiêu đề:</Text>
-        <TextInput
-          style={styles.input}
+        <Text style={styles.text1}>Tiêu đề <Text style={styles.highlight}>(*)</Text></Text>
+        <Input
+        placeholder='Tiêu đề'
           value={title}
+          maxLength={50}
           onChangeText={val => {
             setTitle(val);
           }}
+          leftIcon={
+            <Icon
+            marginRight={20}
+              name='pencil'
+              size={20}
+              color='#DC143C'
+            />
+          }
         />
         {/* Start */}
-        <Text style={styles.text1}>Bắt đầu:</Text>
+        <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <TouchableOpacity
           style={styles.buttonFacebookStyle}
           activeOpacity={0.5} onPress={showPicker}>
@@ -186,9 +192,8 @@ const AddMeetingScreen = ({ navigation }) => {
             style={styles.datePicker}
           />
         )}
-
         {/* End */}
-        <Text style={styles.text1}>Kết thúc:</Text>
+        <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <TouchableOpacity
           style={styles.buttonFacebookStyle}
           activeOpacity={0.5} onPress={showPickerEnd}>
@@ -210,17 +215,11 @@ const AddMeetingScreen = ({ navigation }) => {
             style={styles.datePicker}
           />
         )}
-        <Text style={styles.text1}>Phòng:</Text>
-        <SelectList setSelected={setSelected} data={data} onSelect={() => alert(selected)} />
-        <Text style={styles.text1}>Phân loại:</Text>
-        <SelectList
-          setSelected={(val) => setSelected1(val)}
-          data={data1}
-          save="value"
-          label="Event Type"
-
-        />
-        <Text style={styles.text1}>Người chủ trì:</Text>
+        <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phòng</Text></Ionicons>
+        <SelectList setSelected={setLocationID} data={data} />
+        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phân loại</Text></Ionicons>
+        <SelectList setSelected={SetVEvenType} data={data1}  />
+        <Ionicons name='person-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người chủ trì</Text></Ionicons>
         <SelectList
           setSelected={(val) => setSelected2(val)}
           data={data2}
@@ -228,21 +227,29 @@ const AddMeetingScreen = ({ navigation }) => {
           label="Meeting Chairman"
 
         />
-        <Text style={styles.text1}>Người tham gia:</Text>
+        <Ionicons name='people-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người tham gia</Text></Ionicons>
         <MultipleSelectList
           setSelected={(val) => setSelected3(val)}
           data={data3}
           save="value"
           label="Participants"
         />
-        <Text style={styles.text1}>Mô tả:</Text>
-        <TextInput
-          placeholder='Meeting Description'
-          style={styles.input}
+        <Text style={styles.text1}>Mô tả</Text>
+        <Input
+        placeholder='Mô tả'
           value={description}
+          maxLength={50}
           onChangeText={val => {
             setDescription(val);
           }}
+          leftIcon={
+            <Icon
+            marginRight={20}
+              name='list-ul'
+              size={20}
+              color='#808080'
+            />
+          }
         />
         <View style={styles.section}>
           <Checkbox
@@ -261,7 +268,7 @@ const AddMeetingScreen = ({ navigation }) => {
                   ? 0.2
                   : 1,
               },
-              styles.btnEdit,
+              styles.btnAdd,
             ]}
             onPress={() => {
               Alert.alert(
@@ -277,14 +284,16 @@ const AddMeetingScreen = ({ navigation }) => {
                   {
                     text: 'Xác nhận',
                     onPress: () => {
-                      createMeeting();
+                      checkInput();
                     },
                   },
                 ],
                 { cancelable: false }
               )
             }}>
-            <Text style={styles.buttonText}>Thêm mới</Text>
+            <Icon name='plus' size={18} color='white'>
+            <Text style={styles.buttonText}>  Thêm mới</Text>
+            </Icon>
           </Pressable>
         </View>
       </ScrollView>
@@ -297,7 +306,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
-    backgroundColor: '#eee',
+    backgroundColor: 'white',
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -325,9 +334,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text1: {
-    fontSize: 15,
     fontWeight: 'bold',
     marginVertical: 10,
+    fontSize: 18,
+    color: 'black'
 
   },
   button1: {
@@ -395,15 +405,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
-  btnEdit: {
+  btnAdd: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
+    borderRadius: 20,
     elevation: 3,
     backgroundColor: '#1F51FF',
-    marginTop: 20,
+    marginVertical: 20
   },
   btnView: {
     justifyContent: 'center',
@@ -423,13 +433,14 @@ const styles = StyleSheet.create({
   buttonFacebookStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#eab676',
+    backgroundColor: '#F9F6EE',
     borderWidth: 0.5,
     borderColor: '#f5eeda',
     height: 40,
     borderRadius: 10,
     margin: 5,
-    padding: 10
+    padding: 10,
+    marginVertical:20
   },
   buttonImageIconStyle: {
     padding: 10,
@@ -449,6 +460,9 @@ const styles = StyleSheet.create({
     width: 1,
     height: 40,
   },
+  highlight:{
+    color:'red'
+  }
 });
 
 export default AddMeetingScreen;

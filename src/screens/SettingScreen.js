@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Text, Switch, SafeAreaView } from 'react-native';
-
-const SettingScreen = () => {
+import { StyleSheet, View, ScrollView, Text, Switch, SafeAreaView, Spinner } from 'react-native';
+import { AuthContext, useContext } from '../context/AuthContext';
+const SettingScreen = ({navigation,route}) => {
   const [switchValue, setSwitchValue] = useState(false);
+ 
 
   const toggleSwitch = (value) => {
     //onValueChange of the switch this function will be called
@@ -15,7 +16,9 @@ const SettingScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+
       <View style={styles.container}>
+
         {/*Text to show the text according to switch condition*/}
         <Text>{switchValue ? 'Darkmode is ON' : 'Darkmode is OFF'}  <Switch
             onValueChange={toggleSwitch}

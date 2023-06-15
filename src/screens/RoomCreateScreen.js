@@ -72,7 +72,7 @@ const PostCreateScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Spinner visible={loading} />
       <ScrollView>
-        <Text style={styles.text1}>Tên phòng: <Text style={styles.highlight}>(*)</Text></Text>
+        <Text style={styles.text1}>Tên phòng <Text style={styles.highlight}>(*)</Text></Text>
         <Input
           value={locationName}
           maxLength={50}
@@ -81,13 +81,14 @@ const PostCreateScreen = ({ navigation }) => {
           }}
           leftIcon={
             <Icon
-              name='circle'
+              name='pencil'
               size={20}
               color='#DC143C'
+              marginRight={20}
             />
           }
         />
-        <Text style={styles.text1}>Loại phòng: </Text>
+        <Text style={styles.text1}>Loại phòng </Text>
         <Input
           value={locationType}
           maxLength={20}
@@ -98,12 +99,12 @@ const PostCreateScreen = ({ navigation }) => {
             <Ionicons
               name='pricetag-outline'
               size={20}
-
+              marginRight={20}
             />
           }
         />
 
-        <Text style={styles.text1}>Mô tả: </Text>
+        <Text style={styles.text1}>Mô tả </Text>
         <Input
           value={locationDescription}
           maxLength={100}
@@ -114,10 +115,11 @@ const PostCreateScreen = ({ navigation }) => {
             <Icon
               name='list-ul'
               size={20}
+              marginRight={20}
             />
           }
         />
-        <Text style={styles.text1}>Ghi chú: </Text>
+        <Text style={styles.text1}>Ghi chú </Text>
         <Input
           value={notes}
           maxLength={100}
@@ -129,11 +131,12 @@ const PostCreateScreen = ({ navigation }) => {
               name='file-text'
               size={20}
               color='black'
+              marginRight={20}
             />
           }
         />
         <View style={styles.inputNum}>
-          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3'/>  Số người:  </Text>
+          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3' marginRight={20}/>  Số người  </Text>
           <NumericInput
             value={maxOccupancy}
             onChange={val => {
@@ -154,7 +157,7 @@ const PostCreateScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.inputNum}>
-          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520'/>  Tầng:  </Text>
+          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520' marginRight={20}/>  Tầng  </Text>
 
           <View style={styles.NumericInput}>
             <NumericInput
@@ -207,7 +210,9 @@ const PostCreateScreen = ({ navigation }) => {
               { cancelable: false }
             )
           }}>
-          <Text style={styles.buttonText}>Thêm mới</Text>
+          <Icon name='plus' size={18} color='white'>
+            <Text style={styles.buttonText}>  Thêm mới</Text>
+            </Icon>
         </Pressable>
       </ScrollView>
     </View>
@@ -237,7 +242,6 @@ const styles = StyleSheet.create({
   text1: {
     fontWeight: 'bold',
     marginVertical: 10,
-    marginLeft: 15,
     fontSize: 18
   },
   text: {

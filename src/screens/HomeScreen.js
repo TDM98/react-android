@@ -2,11 +2,12 @@ import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from "react
 const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import dayjs from "dayjs";
-
-const HomeScreen = (navigation,route) => {
+import { AuthContext } from '../context/AuthContext';
+const HomeScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(dayjs());
+  const { user, logout, loading } = useContext(AuthContext);
   useEffect(() => {
     let timer = setInterval(() => {
       setDate(dayjs());
@@ -23,22 +24,31 @@ const HomeScreen = (navigation,route) => {
 
       {/* footer */}
       <View style={styles.footer}>
+
         <View style={styles.icon}>
-          <TouchableOpacity  onPress={() => {
-          navigation.navigate('EditMeeting');
-        }}>
-            <MaterialCommunityIcons name="calendar-outline" size={24} color="white" />
+          <TouchableOpacity onPress={() => {
+            navigation.navigate('Calendar');
+          }}>
+            <MaterialCommunityIcons name="calendar-clock-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
+
         <View style={styles.icon}>
-          <MaterialCommunityIcons name="account-group" size={24} color="white" />
+          <TouchableOpacity onPress={() => {
+            navigation.navigate('Room');
+          }}>
+            <Ionicons name="ios-location-outline" size={24} color="white" />
+          </TouchableOpacity>
         </View>
+
         <View style={styles.icon}>
-          <Ionicons name="person-circle-outline" size={24} color="white" />
+          <TouchableOpacity onPress={() => {
+            navigation.navigate('Setting');
+          }}>
+            <Ionicons name="md-settings-outline" size={24} color="white" />
+          </TouchableOpacity>
         </View>
-        <View style={styles.icon}>
-          <Ionicons name="md-settings-outline" size={24} color="white" />
-        </View>
+
       </View>
     </ImageBackground>
   );

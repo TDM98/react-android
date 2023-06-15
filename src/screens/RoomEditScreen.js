@@ -83,11 +83,18 @@ const RoomEditScreen = ({ navigation, route }) => {
       });
   };
 
+  const checkEditInput = () => {
+    if(!locationName.trim()){
+      alert('Tên phòng không được để trống');
+      return;
+    }
+      editRoom();
+  }
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
       <ScrollView>
-        <Text style={styles.text1}>Tên phòng: <Text style={styles.highlight}>(*)</Text></Text>
+        <Text style={styles.text1}>Tên phòng <Text style={styles.highlight}>(*)</Text></Text>
         <Input
           value={locationName}
           maxLength={50}
@@ -96,13 +103,14 @@ const RoomEditScreen = ({ navigation, route }) => {
           }}
           leftIcon={
             <Icon
-              name='circle'
+              name='pencil'
               size={20}
               color='#DC143C'
+              marginRight={20}
             />
           }
         />
-        <Text style={styles.text1}>Loại phòng: </Text>
+        <Text style={styles.text1}>Loại phòng </Text>
         <Input
           value={locationType}
           maxLength={20}
@@ -113,12 +121,12 @@ const RoomEditScreen = ({ navigation, route }) => {
             <Ionicons
               name='pricetag-outline'
               size={20}
-
+              marginRight={20}
             />
           }
         />
 
-        <Text style={styles.text1}>Mô tả: </Text>
+        <Text style={styles.text1}>Mô tả </Text>
         <Input
           value={locationDescription}
           maxLength={100}
@@ -129,10 +137,11 @@ const RoomEditScreen = ({ navigation, route }) => {
             <Icon
               name='list-ul'
               size={20}
+              marginRight={20}
             />
           }
         />
-        <Text style={styles.text1}>Ghi chú: </Text>
+        <Text style={styles.text1}>Ghi chú </Text>
         <Input
           value={notes}
           maxLength={100}
@@ -144,11 +153,12 @@ const RoomEditScreen = ({ navigation, route }) => {
               name='file-text'
               size={20}
               color='black'
+              marginRight={20}
             />
           }
         />
         <View style={styles.inputNum}>
-          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3'/>  Số người:  </Text>
+          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3' />  Số người  </Text>
           <NumericInput
             value={maxOccupancy}
             onChange={val => {
@@ -169,7 +179,7 @@ const RoomEditScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.inputNum}>
-          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520'/>  Tầng:  </Text>
+          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520' />  Tầng  </Text>
 
           <View style={styles.NumericInput}>
             <NumericInput
@@ -191,24 +201,6 @@ const RoomEditScreen = ({ navigation, route }) => {
             />
           </View>
         </View>
-        {/* <Text style={styles.text1}>maitainanced: </Text>
-        <TextInput
-          placeholder=""
-          style={styles.input}
-          value={String(isMaintenance)}
-          onChangeText={val => {
-            setIsMaintenance(val);
-          }}
-        />
-        <Text style={styles.text1}>deleted </Text>
-        <TextInput
-          placeholder="Max Occupancy"
-          style={styles.input}
-          value={String(isDeleted)}
-          onChangeText={val => {
-            setIsDeleted(val);
-          }}
-        /> */}
         <View style={styles.btnView}>
           <Pressable
             style={({ pressed }) => [
@@ -233,14 +225,16 @@ const RoomEditScreen = ({ navigation, route }) => {
                   {
                     text: 'Xác nhận',
                     onPress: () => {
-                      editRoom();
+                      checkEditInput();
                     },
                   },
                 ],
                 { cancelable: false }
               )
             }}>
-            <Text style={styles.buttonText}>Cập nhật</Text>
+            <Icon name='edit' size={20} color='white'>
+              <Text style={styles.buttonText}>  Cập nhật</Text>
+            </Icon>
           </Pressable>
           <Pressable
             style={({ pressed }) => [
@@ -272,7 +266,9 @@ const RoomEditScreen = ({ navigation, route }) => {
                 { cancelable: false }
               )
             }}>
-            <Text style={styles.buttonText}>Xóa</Text>
+            <MaterialCommunityIcons name='delete' size={20} color='white'>
+              <Text style={styles.buttonText}>  Xóa</Text>
+            </MaterialCommunityIcons>
           </Pressable>
         </View>
       </ScrollView>
@@ -301,7 +297,6 @@ const styles = StyleSheet.create({
   text1: {
     fontWeight: 'bold',
     marginVertical: 10,
-    marginLeft: 15,
     fontSize: 18
   },
   btnEdit: {
@@ -309,7 +304,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
+    borderRadius: 5,
     elevation: 3,
     backgroundColor: '#1F51FF'
   },
@@ -318,7 +313,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
+    borderRadius: 5,
     elevation: 3,
     backgroundColor: '#EE4B2B',
     marginLeft: 10,

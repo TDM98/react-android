@@ -46,6 +46,7 @@ const LoginScreen1 = ({ navigation }) => {
           placeholder='Tài khoản'
           value={username}
           maxLength={20}
+         
           onChangeText={val => {
             setUsername(val);
           }}
@@ -54,6 +55,7 @@ const LoginScreen1 = ({ navigation }) => {
               name='user-circle'
               size={20}
               color='black'
+              marginRight={17}
             />
           }
         />
@@ -61,7 +63,7 @@ const LoginScreen1 = ({ navigation }) => {
           placeholder='Mật khẩu'
           value={password}
           secureTextEntry={hidePass ? true : false} 
-          maxLength={100}
+          maxLength={20}
           onChangeText={val => {
             setPassword(val);
           }}
@@ -70,6 +72,7 @@ const LoginScreen1 = ({ navigation }) => {
               name='lock'
               size={22}
               color='black'
+              marginRight={22}
             />
           }
           rightIcon={

@@ -1,14 +1,18 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, ScrollView, Alert, Pressable, TouchableOpacity, Image } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { Button, Pressable, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Alert, Image, TouchableOpacity } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SelectList } from 'react-native-dropdown-select-list';
-
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { SelectList } from 'react-native-dropdown-select-list';
+import { MultipleSelectList } from 'react-native-dropdown-select-list';
+import Checkbox from 'expo-checkbox';
+import NumericInput from 'react-native-numeric-input';
+import { Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 const EditMeetingScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
@@ -21,7 +25,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
   const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
   const [loading, setLoading] = useState(false);
-
+  const [isImportant, setImportant] = useState(false); 
   const [selected, setSelected] = useState("");
   const [data, setData] = useState([]);
   const { user } = useContext(AuthContext);
@@ -64,7 +68,8 @@ const EditMeetingScreen = ({ navigation, route }) => {
           title,
           description,
           startDate,
-          endDate
+          endDate,
+          isImportant
         },
         {
           headers: { Authorization: `Bearer ${user.id_token}` },
@@ -90,7 +95,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
     setLoading(true);
 
     axios
-      .delete(`${BASE_URL}/locations/${id}`, {
+      .delete(`${BASE_URL}/sm-details/${id}`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {
@@ -128,6 +133,63 @@ const EditMeetingScreen = ({ navigation, route }) => {
       setIsPickerShowEnd(false);
     }
   };
+
+    // Event type
+    const data1 = [
+      { key: '1', value: 'Họp' },
+      { key: '2', value: 'Hội thảo' },
+      { key: '3', value: 'Giảng dạy' },
+      { key: '4', value: 'Khác' }
+    ];
+  
+    const [selected1, setSelected1] = React.useState([]);
+  
+    // Meeting Chairman
+    const data2 = [
+      { key: '1', value: "Trương Quang Duy" },
+      { key: '2', value: "Lê Quốc Bảo" },
+      { key: '3', value: "Nguyễn Hoàng Duy" },
+      { key: '4', value: "Trần Bửu Đạt" },
+      { key: '5', value: "Nguyễn Mạnh Hùng" },
+    ]
+    const [selected2, setSelected2] = React.useState([]);
+    // Participants
+    const data3 = [
+      { key: '1', value: "Trương Quang Duy" },
+      { key: '2', value: "Lê Quốc Bảo" },
+      { key: '3', value: "Nguyễn Hoàng Duy" },
+      { key: '4', value: "Trần Bửu Đạt" },
+      { key: '5', value: "Nguyễn Mạnh Hùng" },
+    ]
+    const [selected3, setSelected3] = React.useState([]);
+    //get location
+    useEffect(() => {
+      async function fetchData() {
+        //Get Values from database
+        axios.get(`${BASE_URL}/locations`, {
+          headers: { Authorization: `Bearer ${user.id_token}` },
+        })
+          .then((response) => {
+            // Store Values in Temporary Array
+            let newArray = response.data.map((item) => {
+              return { key: item.id, value: item.locationName }
+            })
+            //Set Data Variable
+            setData(newArray)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      }
+      fetchData();
+    }, [])
+    const checkEdit = () => {
+      if(!title.trim()){
+        alert('Nhập tiêu đề');
+        return;
+      }
+      EditMeeting();
+    }
   return (
     <View style={styles.container}>
       <ScrollView
@@ -135,69 +197,25 @@ const EditMeetingScreen = ({ navigation, route }) => {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <Spinner visible={loading} />
-
-        <Text style={styles.text1}>Tiêu đề:</Text>
-        <TextInput
-          style={styles.input}
+        <Text style={styles.text1}>Tiêu đề <Text style={styles.highlight}>(*)</Text></Text>
+        <Input
+          placeholder='Tiêu đề'
           value={title}
+          maxLength={50}
           onChangeText={val => {
             setTitle(val);
           }}
-        />
-        <Text style={styles.text1}>Vị trí:</Text>
-        <SelectList style={styles.input} setSelected={setSelected} data={data} onSelect={() => alert(selected)} />
-        <Text style={styles.text1}>Người tạo:</Text>
-        <TextInput
-          style={styles.input}
-          value={String(createdBy)}
-          onChangeText={val => {
-            setCreateBy(val);
-          }}
-          editable={false}
-        />
-        <Text style={styles.text1}>Ngày tạo:</Text>
-        <TextInput
-          style={styles.input}
-          value={createdDate}
-          onChangeText={val => {
-            setCreateDate(val);
-          }}
-          editable={false}
-        />
-        <Text style={styles.text1}>Người chủ trì (id):</Text>
-        <TextInput
-          style={styles.input}
-          value={meetingChairman}
-          onChangeText={val => {
-            setMeetingChairman(val);
-          }}
-        />
-        <Text style={styles.text1}>Người chủ trì (tên):</Text>
-        <TextInput
-          style={styles.input}
-          value={meetingChairmanName}
-          onChangeText={val => {
-            setMeetingChairmanName(val);
-          }}
-        />
-        <Text style={styles.text1}>Người tham gia:</Text>
-        <TextInput
-          style={styles.input}
-          value={participants}
-          onChangeText={val => {
-            setParticipants(val);
-          }}
-        />
-        <Text style={styles.text1}>Mô tả:</Text>
-        <TextInput
-          style={styles.input}
-          value={description}
-          onChangeText={val => {
-            setDescription(val);
-          }}
+          leftIcon={
+            <Icon
+              marginRight={20}
+              name='pencil'
+              size={20}
+              color='#DC143C'
+            />
+          }
         />
         {/* Start */}
-        <Text style={styles.text1}>Bắt đầu:</Text>
+        <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <TouchableOpacity
           style={styles.buttonFacebookStyle}
           activeOpacity={0.5} onPress={showPicker}>
@@ -218,14 +236,14 @@ const EditMeetingScreen = ({ navigation, route }) => {
             style={styles.datePicker}
           />
         )}
-
         {/* End */}
-        <Text style={styles.text1}>Kết thúc:</Text>
+        <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <TouchableOpacity
           style={styles.buttonFacebookStyle}
           activeOpacity={0.5} onPress={showPickerEnd}>
           <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
+
           <Image
             source={require('../assets/calendar.png')}
             style={styles.buttonImageIconStyle}
@@ -241,6 +259,57 @@ const EditMeetingScreen = ({ navigation, route }) => {
             style={styles.datePicker}
           />
         )}
+        <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phòng</Text></Ionicons>
+        <SelectList setSelected={setLocationID} data={data} onSelect={() => alert(locationID)} />
+        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phân loại</Text></Ionicons>
+        <SelectList
+          setSelected={(val) => setSelected1(val)}
+          data={data1}
+          save="value"
+          label="Event Type"
+
+        />
+        <Ionicons name='person-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người chủ trì </Text></Ionicons>
+        <SelectList
+          setSelected={(val) => setSelected2(val)}
+          data={data2}
+          save="value"
+          label="Meeting Chairman"
+
+        />
+        <Ionicons name='people-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người tham gia</Text></Ionicons>
+        <MultipleSelectList
+          setSelected={(val) => setSelected3(val)}
+          data={data3}
+          save="value"
+          label="Participants"
+        />
+        <Text style={styles.text1}>Mô tả</Text>
+        <Input
+          placeholder='Mô tả'
+          value={description}
+          maxLength={50}
+          onChangeText={val => {
+            setDescription(val);
+          }}
+          leftIcon={
+            <Icon
+              marginRight={20}
+              name='list-ul'
+              size={20}
+              color='#808080'
+            />
+          }
+        />
+        <View style={styles.section}>
+          <Checkbox
+            style={styles.checkbox}
+            value={isImportant}
+            onValueChange={setImportant}
+            color={isImportant ? '#00BFFF' : undefined}
+          />
+          <Text style={styles.paragraph}>Quan trọng?</Text>
+        </View>
         <View style={styles.btnView}>
           <Pressable
             style={({ pressed }) => [
@@ -265,14 +334,16 @@ const EditMeetingScreen = ({ navigation, route }) => {
                   {
                     text: 'Xác nhận',
                     onPress: () => {
-                      EditMeeting();
+                      checkEdit();
                     },
                   },
                 ],
                 { cancelable: false }
               )
             }}>
-            <Text style={styles.buttonText}>Cập nhật</Text>
+             <Icon name='edit' size={20} color='white'>
+            <Text style={styles.buttonText}>  Cập nhật</Text>
+            </Icon>
           </Pressable>
           <Pressable
             style={({ pressed }) => [
@@ -304,7 +375,9 @@ const EditMeetingScreen = ({ navigation, route }) => {
                 { cancelable: false }
               )
             }}>
-            <Text style={styles.buttonText}>Xóa</Text>
+              <MaterialCommunityIcons name='delete' size={20} color='white'>
+            <Text style={styles.buttonText}>  Xóa</Text>
+            </MaterialCommunityIcons>
           </Pressable>
         </View>
       </ScrollView>
@@ -317,8 +390,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
-    marginBottom: 50,
-    backgroundColor: '#eee'
+    backgroundColor: 'white',
   },
   logoWrapper: {
     justifyContent: 'center',
@@ -331,10 +403,58 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 15
   },
+  datePickerStyle: {
+    width: 230,
+  },
+  text: {
+    textAlign: 'left',
+    width: 230,
+    fontSize: 16,
+    color: "#000"
+  },
+  title: {
+    textAlign: 'left',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   text1: {
-    fontSize: 15,
     fontWeight: 'bold',
     marginVertical: 10,
+    fontSize: 18,
+    color: 'black'
+
+  },
+  button1: {
+    elevation: 8,
+    backgroundColor: "#1E90FF",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginVertical: 20,
+  },
+  buttontext: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  },
+  label: {
+    margin: 8,
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paragraph: {
+    fontSize: 15,
+  },
+  checkbox: {
+    margin: 8,
+  },
+  datePickerStyle: {
+    width: 50,
+    marginTop: 20,
   },
   pickedDateContainer: {
     padding: 10,
@@ -350,9 +470,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1
   },
-  btnContainer: {
-    padding: 30,
-  },
+
   // This only works on iOS
   datePicker: {
     width: 320,
@@ -360,6 +478,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
+  },
+  btnContainer: {
+    padding: 30,
   },
   buttonText: {
     fontSize: 16,
@@ -373,28 +494,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
+    borderRadius: 5,
     elevation: 3,
-    backgroundColor: '#1F51FF',
-    marginTop: 20,
+    backgroundColor: '#1F51FF'
   },
   btnDel: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
+    borderRadius: 5,
     elevation: 3,
     backgroundColor: '#EE4B2B',
-    marginTop: 20,
     marginLeft: 10,
-
   },
   btnView: {
     flexDirection: 'row',
     margin: 10
   },
-
   buttonGPlusStyle: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -408,21 +525,22 @@ const styles = StyleSheet.create({
   buttonFacebookStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#eab676',
+    backgroundColor: '#F9F6EE',
     borderWidth: 0.5,
     borderColor: '#f5eeda',
     height: 40,
     borderRadius: 10,
     margin: 5,
-    padding:10
+    padding: 10,
+    marginVertical: 20
   },
   buttonImageIconStyle: {
     padding: 10,
+    margin: 5,
     height: 25,
     width: 25,
     resizeMode: 'stretch',
-    marginHorizontal:5,
-
+    marginHorizontal: 5
   },
   buttonTextStyle: {
     color: '#f5eeda',
@@ -434,6 +552,8 @@ const styles = StyleSheet.create({
     width: 1,
     height: 40,
   },
+  highlight:{
+    color:'red'
+  }
 });
-
 export default EditMeetingScreen;

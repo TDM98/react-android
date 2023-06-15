@@ -26,13 +26,13 @@ const CustomDrawerContent = (props) => {
                         'Đăng  xuất?',
                         [
                             {
-                                text: 'Cancel',
+                                text: 'Hủy',
                                 onPress: () => {
                                     return null;
                                 },
                             },
                             {
-                                text: 'Confirm',
+                                text: 'Xác nhận',
                                 onPress: () => {
                                     logout();
                                 },

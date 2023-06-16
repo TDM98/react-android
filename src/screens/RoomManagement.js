@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useLayoutEffect } from 'react';
 import {
   Button,
   FlatList,
@@ -36,6 +36,24 @@ const actions = [
 ];
 
 const RoomScreen = ({ navigation, route }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => { }}>
+            <Ionicons name='md-grid-outline' size={26} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => { }}>
+            <Ionicons name='search-outline' size={26} />
+          </TouchableOpacity>
+        </View>
+      )
+    })
+  }, [navigation])
   const [posts, setPosts] = useState({});
   const { user, logout, loading } = useContext(AuthContext);
   const flatlistRef = useRef();
@@ -76,7 +94,7 @@ const RoomScreen = ({ navigation, route }) => {
                 navigation.navigate('Edit', { post: item });
               }}>
               <Text style={styles.title}>
-                <Icon name='circle' size={20} color='#DC143C'/>   {item.locationName}</Text>
+                <Icon name='circle' size={20} color='#DC143C' />   {item.locationName}</Text>
               <Text>{item.body}</Text>
               <View style={styles.rowInfo}>
                 <Ionicons name="business-outline" size={18} color="#4169E1" />
@@ -93,16 +111,16 @@ const RoomScreen = ({ navigation, route }) => {
       />
 
       <Pressable style={({ pressed }) => [
-              {
-                opacity: pressed
-                  ? 0.2
-                  : 1,
-              },
-              styles.button,
-            ]}
-            onPress={() => {
-              onPressFunction()
-            }}>
+        {
+          opacity: pressed
+            ? 0.2
+            : 1,
+        },
+        styles.button,
+      ]}
+        onPress={() => {
+          onPressFunction()
+        }}>
         <Text style={styles.arrow}>
           <MaterialCommunityIcons name="arrow-up-bold-outline" size={24} color="white" />
         </Text>
@@ -142,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
-    color:'#Ee9e16'
+    color: '#Ee9e16'
   },
   rowInfo: {
     flexDirection: 'row',
@@ -180,6 +198,12 @@ const styles = StyleSheet.create({
   },
   floatbtn: {
     marginleft: 50
+  },
+  headerBtn: {
+    margin: 10
+  },
+  header: {
+    flexDirection: 'row'
   }
 });
 

@@ -24,35 +24,60 @@ const AddMeetingScreen = ({ navigation }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-const [vEventType, SetVEvenType] = useState("")
+  const [vEventType, SetVEvenType] = useState("")
   const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState("");
   const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date(Date.now()));
   const [isChecked, setChecked] = useState(false);
 
-  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [isPickerShowStartDate, setIsPickerShowStartDate] = useState(false);
+  const [isPickerShowStartTime, setIsPickerShowStartTime] = useState(false);
 
-  const [isPickerShowEnd, setIsPickerShowEnd] = useState(false);
+  const [isPickerShowEndDate, setIsPickerShowEndDate] = useState(false);
+  const [isPickerShowEndTime, setIsPickerShowEndTime] = useState(false)
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const showPicker = () => {
-    setIsPickerShow(true);
+  const showPickerStartDate = () => {
+    setIsPickerShowStartDate(true);
   };
-  const showPickerEnd = () => {
-    setIsPickerShowEnd(true);
+  const showPickerStartTime = () => {
+    setIsPickerShowStartTime(true);
   };
 
-  const onChange = (event, value) => {
+  const showPickerEndDate = () => {
+    setIsPickerShowEndDate(true);
+  };
+  const showPickerEndTime = () => {
+    setIsPickerShowEndTime(true);
+  }
+
+  const onChangeStartDate = (event, value) => {
     setStartDate(value);
     if (Platform.OS === 'android') {
-      setIsPickerShow(false);
+      setIsPickerShowStartDate(false);
     }
   };
-  const onChangeEnd = (event, value1) => {
+
+  const onChangeStartTime = (event, value) => {
+    setStartDate(value);
+    if (Platform.OS === 'android') {
+      setIsPickerShowStartTime(false);
+    }
+  };
+
+
+
+  const onChangeEndDate = (event, value1) => {
     setEndDate(value1);
     if (Platform.OS === 'android') {
-      setIsPickerShowEnd(false);
+      setIsPickerShowEndDate(false);
+    }
+  };
+  const onChangeEndTime = (event, value1) => {
+    setEndDate(value1);
+    if (Platform.OS === 'android') {
+      setIsPickerShowEndTime(false);
     }
   };
   // Event type
@@ -140,7 +165,7 @@ const [vEventType, SetVEvenType] = useState("")
       });
   };
   const checkInput = () => {
-    if(!title.trim()) {
+    if (!title.trim()) {
       alert('Nhập tiêu đề')
       return;
     }
@@ -155,7 +180,7 @@ const [vEventType, SetVEvenType] = useState("")
         <Spinner visible={loading} />
         <Text style={styles.text1}>Tiêu đề <Text style={styles.highlight}>(*)</Text></Text>
         <Input
-        placeholder='Tiêu đề'
+          placeholder='Tiêu đề'
           value={title}
           maxLength={50}
           onChangeText={val => {
@@ -163,7 +188,7 @@ const [vEventType, SetVEvenType] = useState("")
           }}
           leftIcon={
             <Icon
-            marginRight={20}
+              marginRight={20}
               name='pencil'
               size={20}
               color='#DC143C'
@@ -172,53 +197,98 @@ const [vEventType, SetVEvenType] = useState("")
         />
         {/* Start */}
         <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
-        <TouchableOpacity
-          style={styles.buttonFacebookStyle}
-          activeOpacity={0.5} onPress={showPicker}>
+        <View
+          style={styles.buttonFacebookStyle}>
           <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
-          <Image
-            source={require('../assets/calendar.png')}
-            style={styles.buttonImageIconStyle}
-          />
-        </TouchableOpacity>
-        {isPickerShow && (
-          <DateTimePicker
-            value={startDate}
-            mode={'date'}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            is24Hour={true}
-            onChange={onChange}
-            style={styles.datePicker}
-          />
-        )}
+          <TouchableOpacity
+            activeOpacity={0.5} onPress={showPickerStartDate}>
+            <Image
+              source={require('../assets/calendar2.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+
+          {isPickerShowStartDate && (
+            <DateTimePicker
+              value={startDate}
+              mode={'date'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeStartDate}
+              style={styles.datePicker}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.buttonFacebookStyle}
+            activeOpacity={0.5} onPress={showPickerStartTime}>
+            <View style={styles.buttonIconSeparatorStyle} />
+            <Image
+              source={require('../assets/alarm-clock.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+          {isPickerShowStartTime && (
+            <DateTimePicker
+              value={startDate}
+              mode={'time'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeStartTime}
+              style={styles.datePicker}
+            />
+          )}
+        </View>
+
         {/* End */}
         <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
-        <TouchableOpacity
-          style={styles.buttonFacebookStyle}
-          activeOpacity={0.5} onPress={showPickerEnd}>
+        <View
+          style={styles.buttonFacebookStyle}>
           <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
+          <TouchableOpacity
+            activeOpacity={0.5} onPress={showPickerEndDate}>
+            <Image
+              source={require('../assets/calendar2.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+          {isPickerShowEndDate && (
+            <DateTimePicker
+              value={endDate}
+              mode={'date'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeEndDate}
+              style={styles.datePicker}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.buttonFacebookStyle}
+            activeOpacity={0.5} onPress={showPickerEndTime}>
+            <View style={styles.buttonIconSeparatorStyle} />
+            <Image
+              source={require('../assets/alarm-clock.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+          {isPickerShowEndTime && (
+            <DateTimePicker
+              value={endDate}
+              mode={'time'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeEndTime}
+              style={styles.datePicker}
+            />
 
-          <Image
-            source={require('../assets/calendar.png')}
-            style={styles.buttonImageIconStyle}
-          />
-        </TouchableOpacity>
-        {isPickerShowEnd && (
-          <DateTimePicker
-            value={endDate}
-            mode={'date'}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            is24Hour={true}
-            onChange={onChangeEnd}
-            style={styles.datePicker}
-          />
-        )}
+          )}
+        </View>
+
         <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phòng</Text></Ionicons>
         <SelectList setSelected={setLocationID} data={data} />
         <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phân loại</Text></Ionicons>
-        <SelectList setSelected={SetVEvenType} data={data1}  />
+        <SelectList setSelected={SetVEvenType} data={data1} />
         <Ionicons name='person-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người chủ trì</Text></Ionicons>
         <SelectList
           setSelected={(val) => setSelected2(val)}
@@ -236,7 +306,7 @@ const [vEventType, SetVEvenType] = useState("")
         />
         <Text style={styles.text1}>Mô tả</Text>
         <Input
-        placeholder='Mô tả'
+          placeholder='Mô tả'
           value={description}
           maxLength={50}
           onChangeText={val => {
@@ -244,7 +314,7 @@ const [vEventType, SetVEvenType] = useState("")
           }}
           leftIcon={
             <Icon
-            marginRight={20}
+              marginRight={20}
               name='list-ul'
               size={20}
               color='#808080'
@@ -292,7 +362,7 @@ const [vEventType, SetVEvenType] = useState("")
               )
             }}>
             <Icon name='plus' size={18} color='white'>
-            <Text style={styles.buttonText}>  Thêm mới</Text>
+              <Text style={styles.buttonText}>  Thêm mới</Text>
             </Icon>
           </Pressable>
         </View>
@@ -440,15 +510,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 5,
     padding: 10,
-    marginVertical:20
+    marginVertical: 20,
   },
   buttonImageIconStyle: {
     padding: 10,
     margin: 5,
     height: 25,
     width: 25,
-    resizeMode: 'stretch',
-    marginHorizontal:5
+    resizeMode: '',
+    marginLeft: 10
   },
   buttonTextStyle: {
     color: '#f5eeda',
@@ -456,12 +526,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   buttonIconSeparatorStyle: {
-    backgroundColor: '#f5eeda',
+    backgroundColor: '#FFC300',
     width: 1,
     height: 40,
   },
-  highlight:{
-    color:'red'
+  highlight: {
+    color: 'red'
   }
 });
 

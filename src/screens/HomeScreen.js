@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from "react-native";
-const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useLayoutEffect, useMemo } from "react";
 import dayjs from "dayjs";
 import { AuthContext } from '../context/AuthContext';
+import RadioGroup from 'react-native-radio-buttons-group';
+const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
 const HomeScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(dayjs());
+  const [isPickerShow,setIsPickerShow] = useState(false);
+ 
   const { user, logout, loading } = useContext(AuthContext);
   useEffect(() => {
     let timer = setInterval(() => {
@@ -15,6 +17,51 @@ const HomeScreen = ({ navigation, route }) => {
     return () => clearInterval(timer);
   }, []);
 
+  const radioButtons = useMemo(() => ([
+    {
+        id: '1', // acts as primary key, should be unique and non-empty string
+        label: 'Option 1',
+        value: 'option1'
+    },
+    {
+        id: '2',
+        label: 'Option 2',
+        value: 'option2'
+    }
+]), []);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.header1}>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => { }}>
+            <Ionicons name='search-outline' size={26} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => navigation.navigate('Notification')}>
+            <Ionicons name='notifications-outline' size={26} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => {setIsPickerShow(true)}}>
+            <Ionicons name='exit-outline' size={26} />
+          </TouchableOpacity> 
+          {isPickerShow && (
+            <RadioGroup 
+            radioButtons={radioButtons} 
+            onPress={setSelectedId}
+            selectedId={selectedId}
+        />
+          )}
+        </View>
+      )
+    })
+  }, [navigation])
+
+
+  
   return (
     <ImageBackground source={image} style={StyleSheet.absoluteFill}>
       <View style={styles.header}>
@@ -91,6 +138,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 50,
   },
+  headerBtn: {
+    margin: 10
+  },
+  header1: {
+    flexDirection: 'row'
+  }
 });
 
 export default HomeScreen;

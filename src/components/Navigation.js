@@ -26,6 +26,7 @@ import { Alert ,Button} from 'react-native';
 
 import CustomDrawerContent from './CustomDrawerContent';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import NotificationScreen from '../screens/Notification';
 
 
 const Stack = createNativeStackNavigator();
@@ -186,6 +187,9 @@ const MainStackNavigator = () => {
             }} />
             <Stack.Screen name="AddMeeting" component={AddMeetingScreen} options={{
               title: 'Thêm lịch mới'
+            }}/>
+            <Stack.Screen name="Notification" component={NotificationScreen} options={{
+              title:'Thông báo'
             }}/>
           </>
         ) : (

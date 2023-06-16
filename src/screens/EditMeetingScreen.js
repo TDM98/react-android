@@ -13,6 +13,7 @@ import NumericInput from 'react-native-numeric-input';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Moment from 'moment';
 const EditMeetingScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
@@ -25,7 +26,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
   const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
   const [loading, setLoading] = useState(false);
-  const [isImportant, setImportant] = useState(false); 
+  const [isImportant, setImportant] = useState(false);
   const [selected, setSelected] = useState("");
   const [data, setData] = useState([]);
   const { user } = useContext(AuthContext);
@@ -108,88 +109,112 @@ const EditMeetingScreen = ({ navigation, route }) => {
         console.log(`Error on deleting post ${e.message}`);
       });
   };
+  const [isPickerShowStartDate, setIsPickerShowStartDate] = useState(false);
+  const [isPickerShowStartTime, setIsPickerShowStartTime] = useState(false);
 
-  const [isPickerShow, setIsPickerShow] = useState(false);
-
-  const [isPickerShowEnd, setIsPickerShowEnd] = useState(false);
+  const [isPickerShowEndDate, setIsPickerShowEndDate] = useState(false);
+  const [isPickerShowEndTime, setIsPickerShowEndTime] = useState(false)
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const showPicker = () => {
-    setIsPickerShow(true);
+  const showPickerStartDate = () => {
+    setIsPickerShowStartDate(true);
   };
-  const showPickerEnd = () => {
-    setIsPickerShowEnd(true);
+  const showPickerStartTime = () => {
+    setIsPickerShowStartTime(true);
   };
 
-  const onChange = (event, value) => {
+  const showPickerEndDate = () => {
+    setIsPickerShowEndDate(true);
+  };
+  const showPickerEndTime = () => {
+    setIsPickerShowEndTime(true);
+  }
+
+  const onChangeStartDate = (event, value) => {
     setStartDate(value);
     if (Platform.OS === 'android') {
-      setIsPickerShow(false);
-    }
-  };
-  const onChangeEnd = (event, value1) => {
-    setEndDate(value1);
-    if (Platform.OS === 'android') {
-      setIsPickerShowEnd(false);
+      setIsPickerShowStartDate(false);
     }
   };
 
-    // Event type
-    const data1 = [
-      { key: '1', value: 'Họp' },
-      { key: '2', value: 'Hội thảo' },
-      { key: '3', value: 'Giảng dạy' },
-      { key: '4', value: 'Khác' }
-    ];
-  
-    const [selected1, setSelected1] = React.useState([]);
-  
-    // Meeting Chairman
-    const data2 = [
-      { key: '1', value: "Trương Quang Duy" },
-      { key: '2', value: "Lê Quốc Bảo" },
-      { key: '3', value: "Nguyễn Hoàng Duy" },
-      { key: '4', value: "Trần Bửu Đạt" },
-      { key: '5', value: "Nguyễn Mạnh Hùng" },
-    ]
-    const [selected2, setSelected2] = React.useState([]);
-    // Participants
-    const data3 = [
-      { key: '1', value: "Trương Quang Duy" },
-      { key: '2', value: "Lê Quốc Bảo" },
-      { key: '3', value: "Nguyễn Hoàng Duy" },
-      { key: '4', value: "Trần Bửu Đạt" },
-      { key: '5', value: "Nguyễn Mạnh Hùng" },
-    ]
-    const [selected3, setSelected3] = React.useState([]);
-    //get location
-    useEffect(() => {
-      async function fetchData() {
-        //Get Values from database
-        axios.get(`${BASE_URL}/locations`, {
-          headers: { Authorization: `Bearer ${user.id_token}` },
-        })
-          .then((response) => {
-            // Store Values in Temporary Array
-            let newArray = response.data.map((item) => {
-              return { key: item.id, value: item.locationName }
-            })
-            //Set Data Variable
-            setData(newArray)
-          })
-          .catch((e) => {
-            console.log(e)
-          })
-      }
-      fetchData();
-    }, [])
-    const checkEdit = () => {
-      if(!title.trim()){
-        alert('Nhập tiêu đề');
-        return;
-      }
-      EditMeeting();
+  const onChangeStartTime = (event, value) => {
+    setStartDate(value);
+    if (Platform.OS === 'android') {
+      setIsPickerShowStartTime(false);
     }
+  };
+
+
+
+  const onChangeEndDate = (event, value1) => {
+    setEndDate(value1);
+    if (Platform.OS === 'android') {
+      setIsPickerShowEndDate(false);
+    }
+  };
+  const onChangeEndTime = (event, value1) => {
+    setEndDate(value1);
+    if (Platform.OS === 'android') {
+      setIsPickerShowEndTime(false);
+    }
+  };
+
+  // Event type
+  const data1 = [
+    { key: '1', value: 'Họp' },
+    { key: '2', value: 'Hội thảo' },
+    { key: '3', value: 'Giảng dạy' },
+    { key: '4', value: 'Khác' }
+  ];
+
+  const [selected1, setSelected1] = React.useState([]);
+
+  // Meeting Chairman
+  const data2 = [
+    { key: '1', value: "Trương Quang Duy" },
+    { key: '2', value: "Lê Quốc Bảo" },
+    { key: '3', value: "Nguyễn Hoàng Duy" },
+    { key: '4', value: "Trần Bửu Đạt" },
+    { key: '5', value: "Nguyễn Mạnh Hùng" },
+  ]
+  const [selected2, setSelected2] = React.useState([]);
+  // Participants
+  const data3 = [
+    { key: '1', value: "Trương Quang Duy" },
+    { key: '2', value: "Lê Quốc Bảo" },
+    { key: '3', value: "Nguyễn Hoàng Duy" },
+    { key: '4', value: "Trần Bửu Đạt" },
+    { key: '5', value: "Nguyễn Mạnh Hùng" },
+  ]
+  const [selected3, setSelected3] = React.useState([]);
+  //get location
+  useEffect(() => {
+    async function fetchData() {
+      //Get Values from database
+      axios.get(`${BASE_URL}/locations`, {
+        headers: { Authorization: `Bearer ${user.id_token}` },
+      })
+        .then((response) => {
+          // Store Values in Temporary Array
+          let newArray = response.data.map((item) => {
+            return { key: item.id, value: item.locationName }
+          })
+          //Set Data Variable
+          setData(newArray)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+    fetchData();
+  }, [])
+  const checkEdit = () => {
+    if (!title.trim()) {
+      alert('Nhập tiêu đề');
+      return;
+    }
+    EditMeeting();
+  }
   return (
     <View style={styles.container}>
       <ScrollView
@@ -216,49 +241,93 @@ const EditMeetingScreen = ({ navigation, route }) => {
         />
         {/* Start */}
         <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
-        <TouchableOpacity
-          style={styles.buttonFacebookStyle}
-          activeOpacity={0.5} onPress={showPicker}>
+        <View
+          style={styles.buttonFacebookStyle}>
           <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
-          <Image
-            source={require('../assets/calendar.png')}
-            style={styles.buttonImageIconStyle}
-          />
-        </TouchableOpacity>
-        {isPickerShow && (
-          <DateTimePicker
-            value={startDate}
-            mode={'date'}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            is24Hour={true}
-            onChange={onChange}
-            style={styles.datePicker}
-          />
-        )}
+          <TouchableOpacity
+            activeOpacity={0.5} onPress={showPickerStartDate}>
+            <Image
+              source={require('../assets/calendar2.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+
+          {isPickerShowStartDate && (
+            <DateTimePicker
+              value={startDate}
+              mode={'date'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeStartDate}
+              style={styles.datePicker}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.buttonFacebookStyle}
+            activeOpacity={0.5} onPress={showPickerStartTime}>
+            <View style={styles.buttonIconSeparatorStyle} />
+            <Image
+              source={require('../assets/alarm-clock.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+          {isPickerShowStartTime && (
+            <DateTimePicker
+              value={startDate}
+              mode={'time'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeStartTime}
+              style={styles.datePicker}
+            />
+          )}
+        </View>
+
         {/* End */}
         <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
-        <TouchableOpacity
-          style={styles.buttonFacebookStyle}
-          activeOpacity={0.5} onPress={showPickerEnd}>
+        <View
+          style={styles.buttonFacebookStyle}>
           <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
+          <TouchableOpacity
+            activeOpacity={0.5} onPress={showPickerEndDate}>
+            <Image
+              source={require('../assets/calendar2.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+          {isPickerShowEndDate && (
+            <DateTimePicker
+              value={endDate}
+              mode={'date'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeEndDate}
+              style={styles.datePicker}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.buttonFacebookStyle}
+            activeOpacity={0.5} onPress={showPickerEndTime}>
+            <View style={styles.buttonIconSeparatorStyle} />
+            <Image
+              source={require('../assets/alarm-clock.png')}
+              style={styles.buttonImageIconStyle}
+            />
+          </TouchableOpacity>
+          {isPickerShowEndTime && (
+            <DateTimePicker
+              value={endDate}
+              mode={'time'}
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              is24Hour={true}
+              onChange={onChangeEndTime}
+              style={styles.datePicker}
+            />
 
-          <Image
-            source={require('../assets/calendar.png')}
-            style={styles.buttonImageIconStyle}
-          />
-        </TouchableOpacity>
-        {isPickerShowEnd && (
-          <DateTimePicker
-            value={endDate}
-            mode={'date'}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            is24Hour={true}
-            onChange={onChangeEnd}
-            style={styles.datePicker}
-          />
-        )}
+          )}
+        </View>
         <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phòng</Text></Ionicons>
         <SelectList setSelected={setLocationID} data={data} onSelect={() => alert(locationID)} />
         <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phân loại</Text></Ionicons>
@@ -341,8 +410,8 @@ const EditMeetingScreen = ({ navigation, route }) => {
                 { cancelable: false }
               )
             }}>
-             <Icon name='edit' size={20} color='white'>
-            <Text style={styles.buttonText}>  Cập nhật</Text>
+            <Icon name='edit' size={20} color='white'>
+              <Text style={styles.buttonText}>  Cập nhật</Text>
             </Icon>
           </Pressable>
           <Pressable
@@ -375,8 +444,8 @@ const EditMeetingScreen = ({ navigation, route }) => {
                 { cancelable: false }
               )
             }}>
-              <MaterialCommunityIcons name='delete' size={20} color='white'>
-            <Text style={styles.buttonText}>  Xóa</Text>
+            <MaterialCommunityIcons name='delete' size={20} color='white'>
+              <Text style={styles.buttonText}>  Xóa</Text>
             </MaterialCommunityIcons>
           </Pressable>
         </View>
@@ -548,12 +617,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   buttonIconSeparatorStyle: {
-    backgroundColor: '#f5eeda',
+    backgroundColor: '#FFC300',
     width: 1,
     height: 40,
   },
-  highlight:{
-    color:'red'
+  highlight: {
+    color: 'red'
   }
 });
 export default EditMeetingScreen;

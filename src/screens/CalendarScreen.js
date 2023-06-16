@@ -1,5 +1,5 @@
 import { addDays, format } from "date-fns"
-import React, { useEffect, useState, useContext } from "react"
+import React, { useEffect, useState, useContext, useLayoutEffect } from "react"
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native"
 import { Agenda } from "react-native-calendars"
 import { AuthContext } from "../context/AuthContext"
@@ -9,6 +9,7 @@ import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Button } from "react-native-elements"
 
 // type Item = {
 //   name: string;
@@ -32,6 +33,24 @@ const actions = [
 ];
 
 const CalendarScreen = ({ navigation, route }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => { }}>
+            <Ionicons name='calendar-outline' size={26} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => { }}>
+            <Ionicons name='search-outline' size={26} />
+          </TouchableOpacity>
+        </View>
+      )
+    })
+  }, [navigation])
   const [items, setItems] = useState({})
   const { user, logout, loading } = useContext(AuthContext)
   useEffect(() => {
@@ -137,14 +156,21 @@ const styles = StyleSheet.create({
   itemtext1: {
     margin: 15,
     fontWeight: '100',
+
   },
   icon: {
     marginBottom: 10,
     marginLeft: 10,
   },
-  iconTitle:{
+  iconTitle: {
     marginTop: 10,
-    marginLeft:10
+    marginLeft: 10
+  },
+  headerBtn: {
+    margin: 10
+  },
+  header: {
+    flexDirection: 'row'
   }
 })
 

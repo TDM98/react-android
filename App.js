@@ -14,7 +14,6 @@ const App = () => {
 
 export default App;
 
-// import React,{useState} from 'react';
 // import './src/assets/i18n/i18n'
 // import {View, Text,Pressable} from 'react-native';
 // import {useTranslation} from 'react-i18next';

@@ -81,9 +81,9 @@ const UserInfo = ({ navigation, route }) => {
               onChangeText={val => {
                 setFirstname(val);
               }}
-              leftIcon={
+              rightIcon={
                 <Icon
-                  name='list-ul'
+                  name='pencil'
                   size={20}
                   marginRight={20}
                 />
@@ -98,9 +98,9 @@ const UserInfo = ({ navigation, route }) => {
               onChangeText={val => {
                 setLastname(val);
               }}
-              leftIcon={
+              rightIcon={
                 <Icon
-                  name='list-ul'
+                  name='pencil'
                   size={20}
                   marginRight={20}
                 />
@@ -127,12 +127,20 @@ const UserInfo = ({ navigation, route }) => {
               onChangeText={val => {
                 setEmail(val);
               }}
+              rightIcon={
+                <Icon
+                  name='pencil'
+                  size={20}
+                  marginRight={40}
+                />
+              }
 
             />
           </View>
           <View style={styles.direct}>
             <Text style={styles.label} >Tài khoản</Text>
             <Input
+              editable={false}
               value={users.login}
               maxLength={20}
               onChangeText={val => {
@@ -141,14 +149,14 @@ const UserInfo = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.direct}>
-          <Text style={styles.label} >Mật khẩu</Text>
-          <Input
-            value={users.password}
-            maxLength={200}
-            onChangeText={val => {
-              setPassword(val);
-            }}
-          />
+            <Text style={styles.label} >Mật khẩu</Text>
+            <Input
+              value={users.password}
+              maxLength={200}
+              onChangeText={val => {
+                setPassword(val);
+              }}
+            />
           </View>
           <View style={styles.btnView}>
             <Pressable
@@ -181,7 +189,9 @@ const UserInfo = ({ navigation, route }) => {
                   { cancelable: false }
                 )
               }}>
-              <Text style={styles.buttonText}>Cập nhật</Text>
+              <Icon name='edit' size={20} color='white'>
+                <Text style={styles.buttonText}>  Cập nhật</Text>
+              </Icon>
             </Pressable>
           </View>
 
@@ -214,7 +224,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 10,
     fontSize: 18,
-    marginRight : 20
+    marginRight: 20
   },
   button: {
     marginTop: 20,

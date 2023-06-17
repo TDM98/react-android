@@ -11,13 +11,12 @@ const NotificationScreen = ({navigation,route}) => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
       <Image
-          source={require('../assets/no-notification.png')}
+          source={require('../assets/zzz.png')}
           style={styles.logo}
-          resizeMode="contain"
         >
         </Image>
           <Text style={styles.title}>Không có thông báo</Text>
-          <Text style={styles.title}>Kiểm tra lại sau để xem mọi thông báo mới</Text>
+          <Text style={styles.title}>Kiểm tra lại sau để xem thông báo mới</Text>
         </View>
     </SafeAreaView>
   );
@@ -28,12 +27,23 @@ export default NotificationScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: '#D3D3D3',
+    justifyContent:'center'
   },
   title:{
     textAlign: 'center',
     fontWeight: '400',
-    fontSize: 18,
+    fontSize: 20,
     marginTop: 0,
+    opacity:0.5
+  },
+  logo:{
+    width:250,
+    height:250,
+    resizeMode:'contain',
+    alignSelf:'center',
+    marginLeft:30,
+    marginBottom:10,
+    opacity:0.5
   }
 }); 

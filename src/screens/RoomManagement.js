@@ -60,7 +60,7 @@ const RoomScreen = ({ navigation, route }) => {
   const [shouldShow, setShouldShow] = useState(true);
   const getPosts = () => {
     axios
-      .get(`${BASE_URL}/locations?page=0&size=30`, {
+      .get(`${BASE_URL}/locations?sort=isDeleted&direction=des`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {

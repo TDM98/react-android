@@ -120,15 +120,7 @@ const DrawerHome = () => (
       title: 'Danh sách lịch họp',
       drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40" />
     }} /> */}
-    <Drawer.Screen name="Documents" component={Documents} options={{
-         headerTitle: (props) => <LogoTitle {...props} />,
-         headerRight: () => (
-           <Button
-             onPress={() => alert('This is a button!')}
-             title="Info"
-             color="#fff"
-           />
-         ),
+    <Drawer.Screen name="Documents" component={Documents} options={{  
       title: 'Quản lý tài liệu',
       drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f"  />
     }} />

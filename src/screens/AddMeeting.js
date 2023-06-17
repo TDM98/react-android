@@ -158,6 +158,7 @@ const AddMeetingScreen = ({ navigation }) => {
         navigation.navigate('Calendar', {
           post: post,
         });
+        console.log(res.data)
       })
       .catch(e => {
         setLoading(false);
@@ -169,7 +170,31 @@ const AddMeetingScreen = ({ navigation }) => {
       alert('Nhập tiêu đề')
       return;
     }
-    createMeeting();
+    checkMeeting();
+  }
+
+  const checkMeeting = () => {
+    setLoading(true);
+    axios
+      .get(
+        `${BASE_URL}/sm-details`,
+        {
+          headers: { Authorization: `Bearer ${user.id_token}` },
+        },
+      )
+      .then(res => {
+        let post = res.data;
+        setLoading(false);
+        console.log('ok');
+        navigation.navigate('Calendar', {
+          post: post,
+        });
+        console.log(res.data)
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on updating post ${e.message}`);
+      });
   }
   return (
     <View style={styles.container}>

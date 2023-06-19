@@ -210,7 +210,10 @@ const EditMeetingScreen = ({ navigation, route }) => {
   }, [])
   const checkEdit = () => {
     if (!title.trim()) {
-      alert('Nhập tiêu đề');
+      Alert.alert(
+        'Lỗi',
+        'Nhập tên cuộc họp'
+      )
       return;
     }
     EditMeeting();
@@ -328,14 +331,22 @@ const EditMeetingScreen = ({ navigation, route }) => {
 
           )}
         </View>
-        <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phòng</Text></Ionicons>
-        <SelectList setSelected={setLocationID} data={data} onSelect={() => alert(locationID)} />
-        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phân loại</Text></Ionicons>
+        <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Vị trí</Text></Ionicons>
+        <SelectList 
+        setSelected={setLocationID} 
+        data={data} onSelect={() => alert(locationID)} 
+        placeholder='Chọn'
+        searchPlaceholder=''
+        notFoundText='Không tìm thấy'
+        />
+        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Loại sự kiện</Text></Ionicons>
         <SelectList
           setSelected={(val) => setSelected1(val)}
           data={data1}
           save="value"
-          label="Event Type"
+          placeholder='Chọn'
+          searchPlaceholder=''
+          notFoundText='Không tìm thấy'
 
         />
         <Ionicons name='person-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người chủ trì </Text></Ionicons>
@@ -344,6 +355,9 @@ const EditMeetingScreen = ({ navigation, route }) => {
           data={data2}
           save="value"
           label="Meeting Chairman"
+          placeholder='Chọn'
+          searchPlaceholder=''
+          notFoundText='Không tìm thấy'
 
         />
         <Ionicons name='people-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người tham gia</Text></Ionicons>
@@ -351,7 +365,9 @@ const EditMeetingScreen = ({ navigation, route }) => {
           setSelected={(val) => setSelected3(val)}
           data={data3}
           save="value"
-          label="Participants"
+          placeholder='Chọn'
+          searchPlaceholder=''
+          notFoundText='Không tìm thấy'
         />
         <Text style={styles.text1}>Mô tả</Text>
         <Input
@@ -379,75 +395,79 @@ const EditMeetingScreen = ({ navigation, route }) => {
           />
           <Text style={styles.paragraph}>Quan trọng?</Text>
         </View>
-        <View style={styles.btnView}>
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed
-                  ? 0.2
-                  : 1,
-              },
-              styles.btnEdit,
-            ]}
-            onPress={() => {
-              Alert.alert(
-                'Cập nhật',
-                'Lưu thông tin cập nhật',
-                [
-                  {
-                    text: 'Hủy',
-                    onPress: () => {
-                      return null;
-                    }
-                  },
-                  {
-                    text: 'Xác nhận',
-                    onPress: () => {
-                      checkEdit();
+        <View style={styles.btnContainer}>
+          <View style={styles.btnView}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed
+                    ? 0.2
+                    : 1,
+                },
+                styles.btnEdit,
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Cập nhật',
+                  'Lưu thông tin cập nhật',
+                  [
+                    {
+                      text: 'Hủy',
+                      onPress: () => {
+                        return null;
+                      }
                     },
-                  },
-                ],
-                { cancelable: false }
-              )
-            }}>
-            <Icon name='edit' size={20} color='white'>
-              <Text style={styles.buttonText}>  Cập nhật</Text>
-            </Icon>
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed
-                  ? 0.2
-                  : 1,
-              },
-              styles.btnDel,
-            ]}
-            onPress={() => {
-              Alert.alert(
-                'Xóa',
-                'Xác nhận xóa',
-                [
-                  {
-                    text: 'Hủy',
-                    onPress: () => {
-                      return null;
-                    }
-                  },
-                  {
-                    text: 'Xác nhận',
-                    onPress: () => {
-                      deleteMeeting();
+                    {
+                      text: 'Xác nhận',
+                      onPress: () => {
+                        checkEdit();
+                      },
                     },
-                  },
-                ],
-                { cancelable: false }
-              )
-            }}>
-            <MaterialCommunityIcons name='delete' size={20} color='white'>
-              <Text style={styles.buttonText}>  Xóa</Text>
-            </MaterialCommunityIcons>
-          </Pressable>
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              <Icon name='edit' size={20} color='white'>
+                <Text style={styles.buttonText}>  Cập nhật</Text>
+              </Icon>
+            </Pressable>
+          </View>
+          <View style={styles.btnView}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed
+                    ? 0.2
+                    : 1,
+                },
+                styles.btnDel,
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Xóa',
+                  'Xác nhận xóa',
+                  [
+                    {
+                      text: 'Hủy',
+                      onPress: () => {
+                        return null;
+                      }
+                    },
+                    {
+                      text: 'Xác nhận',
+                      onPress: () => {
+                        deleteMeeting();
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              <MaterialCommunityIcons name='delete' size={20} color='white'>
+                <Text style={styles.buttonText}>  Xóa</Text>
+              </MaterialCommunityIcons>
+            </Pressable>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -578,8 +598,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   btnView: {
+    flex:1,
+    marginBottom:20,
+  },
+  btnContainer:{
+    flex: 1,
     flexDirection: 'row',
-    margin: 10
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonGPlusStyle: {
     flexDirection: 'row',

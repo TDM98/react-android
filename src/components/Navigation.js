@@ -27,6 +27,7 @@ import { Alert ,Button} from 'react-native';
 import CustomDrawerContent from './CustomDrawerContent';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NotificationScreen from '../screens/Notification';
+import WeekCalendar from '../screens/WeekCalendar';
 
 
 const Stack = createNativeStackNavigator();
@@ -106,7 +107,8 @@ const DrawerHome = () => (
 
     <Drawer.Screen name="Home" component={HomeScreen} options={{
       title: 'Trang chủ',
-      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#1F51FF" />
+      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#1F51FF" 
+      />
     }} />
     <Drawer.Screen name="Room" component={RoomScreen} options={{
       title: 'Quản lý phòng',
@@ -170,7 +172,9 @@ const MainStackNavigator = () => {
               title: 'Cập nhật phòng'
             }} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
-
+            <Stack.Screen name ="WeekCalendar" component={WeekCalendar} options={{
+              title: 'Lịch tuần'
+            }}/>
             <Stack.Screen name="User" component={UserInfo} />
 
             <Stack.Screen name="Meeting List" component={MeetingListScreen} />

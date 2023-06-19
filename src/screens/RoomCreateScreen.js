@@ -13,6 +13,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import NumericInput from 'react-native-numeric-input';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { SelectList } from 'react-native-dropdown-select-list';
+
 
 const PostCreateScreen = ({ navigation }) => {
   const [locationType, setLocatiobType] = useState(null);
@@ -26,6 +28,12 @@ const PostCreateScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({})
   const { user } = useContext(AuthContext);
+
+  const roomType = [
+    { key: '0', value: 'Phòng họp' },
+    { key: '1', value: 'Hội trường' },
+    { key: '2', value: 'Khác' }
+  ];
 
   const createPost = () => {
     setLoading(true);
@@ -62,7 +70,10 @@ const PostCreateScreen = ({ navigation }) => {
   const checkTextInput = () => {
     //Check for the Name TextInput
     if (!locationName.trim()) {
-      alert(`Tên phòng không được để trống`);
+      Alert.alert(
+        'Lỗi',
+        'Nhập tên phòng',
+      )
       return;
     }
     createPost();
@@ -88,22 +99,16 @@ const PostCreateScreen = ({ navigation }) => {
             />
           }
         />
-        <Text style={styles.text1}>Loại phòng </Text>
-        <Input
-          value={locationType}
-          maxLength={20}
-          onChangeText={val => {
-            setLocatiobType(val);
-          }}
-          leftIcon={
-            <Ionicons
-              name='pricetag-outline'
-              size={20}
-              marginRight={20}
-            />
-          }
+        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Loại phòng</Text></Ionicons>
+        <SelectList
+        placeholder='Loại phòng'
+        searchPlaceholder='Tìm'
+        notFoundText='Không tìm thấy'
+        setSelected={setLocatiobType}
+        defaultOption={{key: '0',value: 'Phòng họp'}}
+        data={roomType} 
         />
-
+        <Text></Text>
         <Text style={styles.text1}>Mô tả </Text>
         <Input
           value={locationDescription}
@@ -136,7 +141,7 @@ const PostCreateScreen = ({ navigation }) => {
           }
         />
         <View style={styles.inputNum}>
-          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3' marginRight={20}/>  Số người  </Text>
+          <Text style={styles.text1}><Icon name='group' size={20} color='#5D3FD3' marginRight={20} />  Số người  </Text>
           <NumericInput
             value={maxOccupancy}
             onChange={val => {
@@ -157,7 +162,7 @@ const PostCreateScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.inputNum}>
-          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520' marginRight={20}/>  Tầng  </Text>
+          <Text style={styles.text1}><Icon name='building' size={20} color='#DAA520' marginRight={20} />  Tầng  </Text>
 
           <View style={styles.NumericInput}>
             <NumericInput
@@ -212,7 +217,7 @@ const PostCreateScreen = ({ navigation }) => {
           }}>
           <Icon name='plus' size={18} color='white'>
             <Text style={styles.buttonText}>  Thêm mới</Text>
-            </Icon>
+          </Icon>
         </Pressable>
       </ScrollView>
     </View>

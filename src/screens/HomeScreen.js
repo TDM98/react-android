@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity,  } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState, useContext, useLayoutEffect, useMemo, useRef } from "react";
 import dayjs from "dayjs";
@@ -6,15 +6,15 @@ import { AuthContext } from '../context/AuthContext';
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import PickerCheckBox from 'expo-checkbox';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 
 const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
 const HomeScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(dayjs());
-  const [isPickerShow,setIsPickerShow] = useState(false);
+  const [isPickerShow, setIsPickerShow] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState();
   const { user, logout, loading } = useContext(AuthContext);
-  
+
   const showPicker = () => {
     setIsPickerShow(true);
   };
@@ -27,13 +27,13 @@ const HomeScreen = ({ navigation, route }) => {
 
   const pickerRef = useRef();
 
-function open() {
-  pickerRef.current.focus();
-}
+  function open() {
+    pickerRef.current.focus();
+  }
 
-function close() {
-  pickerRef.current.blur();
-}
+  function close() {
+    pickerRef.current.blur();
+  }
 
 
   useEffect(() => {
@@ -43,11 +43,11 @@ function close() {
     return () => clearInterval(timer);
   }, []);
 
- const handleConfirm = (pItems) =>{
+  const handleConfirm = (pItems) => {
     console.log('pItems =>', pItems);
   }
 
-  
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -65,30 +65,30 @@ function close() {
           <TouchableOpacity
             style={styles.headerBtn}
             onPress={showPicker}>
-            <Ionicons name='exit-outline' size={26} />
-          </TouchableOpacity> 
+            <Ionicons name='exit-outline' size={26}></Ionicons>
+          </TouchableOpacity>
         </View>
       )
     })
   }, [navigation])
 
 
-  
+
   return (
     <ImageBackground source={image} style={StyleSheet.absoluteFill}>
       <View style={styles.header}>
         <Text style={styles.date}>{date.format("dddd, DD MMMM")}</Text>
         <Text style={styles.time}>{date.format("hh:mm")}</Text>
       </View>
-      <Picker
-  ref={pickerRef}
-  selectedValue={selectedLanguage}
-  onValueChange={(itemValue, itemIndex) =>
-    setSelectedLanguage(itemValue)
-  }>
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
-</Picker>
+      {/* <Picker
+        ref={pickerRef}
+        selectedValue={selectedLanguage}
+        onValueChange={(itemValue, itemIndex) =>
+          setSelectedLanguage(itemValue)
+        }>
+        <Picker.Item label="Java" value="java" />
+        <Picker.Item label="JavaScript" value="js" />
+      </Picker> */}
       {/* footer */}
       <View style={styles.footer}>
 
@@ -104,7 +104,6 @@ function close() {
           <TouchableOpacity onPress={showPicker}>
             <Ionicons name="ios-location-outline" size={24} color="white" />
           </TouchableOpacity>
-      
         </View>
 
         <View style={styles.icon}>
@@ -114,7 +113,7 @@ function close() {
             <Ionicons name="md-settings-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
-
+        
       </View>
     </ImageBackground>
   );
@@ -163,10 +162,10 @@ const styles = StyleSheet.create({
   header1: {
     flexDirection: 'row'
   },
-  cont:{
-    width:100,
-    height:100,
-    flex:1
+  cont: {
+    width: 100,
+    height: 100,
+    flex: 1
   }
 });
 

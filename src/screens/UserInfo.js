@@ -32,6 +32,7 @@ const UserInfo = ({ navigation, route }) => {
   const [fullName, setFullname] = useState({});
   const [login, setLogin] = useState({});
   const [password, setPassword] = useState({});
+  const [hidePass,setHidePass] = useState(true);
   const handleSubmit = () => {
 
   }
@@ -153,9 +154,15 @@ const UserInfo = ({ navigation, route }) => {
             <Input
               value={users.password}
               maxLength={200}
+              secureTextEntry={hidePass ? true : false}
               onChangeText={val => {
                 setPassword(val);
               }}
+              rightIcon={
+                <Pressable onPress={() => setHidePass(!hidePass)}>
+              <MaterialCommunityIcons name={hidePass ? 'eye-off' : 'eye'} size={20} />
+              </Pressable>
+              }
             />
           </View>
           <View style={styles.btnView}>
@@ -212,6 +219,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     justifyContent: 'center',
+    marginHorizontal:20
   },
   input: {
     borderColor: '#ccc',

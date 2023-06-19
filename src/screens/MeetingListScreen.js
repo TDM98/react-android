@@ -20,7 +20,7 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext'
 
 
- 
+
 const actions = [
   {
     text: "Thêm mới",
@@ -67,7 +67,7 @@ const MeetingListScreen = ({ navigation, route }) => {
         data={posts}
         renderItem={({ item }) => {
           return (
-            
+
             <TouchableOpacity
               style={styles.itemWrapper}
               onPress={() => {
@@ -79,7 +79,7 @@ const MeetingListScreen = ({ navigation, route }) => {
               <Text style={styles.info}>Bắt đầu: {item.startDate}</Text>
               <Text style={styles.info}>Kết thúc: {item.endDate}</Text>
             </TouchableOpacity>
-            
+
           );
         }}
         keyExtractor={item => item.id}

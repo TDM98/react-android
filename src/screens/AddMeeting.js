@@ -13,6 +13,7 @@ import NumericInput from 'react-native-numeric-input';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import moment from 'moment';
 const AddMeetingScreen = ({ navigation }) => {
 
   const [locationID, setLocationID] = useState("");
@@ -82,30 +83,31 @@ const AddMeetingScreen = ({ navigation }) => {
   };
   // Event type
   const data1 = [
-    { key: '1', value: 'Họp' },
-    { key: '2', value: 'Hội thảo' },
-    { key: '3', value: 'Giảng dạy' },
-    { key: '4', value: 'Khác' }
+    { key: '0', value: 'Họp' },
+    { key: '1', value: 'Hội thảo' },
+    { key: '2', value: 'Giảng dạy' },
+    { key: '3', value: 'Khác' }
   ];
 
   const [selected1, setSelected1] = React.useState([]);
 
   // Meeting Chairman
   const data2 = [
-    { key: '1', value: "Trương Quang Duy" },
-    { key: '2', value: "Lê Quốc Bảo" },
-    { key: '3', value: "Nguyễn Hoàng Duy" },
-    { key: '4', value: "Trần Bửu Đạt" },
-    { key: '5', value: "Nguyễn Mạnh Hùng" },
+    { key: '0', value: "Trương Quang Duy" },
+    { key: '1', value: "Lê Quốc Bảo" },
+    { key: '2', value: "Nguyễn Hoàng Duy" },
+    { key: '3', value: "Trần Bửu Đạt" },
+    { key: '4', value: "Nguyễn Mạnh Hùng" },
   ]
   const [selected2, setSelected2] = React.useState([]);
   // Participants
   const data3 = [
-    { key: '1', value: "Trương Quang Duy" },
-    { key: '2', value: "Lê Quốc Bảo" },
-    { key: '3', value: "Nguyễn Hoàng Duy" },
-    { key: '4', value: "Trần Bửu Đạt" },
-    { key: '5', value: "Nguyễn Mạnh Hùng" },
+    { key: '0', value: "Trương Quang Duy" },
+    { key: '1', value: "Lê Quốc Bảo" },
+    { key: '2', value: "Nguyễn Hoàng Duy" },
+    { key: '3', value: "Trần Bửu Đạt" },
+    { key: '4', value: "Nguyễn Mạnh Hùng" },
+    { ket: '5', value: "Trần Đức Minh"}
   ]
   const [selected3, setSelected3] = React.useState([]);
   //get location
@@ -167,7 +169,10 @@ const AddMeetingScreen = ({ navigation }) => {
   };
   const checkInput = () => {
     if (!title.trim()) {
-      alert('Nhập tiêu đề')
+      Alert.alert(
+        'Lỗi',
+        'Nhập tên cuộc họp'
+      )
       return;
     }
     checkMeeting();
@@ -224,7 +229,7 @@ const AddMeetingScreen = ({ navigation }) => {
         <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <View
           style={styles.buttonFacebookStyle}>
-          <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
+          <Text style={styles.pickedDate}>{moment(startDate).format("DD-MM-YYYY, h:mm:ss a")}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
           <TouchableOpacity
             activeOpacity={0.5} onPress={showPickerStartDate}>
@@ -269,7 +274,7 @@ const AddMeetingScreen = ({ navigation }) => {
         <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <View
           style={styles.buttonFacebookStyle}>
-          <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
+          <Text style={styles.pickedDate}>{moment(endDate).format("DD-MM-YYYY, h:mm:ss a")}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
           <TouchableOpacity
             activeOpacity={0.5} onPress={showPickerEndDate}>
@@ -310,24 +315,37 @@ const AddMeetingScreen = ({ navigation }) => {
           )}
         </View>
 
-        <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phòng</Text></Ionicons>
-        <SelectList setSelected={setLocationID} data={data} />
-        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Phân loại</Text></Ionicons>
-        <SelectList setSelected={SetVEvenType} data={data1} />
+        <Ionicons name='location-outline' size={20} marginVertical={20}><Text style={styles.text1}> Vị trí</Text></Ionicons>
+        <SelectList 
+        setSelected={setLocationID}
+        data={data} 
+        placeholder='Chọn'
+        searchPlaceholder=''
+        notFoundText='Không tìm thấy'
+        />
+        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Loại sự kiện</Text></Ionicons>
+        <SelectList 
+        setSelected={SetVEvenType} 
+        data={data1} 
+        placeholder='Chọn'
+        searchPlaceholder=''
+        notFoundText='Không tìm thấy'
+        />
         <Ionicons name='person-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người chủ trì</Text></Ionicons>
         <SelectList
-          setSelected={(val) => setSelected2(val)}
-          data={data2}
-          save="value"
-          label="Meeting Chairman"
-
+         setSelected={setMeetingChairman} 
+         data={data2} 
+         placeholder='Chọn'
+         searchPlaceholder=''
+         notFoundText='Không tìm thấy'
         />
         <Ionicons name='people-outline' size={20} marginVertical={20}><Text style={styles.text1}> Người tham gia</Text></Ionicons>
         <MultipleSelectList
-          setSelected={(val) => setSelected3(val)}
-          data={data3}
-          save="value"
-          label="Participants"
+         setSelected={setParticipants} 
+         data={data3} 
+         placeholder='Chọn'
+         searchPlaceholder=''
+         notFoundText='Không tìm thấy'
         />
         <Text style={styles.text1}>Mô tả</Text>
         <Input
@@ -542,7 +560,7 @@ const styles = StyleSheet.create({
     margin: 5,
     height: 25,
     width: 25,
-    resizeMode: '',
+  
     marginLeft: 10
   },
   buttonTextStyle: {

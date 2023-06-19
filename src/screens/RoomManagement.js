@@ -60,7 +60,7 @@ const RoomScreen = ({ navigation, route }) => {
   const [shouldShow, setShouldShow] = useState(true);
   const getPosts = () => {
     axios
-      .get(`${BASE_URL}/locations?sort=isDeleted&direction=des`, {
+      .get(`${BASE_URL}/locations?size=100`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {
@@ -94,7 +94,7 @@ const RoomScreen = ({ navigation, route }) => {
                 navigation.navigate('Edit', { post: item });
               }}>
               <Text style={styles.title}>
-                <Icon name='circle' size={20} color='#DC143C' />   {item.locationName}</Text>
+                <Ionicons name='radio-button-on-outline' size={20} color='#DC143C' />   {item.locationName}</Text>
               <Text>{item.body}</Text>
               <View style={styles.rowInfo}>
                 <Ionicons name="business-outline" size={18} color="#4169E1" />

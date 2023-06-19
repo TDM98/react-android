@@ -10,7 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button } from "react-native-elements"
-
+import moment from 'moment';
 // type Item = {
 //   name: string;
 //   cookies: boolean;
@@ -27,10 +27,35 @@ const actions = [
   {
     icon: require('../assets/react.png'),
     name: 'test',
-    position: 1,
+    position: 2,
     color: '#014F5C',
   },
 ];
+
+const actionsLeft = [
+  {
+    text: "3 ngày",
+    icon: require('../assets/3-days.png'),
+    name: '3days',
+    position: 1,
+    color: '#1e81b0',
+  },
+  {
+    text: "7 ngày",
+    icon: require('../assets/7-days.png'),
+    name: '7days',
+    position: 2,
+    color: '#884EA0',
+  },
+  {
+    text: "Tháng",
+    icon: require('../assets/30-days.png'),
+    name: '30days',
+    position: 3,
+    color: '#F08080',
+  },
+];
+
 
 const CalendarScreen = ({ navigation, route }) => {
   useLayoutEffect(() => {
@@ -102,8 +127,11 @@ const CalendarScreen = ({ navigation, route }) => {
           <Ionicons name="radio-button-on-outline" size={20} style={styles.iconTitle} color="#Ee161b" >
             <Text style={styles.itemtitle} > {item.title}</Text>
           </Ionicons>
-          <Text style={styles.itemtext}>Người tham gia: {item.participants}</Text>
-          <Ionicons name="location-outline" size={15} style={styles.icon} color="#4169E1" >
+          <Text></Text>
+          <Ionicons name="person-outline" size={20} style={styles.icon} color="#4169E1" >
+            <Text style={styles.itemtext1}>{moment(item.startDate).format("DD-MM-YYYY, h:mm:ss a")}</Text>
+          </Ionicons>
+          <Ionicons name="location-outline" size={20} style={styles.icon} color="#4169E1" >
             <Text style={styles.itemtext1}>  {item.locationID}</Text>
           </Ionicons>
         </View>
@@ -113,7 +141,7 @@ const CalendarScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <Agenda items={items} renderItem={renderItem} />
+      <Agenda items={items} renderItem={renderItem} locale='vi'/>
       <FloatingAction
         color={primary}
         actions={actions}
@@ -122,6 +150,23 @@ const CalendarScreen = ({ navigation, route }) => {
             navigation.navigate('AddMeeting')
           } else if (name === 'test') {
           }
+        }
+        }
+      />
+       <FloatingAction
+        color='white'
+        position="left"
+        floatingIcon={<Ionicons name='calendar-outline' size={26} color='black'/>}
+        actions={actionsLeft}
+        onPressItem={name => {
+          if (name === '3days') {
+  
+          } else if (name === '7days') {
+            navigation.navigate('WeekCalendar')
+          } else if (name ==="30days") {
+
+          }
+
         }
         }
       />

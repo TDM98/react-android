@@ -27,12 +27,12 @@ const LoginScreen1 = ({ navigation }) => {
       alert(`Nhập tài khoản`);
       return;
     }
-    else if (!password.trim()){
+    else if (!password.trim()) {
       alert(`Nhập mật khẩu`)
     }
-    login(username,password);
+    login(username, password);
   };
-  return ( 
+  return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
@@ -46,7 +46,7 @@ const LoginScreen1 = ({ navigation }) => {
           placeholder='Tài khoản'
           value={username}
           maxLength={20}
-         
+
           onChangeText={val => {
             setUsername(val);
           }}
@@ -62,7 +62,7 @@ const LoginScreen1 = ({ navigation }) => {
         <Input
           placeholder='Mật khẩu'
           value={password}
-          secureTextEntry={hidePass ? true : false} 
+          secureTextEntry={hidePass ? true : false}
           maxLength={20}
           onChangeText={val => {
             setPassword(val);
@@ -77,8 +77,8 @@ const LoginScreen1 = ({ navigation }) => {
           }
           rightIcon={
             <Pressable onPress={() => setHidePass(!hidePass)}>
-            <MaterialCommunityIcons name={hidePass ? 'eye-off' : 'eye'} size={22} color="#232323" />
-          </Pressable>
+              <MaterialCommunityIcons name={hidePass ? 'eye-off' : 'eye'} size={22} color="#232323" />
+            </Pressable>
           }
         />
         <View style={styles.btnView}>
@@ -94,8 +94,8 @@ const LoginScreen1 = ({ navigation }) => {
             onPress={() => {
               checkTextInput()
             }}>
-            <Text style={styles.buttonText}>Đăng nhập  <Icon name='chevron-circle-right' size={22}/></Text>
-           
+            <Text style={styles.buttonText}>Đăng nhập  <Icon name='chevron-circle-right' size={22} /></Text>
+
           </Pressable>
         </View>
 

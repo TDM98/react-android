@@ -52,7 +52,7 @@ const SettingScreen = ({ naviagtion, route }) => {
           switchState={switchValue}
           switchOnValueChange={switchValue => onValueChange(switchValue)}
           hasSwitch={true}
-          title='Dark-mode'
+          title='Chế độ tối'
         />
         <SettingsList.Item
           icon={<Image style={styles.imageStyle} source={require('../assets/vietnam.png')} />}

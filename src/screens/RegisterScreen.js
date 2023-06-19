@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Button,
   Text,
@@ -8,14 +8,14 @@ import {
   StyleSheet,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {AuthContext} from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const {isLoading, register} = useContext(AuthContext);
+  const { isLoading, register } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -50,7 +50,7 @@ const RegisterScreen = ({navigation}) => {
           }}
         />
 
-        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <View style={{ flexDirection: 'row', marginTop: 20 }}>
           <Text>Already have an accoutn? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.link}>Login</Text>

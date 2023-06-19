@@ -23,7 +23,35 @@ const CustomDrawerContent = (props) => {
                     props.navigation.toggleDrawer();
                     Alert.alert(
                         'Đăng xuất',
-                        'Đăng  xuất?',
+                        'Đăng xuất?',
+                        [
+                            {
+                                text: 'Hủy',
+                                onPress: () => {
+                                    return null;
+                                },
+                            },
+                            {
+                                text: 'Xác nhận',
+                                onPress: () => {
+                                    logout();
+                                },
+                            },
+                        ],
+                        { cancelable: false },
+                    )
+                }} />
+                 <DrawerItem icon={({ color, size }) => (
+                    <Ionicons
+                        name="log-out-outline"
+                        color="#d71b3b"
+                        size={size}
+                    />
+                )} label="Đăng xuất" onPress={() => {
+                    props.navigation.toggleDrawer();
+                    Alert.alert(
+                        'Đăng xuất',
+                        'Đăng xuất?',
                         [
                             {
                                 text: 'Hủy',

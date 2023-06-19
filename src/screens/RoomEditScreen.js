@@ -9,6 +9,7 @@ import { Input } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { SelectList } from 'react-native-dropdown-select-list';
 const RoomEditScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
@@ -22,6 +23,12 @@ const RoomEditScreen = ({ navigation, route }) => {
   const [isDeleted, setIsDeleted] = useState(post.isDeleted);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(AuthContext);
+
+  const roomType = [
+    { key: '0', value: 'Phòng họp' },
+    { key: '1', value: 'Hội trường' },
+    { key: '2', value: 'Khác' }
+  ];
 
   const editRoom = () => {
     setLoading(true);
@@ -56,14 +63,6 @@ const RoomEditScreen = ({ navigation, route }) => {
         console.log(`Error on updating post ${e.message}`);
       });
   };
-  const checkTextInput = () => {
-    //Check for the Name TextInput
-    if (!locationName.trim()) {
-      alert(`Tên phòng không được để trống`);
-      return;
-    }
-    createPost();
-  };
 
   const deleteRoom = () => {
     setLoading(true);
@@ -84,10 +83,14 @@ const RoomEditScreen = ({ navigation, route }) => {
   };
 
   const checkEditInput = () => {
-    if(!locationName.trim()){
-      alert('Tên phòng không được để trống');
+    if (!locationName.trim()) {
+      Alert.alert(
+        'Lỗi',
+        'Tên phòng không được để trống'
+      )
       return;
     }
+    else
       editRoom();
   }
   return (
@@ -110,21 +113,17 @@ const RoomEditScreen = ({ navigation, route }) => {
             />
           }
         />
-        <Text style={styles.text1}>Loại phòng </Text>
-        <Input
-          value={locationType}
-          maxLength={20}
-          onChangeText={val => {
-            setLocationType(val);
-          }}
-          leftIcon={
-            <Ionicons
-              name='pricetag-outline'
-              size={20}
-              marginRight={20}
-            />
-          }
+
+        <Ionicons name='pricetag-outline' size={20} marginVertical={20}><Text style={styles.text1}> Loại phòng</Text></Ionicons>
+        <SelectList 
+        setSelected={val => setLocationType(val)}
+        data={roomType}
+        placeholder='Loại phòng'
+        searchPlaceholder='Tìm'
+        notFoundText='Không tìm thấy'
+        search={false}
         />
+        <Text></Text>
 
         <Text style={styles.text1}>Mô tả </Text>
         <Input
@@ -201,75 +200,79 @@ const RoomEditScreen = ({ navigation, route }) => {
             />
           </View>
         </View>
-        <View style={styles.btnView}>
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed
-                  ? 0.2
-                  : 1,
-              },
-              styles.btnEdit,
-            ]}
-            onPress={() => {
-              Alert.alert(
-                'Cập nhật',
-                'Lưu thông tin cập nhật',
-                [
-                  {
-                    text: 'Hủy',
-                    onPress: () => {
-                      return null;
-                    }
-                  },
-                  {
-                    text: 'Xác nhận',
-                    onPress: () => {
-                      checkEditInput();
+        <View style={styles.btnContainer}>
+          <View style={styles.btnView}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed
+                    ? 0.2
+                    : 1,
+                },
+                styles.btnEdit,
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Cập nhật',
+                  'Lưu thông tin cập nhật',
+                  [
+                    {
+                      text: 'Hủy',
+                      onPress: () => {
+                        return null;
+                      }
                     },
-                  },
-                ],
-                { cancelable: false }
-              )
-            }}>
-            <Icon name='edit' size={20} color='white'>
-              <Text style={styles.buttonText}>  Cập nhật</Text>
-            </Icon>
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed
-                  ? 0.2
-                  : 1,
-              },
-              styles.btnDel,
-            ]}
-            onPress={() => {
-              Alert.alert(
-                'Xóa',
-                'Xác nhận xóa',
-                [
-                  {
-                    text: 'Hủy',
-                    onPress: () => {
-                      return null;
-                    }
-                  },
-                  {
-                    text: 'Xác nhận',
-                    onPress: () => {
-                      deleteRoom();
+                    {
+                      text: 'Xác nhận',
+                      onPress: () => {
+                        checkEditInput();
+                      },
                     },
-                  },
-                ],
-                { cancelable: false }
-              )
-            }}>
-            <MaterialCommunityIcons name='delete' size={20} color='white'>
-              <Text style={styles.buttonText}>  Xóa</Text>
-            </MaterialCommunityIcons>
-          </Pressable>
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              <Icon name='edit' size={20} color='white'>
+                <Text style={styles.buttonText}>  Cập nhật</Text>
+              </Icon>
+            </Pressable>
+          </View>
+          <View style={styles.btnView}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed
+                    ? 0.2
+                    : 1,
+                },
+                styles.btnDel,
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Xóa',
+                  'Xác nhận xóa',
+                  [
+                    {
+                      text: 'Hủy',
+                      onPress: () => {
+                        return null;
+                      }
+                    },
+                    {
+                      text: 'Xác nhận',
+                      onPress: () => {
+                        deleteRoom();
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              <MaterialCommunityIcons name='delete' size={20} color='white'>
+                <Text style={styles.buttonText}>  Xóa</Text>
+              </MaterialCommunityIcons>
+            </Pressable>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -319,8 +322,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   btnView: {
+    flex:1,
+    marginBottom:20,
+  },
+  btnContainer:{
+    flex: 1,
     flexDirection: 'row',
-    margin: 10
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     fontSize: 16,

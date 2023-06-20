@@ -13,7 +13,8 @@ import NumericInput from 'react-native-numeric-input';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import Moment from 'moment';
+import moment from 'moment';
+
 const EditMeetingScreen = ({ navigation, route }) => {
   const post = route.params.post;
   const [id, setId] = useState(post.id);
@@ -191,7 +192,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
   useEffect(() => {
     async function fetchData() {
       //Get Values from database
-      axios.get(`${BASE_URL}/locations`, {
+      axios.get(`${BASE_URL}/locations?sort=isDeleted&size=10`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
         .then((response) => {
@@ -246,7 +247,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
         <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <View
           style={styles.buttonFacebookStyle}>
-          <Text style={styles.pickedDate}>{startDate.toUTCString()}</Text>
+          <Text style={styles.pickedDate}>{moment(startDate).format("DD-MM-YYYY, h:mm a")}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
           <TouchableOpacity
             activeOpacity={0.5} onPress={showPickerStartDate}>
@@ -291,7 +292,7 @@ const EditMeetingScreen = ({ navigation, route }) => {
         <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <View
           style={styles.buttonFacebookStyle}>
-          <Text style={styles.pickedDate}>{endDate.toUTCString()}</Text>
+          <Text style={styles.pickedDate}>{moment(endDate).format("DD-MM-YYYY, h:mm a")}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
           <TouchableOpacity
             activeOpacity={0.5} onPress={showPickerEndDate}>

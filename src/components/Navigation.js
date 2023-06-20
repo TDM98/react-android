@@ -28,6 +28,7 @@ import CustomDrawerContent from './CustomDrawerContent';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NotificationScreen from '../screens/Notification';
 import WeekCalendar from '../screens/WeekCalendar';
+import DayCalendar from '../screens/DayCalendar';
 
 
 const Stack = createNativeStackNavigator();
@@ -171,9 +172,14 @@ const MainStackNavigator = () => {
             <Stack.Screen name="Edit" component={RoomEditScreen} options={{
               title: 'Cập nhật phòng'
             }} />
-            <Stack.Screen name="Calendar" component={CalendarScreen} />
+            {/* <Stack.Screen name="Calendar" component={CalendarScreen} options={{
+              title: 'Lịch'
+            }}/> */}
             <Stack.Screen name ="WeekCalendar" component={WeekCalendar} options={{
               title: 'Lịch tuần'
+            }}/>
+             <Stack.Screen name ="DayCalendar" component={DayCalendar} options={{
+              title: 'Lịch ngày'
             }}/>
             <Stack.Screen name="User" component={UserInfo} />
 
@@ -186,6 +192,9 @@ const MainStackNavigator = () => {
             }}/>
             <Stack.Screen name="Notification" component={NotificationScreen} options={{
               title:'Thông báo'
+            }}/>
+            <Stack.Screen name="Setting" component={SettingScreen} options={{
+              title:'Cài đặt'
             }}/>
           </>
         ) : (

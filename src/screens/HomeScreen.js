@@ -1,12 +1,14 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Alert, } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState, useContext, useLayoutEffect, useMemo, useRef } from "react";
 import dayjs from "dayjs";
 import { AuthContext } from '../context/AuthContext';
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import PickerCheckBox from 'expo-checkbox';
+
 import { Picker } from '@react-native-picker/picker';
+import moment from 'moment';
+import 'moment/locale/vi';
 
 const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
 const HomeScreen = ({ navigation, route }) => {
@@ -17,11 +19,12 @@ const HomeScreen = ({ navigation, route }) => {
 
   const showPicker = () => {
     setIsPickerShow(true);
+    console.log("a")
   };
   const onChangeDate = (event, value) => {
     setDate(value);
     if (Platform.OS === 'android') {
-      setIsPickerShowStartDate(false);
+      setIsPickerShow(false);
     }
   };
 
@@ -47,7 +50,6 @@ const HomeScreen = ({ navigation, route }) => {
     console.log('pItems =>', pItems);
   }
 
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -64,8 +66,8 @@ const HomeScreen = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerBtn}
-            onPress={showPicker}>
-            <Ionicons name='exit-outline' size={26}></Ionicons>
+          >
+            <Ionicons name='ellipsis-vertical-outline' size={26}></Ionicons>
           </TouchableOpacity>
         </View>
       )
@@ -77,21 +79,11 @@ const HomeScreen = ({ navigation, route }) => {
   return (
     <ImageBackground source={image} style={StyleSheet.absoluteFill}>
       <View style={styles.header}>
-        <Text style={styles.date}>{date.format("dddd, DD MMMM")}</Text>
+        <Text style={styles.date}>{moment(date).locale('vi').format("dddd, DD MMMM")}</Text>
         <Text style={styles.time}>{date.format("hh:mm")}</Text>
       </View>
-      {/* <Picker
-        ref={pickerRef}
-        selectedValue={selectedLanguage}
-        onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker> */}
-      {/* footer */}
+  
       <View style={styles.footer}>
-
         <View style={styles.icon}>
           <TouchableOpacity onPress={() => {
             navigation.navigate('Calendar');
@@ -101,15 +93,13 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.icon}>
-          <TouchableOpacity onPress={showPicker}>
+          <TouchableOpacity onPress={() => {navigation.navigate('Room')}}>
             <Ionicons name="ios-location-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => {
-            navigation.navigate('Setting');
-          }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
             <Ionicons name="md-settings-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>

@@ -14,6 +14,7 @@ import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from 'moment';
+import 'moment/locale/vi'
 const AddMeetingScreen = ({ navigation }) => {
 
   const [locationID, setLocationID] = useState("");
@@ -114,7 +115,7 @@ const AddMeetingScreen = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       //Get Values from database
-      axios.get(`${BASE_URL}/locations`, {
+      axios.get(`${BASE_URL}/locations?sort=isDeleted&size=10`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
         .then((response) => {
@@ -175,32 +176,32 @@ const AddMeetingScreen = ({ navigation }) => {
       )
       return;
     }
-    checkMeeting();
+    createMeeting();
   }
 
-  const checkMeeting = () => {
-    setLoading(true);
-    axios
-      .get(
-        `${BASE_URL}/sm-details`,
-        {
-          headers: { Authorization: `Bearer ${user.id_token}` },
-        },
-      )
-      .then(res => {
-        let post = res.data;
-        setLoading(false);
-        console.log('ok');
-        navigation.navigate('Calendar', {
-          post: post,
-        });
-        console.log(res.data)
-      })
-      .catch(e => {
-        setLoading(false);
-        console.log(`Error on updating post ${e.message}`);
-      });
-  }
+  // const checkMeeting = () => {
+  //   setLoading(true);
+  //   axios
+  //     .get(
+  //       `${BASE_URL}/sm-details`,
+  //       {
+  //         headers: { Authorization: `Bearer ${user.id_token}` },
+  //       },
+  //     )
+  //     .then(res => {
+  //       let post = res.data;
+  //       setLoading(false);
+  //       console.log('ok');
+  //       navigation.navigate('Calendar', {
+  //         post: post,
+  //       });
+  //       console.log(res.data)
+  //     })
+  //     .catch(e => {
+  //       setLoading(false);
+  //       console.log(`Error on updating post ${e.message}`);
+  //     });
+  // }
   return (
     <View style={styles.container}>
       <ScrollView
@@ -229,7 +230,7 @@ const AddMeetingScreen = ({ navigation }) => {
         <MaterialCommunityIcons name='calendar-start' size={20} color='#4CBB17'><Text style={styles.text1} color='#AAFF00'>  Bắt đầu <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <View
           style={styles.buttonFacebookStyle}>
-          <Text style={styles.pickedDate}>{moment(startDate).format("DD-MM-YYYY, h:mm:ss a")}</Text>
+          <Text style={styles.pickedDate}>{moment(startDate).locale('vi').format("dddd-DD-MM-YYYY, h:mm a")}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
           <TouchableOpacity
             activeOpacity={0.5} onPress={showPickerStartDate}>
@@ -274,7 +275,7 @@ const AddMeetingScreen = ({ navigation }) => {
         <MaterialCommunityIcons name='calendar-end' size={20} color='#C70039'><Text style={styles.text1}>  Kết thúc <Text style={styles.highlight}>(*)</Text></Text></MaterialCommunityIcons>
         <View
           style={styles.buttonFacebookStyle}>
-          <Text style={styles.pickedDate}>{moment(endDate).format("DD-MM-YYYY, h:mm:ss a")}</Text>
+          <Text style={styles.pickedDate}>{moment(endDate).locale('vi').format("dddd-DD-MM-YYYY, h:mm a")}</Text>
           <View style={styles.buttonIconSeparatorStyle} />
           <TouchableOpacity
             activeOpacity={0.5} onPress={showPickerEndDate}>

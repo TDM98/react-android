@@ -1,6 +1,6 @@
 import { addDays, format } from "date-fns"
 import React, { useEffect, useState, useContext, useLayoutEffect } from "react"
-import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native"
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native"
 import { Agenda } from "react-native-calendars"
 import { AuthContext } from "../context/AuthContext"
 import { FloatingAction } from "react-native-floating-action"
@@ -8,14 +8,15 @@ import { primary } from "./color"
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Button } from "react-native-elements"
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";import { Button } from "react-native-elements"
 import moment from 'moment';
+import Checkbox from "expo-checkbox";
+import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
 // type Item = {
 //   name: string;
 //   cookies: boolean;
 // };
-
+const image = { uri: "https://i.ibb.co/Nr55GKV/8865539.png" };
 const actions = [
   {
     text: "Thêm mới",
@@ -34,24 +35,31 @@ const actions = [
 
 const actionsLeft = [
   {
+    text: "Ngày",
+    icon: require('../assets/3-days.png'),
+    name: '1day',
+    position: 1,
+    color: '#1e81b0',
+  },
+  {
     text: "3 ngày",
     icon: require('../assets/3-days.png'),
     name: '3days',
-    position: 1,
+    position: 2,
     color: '#1e81b0',
   },
   {
     text: "7 ngày",
     icon: require('../assets/7-days.png'),
     name: '7days',
-    position: 2,
+    position: 3,
     color: '#884EA0',
   },
   {
     text: "Tháng",
     icon: require('../assets/30-days.png'),
     name: '30days',
-    position: 3,
+    position: 4,
     color: '#F08080',
   },
 ];
@@ -64,7 +72,7 @@ const CalendarScreen = ({ navigation, route }) => {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.headerBtn}
-            onPress={() => { }}>
+            onPress={showPicker}>
             <Ionicons name='calendar-outline' size={26} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -128,19 +136,47 @@ const CalendarScreen = ({ navigation, route }) => {
             <Text style={styles.itemtitle} > {item.title}</Text>
           </Ionicons>
           <Text></Text>
-          <Ionicons name="person-outline" size={20} style={styles.icon} color="#4169E1" >
-            <Text style={styles.itemtext1}>{moment(item.startDate).format("DD-MM-YYYY, h:mm:ss a")}</Text>
+          <View style = {styles.seDate}>
+          <Ionicons name="time-outline" size={20} style={styles.icon} color="#4169E1" >
+            <Text style={styles.itemtext1}>  {moment(item.startDate).format("hh:mm: a")} - </Text>
+            <Text style={styles.itemtext1}>{moment(item.endDate).format("h:mm a")}</Text>
           </Ionicons>
-          <Ionicons name="location-outline" size={20} style={styles.icon} color="#4169E1" >
-            <Text style={styles.itemtext1}>  {item.locationID}</Text>
+          </View>
+          <Ionicons name="location-outline" size={20} style={styles.icon1} color="#8E44AD" >
+            <Text style={styles.itemtext1}>  Phòng họp IT</Text>
           </Ionicons>
         </View>
       </TouchableOpacity>
     )
   }
 
+  const[isChecked,setChecked] = useState(false);
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  const showPicker = () => {
+    setIsPickerShow(true);
+    console.log("a")
+  };
+  const data1 = [
+    { key: '0', value: 'Họp' },
+    { key: '1', value: 'Hội thảo' },
+    { key: '2', value: 'Giảng dạy' },
+    { key: '3', value: 'Khác' }
+  ];
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe}>    
+         {isPickerShow && (
+          <SinglePickerMaterialDialog
+          title={'Pick one element!'}
+          items={LIST.map((row, index) => ({ value: index, label: row }))}
+          visible={this.state.singlePickerVisible}
+          selectedItem={this.state.singlePickerSelectedItem}
+          onCancel={() => this.setState({ singlePickerVisible: false })}
+          onOk={result => {
+            this.setState({ singlePickerVisible: false });
+            this.setState({ singlePickerSelectedItem: result.selectedItem });
+          }}
+        />
+        )}
       <Agenda items={items} renderItem={renderItem} locale='vi'/>
       <FloatingAction
         color={primary}
@@ -160,11 +196,13 @@ const CalendarScreen = ({ navigation, route }) => {
         actions={actionsLeft}
         onPressItem={name => {
           if (name === '3days') {
-  
+            
           } else if (name === '7days') {
             navigation.navigate('WeekCalendar')
           } else if (name ==="30days") {
 
+          } else if (name ==="1day") {
+            navigation.navigate('DayCalendar')
           }
 
         }
@@ -200,12 +238,15 @@ const styles = StyleSheet.create({
   },
   itemtext1: {
     margin: 15,
-    fontWeight: '100',
-
   },
   icon: {
     marginBottom: 10,
     marginLeft: 10,
+  },
+  icon1: {
+    marginBottom: 10,
+    marginLeft: 10,
+    opacity:0.7
   },
   iconTitle: {
     marginTop: 10,
@@ -216,6 +257,31 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row'
+  },
+  seDate:{
+    flexDirection:'row',
+    opacity:0.7
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  //checkbox
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paragraph: {
+    fontSize: 15,
+  },
+  checkbox: {
+    margin: 8,
+  },
+  checkboxContainer:{
+
+    backgroundColor: '#FCF5E5',
+    justifyContent:'flex-end'
   }
 })
 

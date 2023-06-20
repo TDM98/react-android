@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   Fab,
-  Pressable
+  Pressable,
+  ImageBackground
 } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -18,7 +19,7 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+const image = { uri: "https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg" };
 const actions = [
   {
     text: 'Tạo mới',
@@ -60,7 +61,7 @@ const RoomScreen = ({ navigation, route }) => {
   const [shouldShow, setShouldShow] = useState(true);
   const getPosts = () => {
     axios
-      .get(`${BASE_URL}/locations?size=100`, {
+      .get(`${BASE_URL}/locations?sort=isDeleted&size=20`, {
         headers: { Authorization: `Bearer ${user.id_token}` },
       })
       .then(res => {
@@ -80,64 +81,67 @@ const RoomScreen = ({ navigation, route }) => {
     flatlistRef.current?.scrollToIndex({ index: 0 });
   };
   return (
+
     <View style={styles.container}>
-      <Spinner visible={loading} />
+      <ImageBackground source={image} style={styles.image}>
+        <Spinner visible={loading} />
 
-      <FlatList
-        ref={flatlistRef}
-        data={posts}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              style={styles.itemWrapper}
-              onPress={() => {
-                navigation.navigate('Edit', { post: item });
-              }}>
-              <Text style={styles.title}>
-                <Ionicons name='radio-button-on-outline' size={20} color='#DC143C' />   {item.locationName}</Text>
-              <Text>{item.body}</Text>
-              <View style={styles.rowInfo}>
-                <Ionicons name="business-outline" size={18} color="#4169E1" />
-                <Text style={styles.info}>   {item.floorNumber}</Text>
-              </View>
-              <View style={styles.rowInfo}>
-                <Ionicons name="people-outline" size={18} color="#4169E1" />
-                <Text style={styles.info}>   {item.maxOccupancy} người</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={item => item.id}
-      />
+        <FlatList
+          ref={flatlistRef}
+          data={posts}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                style={styles.itemWrapper}
+                onPress={() => {
+                  navigation.navigate('Edit', { post: item });
+                }}>
+                <Text style={styles.title}>
+                  <Ionicons name='radio-button-on-outline' size={20} color='#DC143C' />   {item.locationName}</Text>
+                <Text>{item.body}</Text>
+                <View style={styles.rowInfo}>
+                  <Ionicons name="business-outline" size={18} color="#4169E1" />
+                  <Text style={styles.info}>   {item.floorNumber}</Text>
+                </View>
+                <View style={styles.rowInfo}>
+                  <Ionicons name="people-outline" size={18} color="#4169E1" />
+                  <Text style={styles.info}>   {item.maxOccupancy} người</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+          keyExtractor={item => item.id}
+        />
 
-      <Pressable style={({ pressed }) => [
-        {
-          opacity: pressed
-            ? 0.2
-            : 1,
-        },
-        styles.button,
-      ]}
-        onPress={() => {
-          onPressFunction()
-        }}>
-        <Text style={styles.arrow}>
-          <MaterialCommunityIcons name="arrow-up-bold-outline" size={24} color="white" />
-        </Text>
-      </Pressable>
+        <Pressable style={({ pressed }) => [
+          {
+            opacity: pressed
+              ? 0.2
+              : 1,
+          },
+          styles.button,
+        ]}
+          onPress={() => {
+            onPressFunction()
+          }}>
+          <Text style={styles.arrow}>
+            <MaterialCommunityIcons name="arrow-up-bold-outline" size={24} color="white" />
+          </Text>
+        </Pressable>
 
-      <FloatingAction
-        color={primary}
-        actions={actions}
-        distanceToEdge={20}
-        onPress={() => setShouldShow(!shouldShow)}
-        onPressItem={name => {
-          if (name === 'add_meeting') {
-          } else if (name === 'add_room') {
-            navigation.navigate('Create');
-          }
-        }}
-      />
+        <FloatingAction
+          color={primary}
+          actions={actions}
+          distanceToEdge={20}
+          onPress={() => setShouldShow(!shouldShow)}
+          onPressItem={name => {
+            if (name === 'add_meeting') {
+            } else if (name === 'add_room') {
+              navigation.navigate('Create');
+            }
+          }}
+        />
+      </ImageBackground>
     </View>
   );
 };
@@ -145,6 +149,7 @@ const RoomScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
   },
   itemWrapper: {
     paddingVertical: 8,
@@ -204,7 +209,12 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row'
-  }
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
 });
 
 export default RoomScreen;

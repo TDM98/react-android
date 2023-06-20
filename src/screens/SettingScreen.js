@@ -8,7 +8,8 @@ import {
   Text,
   View,
   Image,
-  Alert
+  Alert,
+  ImageBackground
 } from 'react-native';
 import SettingsList from 'react-native-settings-list';
 import { Switch } from 'react-native'
@@ -18,10 +19,11 @@ const SettingScreen = ({ naviagtion, route }) => {
   const onValueChange = (value) => {
     setSwitchValue(value);
   }
-
+  const image = { uri: "https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg" };
 
   return (
     <View style={{ backgroundColor: '#EFEFF4', flex: 1 }}>
+       <ImageBackground source={image} style={styles.image}>
       <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
 
         {/* {this.state.toggleAuthView ?
@@ -87,6 +89,7 @@ const SettingScreen = ({ naviagtion, route }) => {
           onPress={() => Alert.alert('')}
         />
       </SettingsList>
+      </ImageBackground>
     </View>
   );
 }
@@ -101,7 +104,12 @@ const styles = StyleSheet.create({
   titleInfoStyle: {
     fontSize: 16,
     color: '#8e8e93'
-  }
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
 });
 
 export default SettingScreen;

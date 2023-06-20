@@ -10,7 +10,7 @@ export default function WeekCalendar({navigation, route}) {
         { 'start': '2023-06-21 14:00:00', 'duration': '01:00:00', 'note': 'Hop 21/6' },
         { 'start': '2023-06-20 08:00:00', 'duration': '00:30:00', 'note': 'Hop 20/6' },
         { 'start': '2023-06-20 14:00:00', 'duration': '02:00:00', 'note': 'Hop phong' },
-        { 'start': '2023-06-19 19:00:00', 'duration': '01:00:00', 'note': 'test etst' },
+        { 'start': '2023-06-19 09:00:00', 'duration': '02:00:00', 'note': 'test etst' },
         { 'start': '2023-06-19 09:30:00', 'duration': '01:00:00', 'note': 'abda' },
         { 'start': '2023-06-20 11:00:00', 'duration': '02:00:00', 'note': 'Schedule 2' },
         { 'start': '2023-06-23 15:00:00', 'duration': '01:30:00', 'note': 'lich 3' },

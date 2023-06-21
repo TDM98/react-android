@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Alert, } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Alert, Image } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState, useContext, useLayoutEffect, useMemo, useRef } from "react";
 import dayjs from "dayjs";
@@ -10,7 +10,7 @@ import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
 import 'moment/locale/vi';
 
-const image = { uri: 'https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg' };
+const image = { uri: 'https://i.pinimg.com/564x/b9/c9/89/b9c989c25792ab5094e27170c18eb015.jpg' };
 const HomeScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(dayjs());
   const [isPickerShow, setIsPickerShow] = useState(false);
@@ -57,17 +57,12 @@ const HomeScreen = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.headerBtn}
           >
-            <Ionicons name='search-outline' size={26} />
+            <Ionicons name='search-outline' size={38} color={'#FAF9F6'}/>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerBtn}
             onPress={() => navigation.navigate('Notification')}>
-            <Ionicons name='notifications-outline' size={26} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.headerBtn}
-          >
-            <Ionicons name='ellipsis-vertical-outline' size={26}></Ionicons>
+            <Ionicons name='notifications-outline' size={38} color={'#FAF9F6'}/>
           </TouchableOpacity>
         </View>
       )
@@ -77,35 +72,191 @@ const HomeScreen = ({ navigation, route }) => {
 
 
   return (
-    <ImageBackground source={image} style={StyleSheet.absoluteFill}>
-      <View style={styles.header}>
-        <Text style={styles.date}>{moment(date).locale('vi').format("dddd, DD MMMM")}</Text>
-        <Text style={styles.time}>{date.format("hh:mm")}</Text>
-      </View>
-  
-      <View style={styles.footer}>
-        <View style={styles.icon}>
-          <TouchableOpacity onPress={() => {
-            navigation.navigate('Calendar');
-          }}>
-            <MaterialCommunityIcons name="calendar-clock-outline" size={24} color="white" />
-          </TouchableOpacity>
+    <View style={styles.container}>
+      <ImageBackground source={image} style={StyleSheet.absoluteFill}>
+        <View style={styles.header}>
+          <Text style={styles.date}>{moment(date).locale('vi').format("dddd, DD MMMM")}</Text>
+          <Text style={styles.time}>{date.format("hh:mm")}</Text>
         </View>
 
-        <View style={styles.icon}>
-          <TouchableOpacity onPress={() => {navigation.navigate('Room')}}>
-            <Ionicons name="ios-location-outline" size={24} color="white" />
-          </TouchableOpacity>
+        <View style={styles.body}>
+          <View style={styles.group1}>
+            <TouchableOpacity
+              style={styles.headerIcon}
+              onPress={() => navigation.navigate('Room')}
+            >
+              <Image
+                source={{ uri: 'https://i.ibb.co/tbLVxCb/meeting-room.png' }}
+                style={styles.buttonImageIconStyle}
+              />
+              <Text style={styles.headerText}>Phòng họp</Text>
+
+            </TouchableOpacity>
+            <View style={styles.buttonIconSeparatorStyle} />
+            <TouchableOpacity
+              style={styles.headerIcon}
+              onPress={() => navigation.navigate('Calendar')}
+            >
+              <Image
+                source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                style={styles.buttonImageIconStyle}
+              />
+              <Text style={styles.headerText}>Lịch họp</Text>
+            </TouchableOpacity>
+            <View style={styles.buttonIconSeparatorStyle} />
+            <TouchableOpacity
+              style={styles.headerIcon}
+              onPress={() => navigation.navigate('Documents')}
+            >
+              <Image
+                source={{ uri: 'https://i.ibb.co/ZGt7DYz/google-docs.png' }}
+                style={styles.buttonImageIconStyle}
+              />
+              <Text style={styles.headerText}>Tài liệu</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.group2}>
+
+          </View>
+
         </View>
 
-        <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
-            <Ionicons name="md-settings-outline" size={24} color="white" />
-          </TouchableOpacity>
+        {/* footer 1 */}
+        <View style={styles.footer}>
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
         </View>
-        
-      </View>
-    </ImageBackground>
+        {/* footer 2 */}
+        <View style={styles.footer}>
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Tài liệu</Text>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.icon}>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Calendar');
+              }}>
+                <Image
+                  source={{ uri: 'https://i.ibb.co/RNt56jV/setting.png' }}
+                  style={styles.buttonImageIconStyleFooter}
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.footerText}>Cài đặt</Text>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
+
   );
 }
 
@@ -118,6 +269,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 250,
+    marginTop:30
+  },
+  imgBG: {
+    height: '0%'
   },
   date: {
     color: "#C3FFFE",
@@ -133,21 +288,29 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: "auto",
+    marginTop: 50,
     paddingVertical: 10,
     paddingHorizontal: 30,
     height: 75,
   },
   icon: {
-    backgroundColor: "#00000050",
+    backgroundColor: "#F9F6EE",
+    width: 70,
+    aspectRatio: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+  },
+  headerBtn: {
+    backgroundColor: "transparent",
     width: 50,
     aspectRatio: 1,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,
-  },
-  headerBtn: {
-    margin: 10
+    marginHorizontal:15,
+    borderWidth:1,
+    borderColor: '#7DF9FF'
   },
   header1: {
     flexDirection: 'row'
@@ -156,7 +319,60 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     flex: 1
-  }
+  },
+  body: {
+    flexDirection: 'column'
+  },
+  group1: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: "#00000026",
+    backgroundColor: '#FAF9F6',
+    marginHorizontal: 20,
+    borderRadius: 20,
+  },
+  group2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F08080',
+
+    marginHorizontal: 20
+  },
+  headerIcon: {
+    flex: 1,
+    marginVertical: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#0047AB'
+  },
+  footerText: {
+    fontSize: 20,
+    color: 'white',
+    marginTop: '10%'
+  },
+  buttonIconSeparatorStyle: {
+    backgroundColor: 'gray',
+    width: 1,
+    height: 80,
+    opacity: 0.3
+  },
+  buttonImageIconStyle: {
+    padding: 10,
+    margin: 5,
+    height: 50,
+    width: 50,
+  },
+  buttonImageIconStyleFooter: {
+    padding: 10,
+    margin: 5,
+    height: 45,
+    width: 45,
+  },
 });
 
 export default HomeScreen;

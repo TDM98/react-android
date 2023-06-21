@@ -8,10 +8,11 @@ import { primary } from "./color"
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { BASE_URL } from '../config';
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";import { Button } from "react-native-elements"
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"; import { Button } from "react-native-elements"
 import moment from 'moment';
 import Checkbox from "expo-checkbox";
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
+import { MaterialDialog } from 'react-native-material-dialog';
 // type Item = {
 //   name: string;
 //   cookies: boolean;
@@ -136,11 +137,11 @@ const CalendarScreen = ({ navigation, route }) => {
             <Text style={styles.itemtitle} > {item.title}</Text>
           </Ionicons>
           <Text></Text>
-          <View style = {styles.seDate}>
-          <Ionicons name="time-outline" size={20} style={styles.icon} color="#4169E1" >
-            <Text style={styles.itemtext1}>  {moment(item.startDate).format("hh:mm: a")} - </Text>
-            <Text style={styles.itemtext1}>{moment(item.endDate).format("h:mm a")}</Text>
-          </Ionicons>
+          <View style={styles.seDate}>
+            <Ionicons name="time-outline" size={20} style={styles.icon} color="#4169E1" >
+              <Text style={styles.itemtext1}>  {moment(item.startDate).format("hh:mm: a")} - </Text>
+              <Text style={styles.itemtext1}>{moment(item.endDate).format("h:mm a")}</Text>
+            </Ionicons>
           </View>
           <Ionicons name="location-outline" size={20} style={styles.icon1} color="#8E44AD" >
             <Text style={styles.itemtext1}>  Phòng họp IT</Text>
@@ -150,7 +151,7 @@ const CalendarScreen = ({ navigation, route }) => {
     )
   }
 
-  const[isChecked,setChecked] = useState(false);
+  const [isChecked, setChecked] = useState(false);
   const [isPickerShow, setIsPickerShow] = useState(false);
   const showPicker = () => {
     setIsPickerShow(true);
@@ -162,22 +163,26 @@ const CalendarScreen = ({ navigation, route }) => {
     { key: '2', value: 'Giảng dạy' },
     { key: '3', value: 'Khác' }
   ];
+  const [singlePickerSelectedItem, setSingleSelectedItem] = useState();
+  const [visible, setVisible] = useState(true)
   return (
-    <SafeAreaView style={styles.safe}>    
-         {isPickerShow && (
-          <SinglePickerMaterialDialog
-          title={'Pick one element!'}
-          items={LIST.map((row, index) => ({ value: index, label: row }))}
-          visible={this.state.singlePickerVisible}
-          selectedItem={this.state.singlePickerSelectedItem}
-          onCancel={() => this.setState({ singlePickerVisible: false })}
-          onOk={result => {
-            this.setState({ singlePickerVisible: false });
-            this.setState({ singlePickerSelectedItem: result.selectedItem });
-          }}
-        />
-        )}
-      <Agenda items={items} renderItem={renderItem} locale='vi'/>
+    <SafeAreaView style={styles.safe}>
+      {isPickerShow && (
+        <View style={styles.dialog}> 
+    <SinglePickerMaterialDialog
+  title={'Pick one element!'}
+  // items={data1.map((key, value) => ({ value: key, label: value }))}
+  visible={isPickerShow}
+  // selectedItem={singlePickerSelectedItem}
+  onCancel={setIsPickerShow(false)}
+  onOk={result => {
+    setIsPickerShow(false);
+    // setSingleSelectedItem;
+  }}
+/>
+        </View>
+      )}
+      <Agenda items={items} renderItem={renderItem} locale='vi' />
       <FloatingAction
         color={primary}
         actions={actions}
@@ -189,19 +194,19 @@ const CalendarScreen = ({ navigation, route }) => {
         }
         }
       />
-       <FloatingAction
+      <FloatingAction
         color='white'
         position="left"
-        floatingIcon={<Ionicons name='calendar-outline' size={26} color='black'/>}
+        floatingIcon={<Ionicons name='calendar-outline' size={26} color='black' />}
         actions={actionsLeft}
         onPressItem={name => {
           if (name === '3days') {
-            
+
           } else if (name === '7days') {
             navigation.navigate('WeekCalendar')
-          } else if (name ==="30days") {
-
-          } else if (name ==="1day") {
+          } else if (name === "30days") {
+            navigation.navigate('MonthCalendar')
+          } else if (name === "1day") {
             navigation.navigate('DayCalendar')
           }
 
@@ -246,7 +251,7 @@ const styles = StyleSheet.create({
   icon1: {
     marginBottom: 10,
     marginLeft: 10,
-    opacity:0.7
+    opacity: 0.7
   },
   iconTitle: {
     marginTop: 10,
@@ -258,9 +263,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row'
   },
-  seDate:{
-    flexDirection:'row',
-    opacity:0.7
+  seDate: {
+    flexDirection: 'row',
+    opacity: 0.7
   },
   image: {
     flex: 1,
@@ -278,10 +283,13 @@ const styles = StyleSheet.create({
   checkbox: {
     margin: 8,
   },
-  checkboxContainer:{
+  checkboxContainer: {
 
     backgroundColor: '#FCF5E5',
-    justifyContent:'flex-end'
+    justifyContent: 'flex-end'
+  },
+  dialog:{
+    
   }
 })
 

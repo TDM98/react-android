@@ -42,6 +42,7 @@
     "react-input-moment": "^1.7.13",
     "react-live-clock": "^6.1.13",
     "react-native": "0.71.8",
+    "react-native-big-calendar": "^3.4.2",
     "react-native-calendar-events": "^2.2.0",
     "react-native-calendar-timetable": "^1.0.6",
     "react-native-calendars": "^1.1298.0",

@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Alert } from 'react-native';
 const CustomDrawerContent = (props) => {
     const { logout } = useContext(AuthContext);
+    
     return (
 
             <DrawerContentScrollView {...props}>

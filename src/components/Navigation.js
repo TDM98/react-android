@@ -1,6 +1,6 @@
 import { NavigationContainer, SafeAreaView, Image, StyleSheet } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { AuthContext } from '../../src/context/AuthContext';
 import RoomScreen from '../screens/RoomManagement';
 import PostCreateScreen from '../screens/RoomCreateScreen';
@@ -30,7 +30,7 @@ import NotificationScreen from '../screens/Notification';
 import WeekCalendar from '../screens/WeekCalendar';
 import DayCalendar from '../screens/DayCalendar';
 import MonthCalendar from '../screens/MonthCalendar';
-
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -81,16 +81,27 @@ const UserStack = createNativeStackNavigator();
 
 
 const HomeStackScreen = ({navigation,route}) => {
-if (route.state && route.state.index>0){
-  navigation.setOptions({tabBarVisible: false})
-} else {
-  navigation.setOptions({tabBarVisible: true})
-}
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName === "Room"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Documents"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Calendar"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    
+    else {
+      navigation.setOptions({tabBarStyle: {display: 'flex'}});
+    }
+}, [navigation, route]);
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} options={{
         title: '',
-        headerTransparent: true,
+        headerTransparent:true
       }} />
 
       <HomeStack.Screen name="Room" component={RoomScreen} options={{
@@ -184,7 +195,7 @@ const MainStackNavigator = () => {
             }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={35} color={color} />;
+            return <Ionicons name={iconName} size={32} color={color} />;
           },
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
@@ -201,7 +212,7 @@ const MainStackNavigator = () => {
 
           />
 
-        ) : user.id_token ? (
+        ) : (
           <>
             <Tab.Screen name='HomeScreen' component={HomeStackScreen} options={{
               title: 'Home',
@@ -219,17 +230,6 @@ const MainStackNavigator = () => {
               title: 'Cá nhân',
               headerShown: false
             }} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen1}
-              options={{
-                headerShown: false,
-                tabBarStyle: { display: 'none' },
-              }}
-            />
           </>
         )}
       </Tab.Navigator>

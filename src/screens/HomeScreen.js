@@ -56,13 +56,13 @@ const HomeScreen = ({ navigation, route }) => {
         <View style={styles.header1}>
           <TouchableOpacity
             style={styles.headerBtn}
-          >
-            <Ionicons name='search-outline' size={38} color={'#FAF9F6'}/>
+            onPress={() => logout()}>
+            <Ionicons name='search-outline' size={38} color={'#FAF9F6'} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerBtn}
             onPress={() => navigation.navigate('Notification')}>
-            <Ionicons name='notifications-outline' size={38} color={'#FAF9F6'}/>
+            <Ionicons name='notifications-outline' size={38} color={'#FAF9F6'} />
           </TouchableOpacity>
         </View>
       )
@@ -73,118 +73,117 @@ const HomeScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={image} style={StyleSheet.absoluteFill}>
-        <View style={styles.header}>
+      <View style={styles.imgBGContainer}>
+        <ImageBackground source={image} style={StyleSheet.absoluteFill}>
+          {/* <View style={styles.header}>
           <Text style={styles.date}>{moment(date).locale('vi').format("dddd, DD MMMM")}</Text>
           <Text style={styles.time}>{date.format("hh:mm")}</Text>
-        </View>
+        </View> */}
 
-        <View style={styles.body}>
-          <View style={styles.group1}>
-            <TouchableOpacity
-              style={styles.headerIcon}
-              onPress={() => navigation.navigate('Room')}
-            >
-              <Image
-                source={{ uri: 'https://i.ibb.co/tbLVxCb/meeting-room.png' }}
-                style={styles.buttonImageIconStyle}
-              />
-              <Text style={styles.headerText}>Phòng họp</Text>
+          <View style={styles.body}>
+            <Text style={styles.custom}></Text>
+            <View style={styles.group1}>
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => navigation.navigate('Room')}
+              >
+                <Image
+                  source={{ uri: 'https://i.ibb.co/Sxmsg7g/new.png' }}
+                  style={styles.buttonImageIconStyle}
+                />
+                <Text style={styles.headerText}>Phòng họp</Text>
 
-            </TouchableOpacity>
-            <View style={styles.buttonIconSeparatorStyle} />
-            <TouchableOpacity
-              style={styles.headerIcon}
-              onPress={() => navigation.navigate('Calendar')}
-            >
-              <Image
-                source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
-                style={styles.buttonImageIconStyle}
-              />
-              <Text style={styles.headerText}>Lịch họp</Text>
-            </TouchableOpacity>
-            <View style={styles.buttonIconSeparatorStyle} />
-            <TouchableOpacity
-              style={styles.headerIcon}
-              onPress={() => navigation.navigate('Documents')}
-            >
-              <Image
-                source={{ uri: 'https://i.ibb.co/ZGt7DYz/google-docs.png' }}
-                style={styles.buttonImageIconStyle}
-              />
-              <Text style={styles.headerText}>Tài liệu</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <View style={styles.buttonIconSeparatorStyle} />
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => navigation.navigate('Calendar')}
+              >
+                <Image
+                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  style={styles.buttonImageIconStyle}
+                />
+                <Text style={styles.headerText}>Lịch họp</Text>
+              </TouchableOpacity>
+              <View style={styles.buttonIconSeparatorStyle} />
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => navigation.navigate('Documents')}
+              >
+                <Image
+                  source={{ uri: 'https://i.ibb.co/ZGt7DYz/google-docs.png' }}
+                  style={styles.buttonImageIconStyle}
+                />
+                <Text style={styles.headerText}>Tài liệu</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <View style={styles.group2}>
-
-          </View>
-
-        </View>
-
-        {/* footer 1 */}
+        </ImageBackground>
+      </View>
+      {/* footer 1 */}
+      <View style={styles.footerContainer}>
         <View style={styles.footer}>
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+             
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/7R7dx24/gmail.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Thư</Text>
             </View>
           </View>
 
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+               
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/1mRdZ3k/google-photos.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Ảnh</Text>
             </View>
           </View>
 
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+                
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/RybLpMB/google-cloud.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Cloud</Text>
             </View>
           </View>
 
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+              
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/q7HMhGS/new.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Tin tức</Text>
             </View>
           </View>
         </View>
@@ -193,59 +192,60 @@ const HomeScreen = ({ navigation, route }) => {
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+               
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/X2qQSk0/learning.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Test</Text>
             </View>
           </View>
 
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+             
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/tcTW6QC/code.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Test</Text>
             </View>
           </View>
 
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+           
               }}>
                 <Image
-                  source={{ uri: 'https://i.ibb.co/KXxzkF2/google-calendar.png' }}
+                  source={{ uri: 'https://i.ibb.co/Fz9d053/information.png' }}
                   style={styles.buttonImageIconStyleFooter}
                 />
               </TouchableOpacity>
             </View>
             <View>
-              <Text style={styles.footerText}>Tài liệu</Text>
+              <Text style={styles.footerText}>Hỗ trợ</Text>
             </View>
           </View>
 
           <View>
             <View style={styles.icon}>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Calendar');
+                navigation.navigate('Setting');
               }}>
                 <Image
                   source={{ uri: 'https://i.ibb.co/RNt56jV/setting.png' }}
                   style={styles.buttonImageIconStyleFooter}
+                  
                 />
               </TouchableOpacity>
             </View>
@@ -254,7 +254,7 @@ const HomeScreen = ({ navigation, route }) => {
             </View>
           </View>
         </View>
-      </ImageBackground>
+      </View>
     </View>
 
   );
@@ -264,21 +264,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "stretch",
+    backgroundColor:'#e8f1fa'
   },
   header: {
     alignItems: "center",
     justifyContent: "center",
-    height: 250,
-    marginTop:30
+    marginTop: '10%'
   },
-  imgBG: {
-    height: '0%'
+
+  imgBGContainer: {
+    height: '29%'
   },
   date: {
     color: "#C3FFFE",
     fontSize: 20,
     fontWeight: "500",
-    marginTop: 20,
+    marginTop: '10%',
   },
   time: {
     fontSize: 82,
@@ -288,13 +289,17 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 50,
+    marginTop: '15%',
     paddingVertical: 10,
     paddingHorizontal: 30,
-    height: 75,
+    height: '15%'
+
+  },
+  footerContainer: {
+    marginTop:'10%'
   },
   icon: {
-    backgroundColor: "#F9F6EE",
+    backgroundColor: "#FFFFFF",
     width: 70,
     aspectRatio: 1,
     alignItems: "center",
@@ -308,40 +313,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,
-    marginHorizontal:15,
-    borderWidth:1,
+    marginHorizontal: 15,
+    borderWidth: 1,
     borderColor: '#7DF9FF'
   },
   header1: {
     flexDirection: 'row'
   },
-  cont: {
-    width: 100,
-    height: 100,
-    flex: 1
+  custom: {
+    marginBottom: '20%'
   },
   body: {
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   group1: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: "#00000026",
-    backgroundColor: '#FAF9F6',
+    backgroundColor: '#FFFFFF',
     marginHorizontal: 20,
     borderRadius: 20,
+    marginVertical: '20%'
   },
-  group2: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F08080',
+  // group2: {
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: '#F08080',
 
-    marginHorizontal: 20
-  },
+  //   marginHorizontal: 20
+  // },
   headerIcon: {
     flex: 1,
-    marginVertical: 15,
+    marginVertical: '3%',
     alignItems: "center",
     justifyContent: "center",
   },
@@ -353,7 +357,10 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 20,
     color: 'white',
-    marginTop: '10%'
+    marginTop: '10%',
+    color: '#0047AB',
+    textAlign:'center'
+  ,
   },
   buttonIconSeparatorStyle: {
     backgroundColor: 'gray',

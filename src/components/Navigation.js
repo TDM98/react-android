@@ -22,7 +22,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert ,Button} from 'react-native';
+import { Alert, Button } from 'react-native';
 
 import CustomDrawerContent from './CustomDrawerContent';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -35,121 +35,130 @@ import MonthCalendar from '../screens/MonthCalendar';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
+const HistoryStack = createNativeStackNavigator();
+const GrowStack = createNativeStackNavigator();
+const UserStack = createNativeStackNavigator();
+// const DrawerHome = () => (
+//   <Drawer.Navigator screenOptions={{ headerShown: true }} drawerContent={props => <CustomDrawerContent {...props} />}>
 
-const TabHome = () => {
+//     <Drawer.Screen name="Home" component={HomeScreen} options={{
+//       title: '',
+//       headerTransparent:'true',
+//       drawerIcon: () => <Ionicons name="home-outline" size={20} color="#1F51FF" 
+//       />
+//     }} />
+//     <Drawer.Screen name="Room" component={RoomScreen} options={{
+//       title: 'Quản lý phòng',
+//       drawerIcon: () => <Ionicons name="business-outline" size={20} color="#FFBF00" />
+//     }} />
+//     <Drawer.Screen name="Calendar" component={CalendarScreen} options={{
+//       title: 'Quản lý lịch họp',
+//       drawerIcon: () => <Ionicons name="calendar-outline" size={20} color="#e75784" />
+//     }} />
+//     {/* <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
+//       title: 'Danh sách lịch họp',
+//       drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40" />
+//     }} /> */}
+//     <Drawer.Screen name="Documents" component={Documents} options={{  
+//       title: 'Quản lý tài liệu',
+//       drawerIcon: () => <Ionicons name="documents-outline" size={20} color="#8a307f"  />
+//     }} />
+//     <Drawer.Screen name="Setting" component={SettingScreen} options={{
+//       title: 'Cài đặt',
+//       drawerIcon: () => <Ionicons name="settings-sharp" size={20} />
+//     }} />
+//     <Drawer.Screen name="User Info" component={UserInfo} options={{
+//       title: 'Thông tin người dùng',
+//       drawerIcon: () => <Ionicons name="person-circle-sharp" size={20} />
+//     }} />
+//     <Drawer.Screen name="AppInfo" component={AppInfo} options={{
+//       title: 'Liên hệ',
+//       drawerIcon: () => <Ionicons name="information-circle-sharp" size={20} />
+//     }} />
+//   </Drawer.Navigator>
+// );
 
-  <Tab.Navigator
-    tabBarOptions={{
-      labelStyle: { fontSize: 18 },
-      activeTintColor: 'red',
-      inactiveTintColor: 'black'
-    }}
-  >
-    <Tab.Screen
-      name="Screen 1"
-      component={HomeScreen}  // Replaced Screen 1
-    />
-    <Tab.Screen
-      name="Screen 2"
-      component={SettingScreen}  // Replaced Screen 2
-    />
-    <Tab.Screen
-      name="Screen 3"
-      component={AddMeetingScreen}  // Replaced Screen 3
-    />
-  </Tab.Navigator>
 
-};
-
-// function CustomDrawerContent(props) {
-//   const { logout } = useContext(AuthContext);
-//   const BASE_PATH =
-//     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
-//   const proileImage = 'react_logo.png';
-//   return (
-
-//     <DrawerContentScrollView {...props}>
-//       <DrawerItemList {...props} />
-
-//       <DrawerItem icon={({ color, size }) => (
-//         <Ionicons
-//           name="log-out-outline"
-//           color={color}
-//           size={size}
-//         />
-//       )} label="Log out" onPress={() => {
-//         props.navigation.toggleDrawer();
-//         Alert.alert(
-//           'Log out',
-//           'Are you sure log out?',
-//           [
-//             {
-//               text: 'Cancel',
-//               onPress: () => {
-//                 return null;
-//               },
-//             },
-//             {
-//               text: 'Confirm',
-//               onPress: () => {
-//                 logout();
-//               },
-//             },
-//           ],
-//           { cancelable: false },
-//         )
-//       }} />
-//     </DrawerContentScrollView>
-//   );
-// }
-
-// Side bar
-function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={require('../assets/tvmlogo.png')}/>
-  );
+const HomeStackScreen = ({navigation,route}) => {
+if (route.state && route.state.index>0){
+  navigation.setOptions({tabBarVisible: false})
+} else {
+  navigation.setOptions({tabBarVisible: true})
 }
-const DrawerHome = () => (
-  <Drawer.Navigator screenOptions={{ headerShown: true , drawerIcon:{size:30, color: 'white'}}} drawerContent={props => <CustomDrawerContent {...props} />}>
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={HomeScreen} options={{
+        title: '',
+        headerTransparent: true,
+      }} />
 
-    <Drawer.Screen name="Home" component={HomeScreen} options={{
-      title:'',
-      headerTransparent: true,
-      headerTitleStyle: {
-        fontSize:25,
-        color:'white'
-      },
-      drawerIcon: () => <Ionicons name="home-outline" size={20} color="#1F51FF" 
-      />
-    }} />
-    {/* <Drawer.Screen name="Room" component={RoomScreen} options={{
-      title: 'Quản lý phòng',
-      drawerIcon: () => <Ionicons name="business-outline" size={20} color="#FFBF00" />
-    }} /> */}
-    {/* <Drawer.Screen name="Calendar" component={CalendarScreen} options={{
-      title: 'Quản lý lịch họp',
-      drawerIcon: () => <Ionicons name="calendar-outline" size={20} color="#e75784" />
-    }} /> */}
-     {/* <Drawer.Screen name="MeetingListScreen" component={MeetingListScreen} options={{
-      title: 'Danh sách lịch họp',
-      drawerIcon: () => <Ionicons name="people-circle-outline" size={20} color="#ff6e40" />
-    }} />  */}
-    <Drawer.Screen name="Setting" component={SettingScreen} options={{
-      title: 'Cài đặt',
-      drawerIcon: () => <Ionicons name="settings-sharp" size={20} />
-    }} />
-    <Drawer.Screen name="User Info" component={UserInfo} options={{
-      title: 'Thông tin người dùng',
-      drawerIcon: () => <Ionicons name="person-circle-sharp" size={20} />
-    }} />
-    <Drawer.Screen name="AppInfo" component={AppInfo} options={{
-      title: 'Liên hệ',
-      drawerIcon: () => <Ionicons name="information-circle-sharp" size={20} />
-    }} />
-  </Drawer.Navigator>
-);
+      <HomeStack.Screen name="Room" component={RoomScreen} options={{
+        title: 'Quản lý phòng họp',
+      }} />
+      <HomeStack.Screen name="Create" component={PostCreateScreen} options={{
+        title: 'Thêm phòng họp',
+        tabBarStyle: { display: "none" },
+      }} />
+      <HomeStack.Screen name="Edit" component={RoomEditScreen} options={{
+        title: 'Chỉnh sửa phòng họp',
+        tabBarStyle: { display: "none" },
+      }} />
+      <HomeStack.Screen name="AddMeeting" component={AddMeetingScreen} options={{
+        title: 'Thêm lịch họp',
+        tabBarStyle: { display: "none" },
+      }} />
+      <HomeStack.Screen name="EditMeeting" component={EditMeetingScreen} options={{
+        title: 'Chỉnh sửa lịch họp',
+        tabBarStyle: { display: "none" },
+      }} />
+      <HomeStack.Screen name="Calendar" component={CalendarScreen} options={{
+        title: 'Quản lý lịch họp'
+      }} />
+      <HomeStack.Screen name="Documents" component={Documents} options={{
+        tabBarStyle: { display: 'none' },
+      }} />
+      <HomeStack.Screen name="Setting" component={SettingScreen} />
+      <HomeStack.Screen name="Notification" component={NotificationScreen} options={{
+        title: 'Thông báo'
+
+      }} />
+
+    </HomeStack.Navigator>
+  )
+}
+
+const HistoryStackScreen = () => {
+  return (
+    <HistoryStack.Navigator>
+      <HistoryStack.Screen name='Chat' component={Documents} option={{
+        title: ''
+      }} />
+    </HistoryStack.Navigator>
+  )
+}
+
+const GrowStackScreen = () => {
+  return (
+    <GrowStack.Navigator>
+      <GrowStack.Screen name='Mail' component={Documents} option={{
+        title: ''
+      }} />
+    </GrowStack.Navigator>
+  )
+}
+
+const UserStackScreen = () => {
+  return (
+    <UserStack.Navigator>
+      <UserStack.Screen name='User Info' component={UserInfo} options={{
+        title: '',
+        headerStyle: { backgroundColor: '#0047AB' }
+      }} />
+    </UserStack.Navigator>
+  )
+}
+
 
 // Main Navigator
 const MainStackNavigator = () => {
@@ -157,83 +166,73 @@ const MainStackNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'HomeScreen') {
+              iconName = focused
+                ? 'home'
+                : 'home-outline';
+            } else if (route.name === 'HistoryScreen') {
+              iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'
+            } else if (route.name === 'GrowScreen') {
+              iconName = focused ? 'mail' : 'mail-outline'
+            } else if (route.name === 'UserScreen') {
+              iconName = focused ? 'person' : 'person-outline'
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={35} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: { backgroundColor: 'white', height: '8%' },
+          tabBarLabelStyle: { fontSize: 18 }
+        })}>
         {splashLoading ? (
-          <Stack.Screen
+          <Tab.Screen
             name="Splash"
             component={SplashScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
+
           />
+
         ) : user.id_token ? (
           <>
-
-            <Stack.Screen name="Home" component={HomeScreen} options={{
+            <Tab.Screen name='HomeScreen' component={HomeStackScreen} options={{
+              title: 'Home',
+              headerShown: false,
+            }} />
+            <Tab.Screen name='HistoryScreen' component={HistoryStackScreen} options={{
+              title: 'Trò chuyện',
+              headerShown: false,
+            }} />
+            <Tab.Screen name='GrowScreen' component={GrowStackScreen} options={{
+              title: "Thư",
+              headerShown: false,
+            }} />
+            <Tab.Screen name='UserScreen' component={UserStackScreen} options={{
+              title: 'Cá nhân',
               headerShown: false
-            }}/>
-            <Stack.Screen name="Room List" component={RoomScreen} />
-            <Stack.Screen name="Create" component={PostCreateScreen} options={{
-              title: 'Tạo phòng mới'
             }} />
-            <Stack.Screen name="Edit" component={RoomEditScreen} options={{
-              title: 'Cập nhật phòng'
-            }} />
-            {/* <Stack.Screen name="Calendar" component={CalendarScreen} options={{
-              title: 'Lịch'
-            }}/> */}
-            <Stack.Screen name ="WeekCalendar" component={WeekCalendar} options={{
-              title: 'Lịch tuần'
-            }}/>
-             <Stack.Screen name ="DayCalendar" component={DayCalendar} options={{
-              title: 'Lịch ngày'
-            }}/>
-            <Stack.Screen name ="MonthCalendar" component={MonthCalendar} options={{
-              title: 'Lịch tháng'
-            }}/>
-            <Stack.Screen name="User" component={UserInfo} />
-
-            <Stack.Screen name="Meeting List" component={MeetingListScreen} />
-            <Stack.Screen name="EditMeeting" component={EditMeetingScreen} options={{
-              title: 'Chỉnh sửa lịch'
-            }} />
-            <Stack.Screen name="AddMeeting" component={AddMeetingScreen} options={{
-              title: 'Thêm lịch mới'
-            }}/>
-            <Stack.Screen name="Notification" component={NotificationScreen} options={{
-              title:'Thông báo'
-            }}/>
-            <Stack.Screen name="Setting" component={SettingScreen} options={{
-              title:'Cài đặt'
-            }}/>
-             <Stack.Screen name="Documents" component={Documents} options={{
-              title:'Quản lý tài liệu'
-            }}/>
-             <Stack.Screen name="Calendar" component={CalendarScreen} options={{
-              title:'Quản lý lịch họp'
-            }}/>
-            <Stack.Screen name="Room" component={RoomScreen} options={{
-              title:'Quản lý phòng họp'
-            }}/>
-                <Stack.Screen
-              name="DrawerHome"
-              component={DrawerHome}
-              options={{ headerShown: false }}
-            />
           </>
         ) : (
           <>
             <Stack.Screen
               name="Login"
               component={LoginScreen1}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Register"
-              component={RegisterScreen}
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                tabBarStyle: { display: 'none' },
+              }}
             />
           </>
         )}
-      </Stack.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };

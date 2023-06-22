@@ -19,7 +19,7 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from 'react-native-vector-icons/FontAwesome';
-const image = { uri: "https://i.pinimg.com/564x/b9/c9/89/b9c989c25792ab5094e27170c18eb015.jpg" };
+const image = { uri: "https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg" };
 const actions = [
   {
     text: 'Tạo mới',

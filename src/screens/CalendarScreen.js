@@ -1,6 +1,6 @@
 import { addDays, format } from "date-fns"
 import React, { useEffect, useState, useContext, useLayoutEffect } from "react"
-import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native"
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, LIST } from "react-native"
 import { Agenda } from "react-native-calendars"
 import { AuthContext } from "../context/AuthContext"
 import { FloatingAction } from "react-native-floating-action"
@@ -152,35 +152,35 @@ const CalendarScreen = ({ navigation, route }) => {
   }
 
   const [isChecked, setChecked] = useState(false);
-  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [isPickerShow, setIsPickerShow] = useState();
   const showPicker = () => {
     setIsPickerShow(true);
     console.log("a")
   };
   const data1 = [
-    { key: '0', value: 'Họp' },
-    { key: '1', value: 'Hội thảo' },
-    { key: '2', value: 'Giảng dạy' },
-    { key: '3', value: 'Khác' }
+    { key: '0', valuee: 'Họp' },
+    { key: '1', valuee: 'Hội thảo' },
+    { key: '2', valuee: 'Giảng dạy' },
+    { key: '3', valuee: 'Khác' }
   ];
   const [singlePickerSelectedItem, setSingleSelectedItem] = useState();
   const [visible, setVisible] = useState(true)
   return (
     <SafeAreaView style={styles.safe}>
       {isPickerShow && (
-        <View style={styles.dialog}> 
-    <SinglePickerMaterialDialog
-  title={'Pick one element!'}
-  // items={data1.map((key, value) => ({ value: key, label: value }))}
-  visible={isPickerShow}
-  // selectedItem={singlePickerSelectedItem}
-  onCancel={setIsPickerShow(false)}
-  onOk={result => {
-    setIsPickerShow(false);
-    // setSingleSelectedItem;
-  }}
-/>
-        </View>
+
+        <SinglePickerMaterialDialog
+          title="Use Google's Location Service?"
+          items={data1.map((key, valuee) => ({ value: valuee, label: key }))}
+          visible={isPickerShow}
+          onOk={() => setIsPickerShow(false)}
+          onCancel={() => setIsPickerShow(false)}>
+          <Text style={styles.dialogText}>
+            Let Google help apps determine location. This means sending anonymous
+            location data to Google, even when no apps are running.
+          </Text>
+        </SinglePickerMaterialDialog>
+
       )}
       <Agenda items={items} renderItem={renderItem} locale='vi' />
       <FloatingAction
@@ -288,8 +288,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCF5E5',
     justifyContent: 'flex-end'
   },
-  dialog:{
-    
+  dialog: {
+
   }
 })
 

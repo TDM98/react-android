@@ -16,7 +16,7 @@ const AppInfo = ({ navigation, route }) => {
           style={styles.logo}
         >
         </Image>
-        <Text style={styles.title}>Không có tài liệu</Text>
+        <Text style={styles.title}>Đang phát triển</Text>
       </View>
     </SafeAreaView>
   );

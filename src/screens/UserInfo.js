@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect } from 'react';
 import {
   Button,
   FlatList,
@@ -32,7 +32,7 @@ const UserInfo = ({ navigation, route }) => {
   const [fullName, setFullname] = useState({});
   const [login, setLogin] = useState({});
   const [password, setPassword] = useState({});
-  const [hidePass,setHidePass] = useState(true);
+  const [hidePass, setHidePass] = useState(true);
   const handleSubmit = () => {
 
   }
@@ -58,6 +58,20 @@ const UserInfo = ({ navigation, route }) => {
     getUsers();
   }, [route.params?.userss]);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.header1}>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => logout()}>
+            <Ionicons name='call-outline' size={30} color={'white'} />
+          </TouchableOpacity>
+        </View>
+      )
+    })
+  }, [navigation])
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -70,7 +84,7 @@ const UserInfo = ({ navigation, route }) => {
             source={{ uri: 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg' }}
           />
           <TouchableOpacity style={styles.changeAvatarButton} onPress={() => {/* open image picker */ }}>
-            <Text style={styles.changeAvatarButtonText}>Change Avatar</Text>
+            <Text style={styles.changeAvatarButtonText}>Thay ảnh</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.form}>
@@ -160,8 +174,8 @@ const UserInfo = ({ navigation, route }) => {
               }}
               rightIcon={
                 <Pressable onPress={() => setHidePass(!hidePass)}>
-              <MaterialCommunityIcons name={hidePass ? 'eye-off' : 'eye'} size={20} />
-              </Pressable>
+                  <MaterialCommunityIcons name={hidePass ? 'eye-off' : 'eye'} size={20} />
+                </Pressable>
               }
             />
           </View>
@@ -196,9 +210,46 @@ const UserInfo = ({ navigation, route }) => {
                   { cancelable: false }
                 )
               }}>
-              <Icon name='edit' size={20} color='white'>
-                <Text style={styles.buttonText}>  Cập nhật</Text>
-              </Icon>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Text style={styles.buttonText}><Icon name='edit' size={20} /> Cập nhật</Text>
+              </View>
+            </Pressable>
+          </View>
+
+          <View style={styles.btnView}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed
+                    ? 0.2
+                    : 1,
+                },
+                styles.btnLogout,
+              ]}
+              onPress={() => {
+                Alert.alert(
+                  'Đăng xuất',
+                  'Đăng xuất?',
+                  [
+                    {
+                      text: 'Hủy',
+                      onPress: () => {
+                        return null;
+                      }
+                    },
+                    {
+                      text: 'Xác nhận',
+                      onPress: () => {
+                        logout();
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Text style={styles.buttonText}><Ionicons name='log-out-outline' size={20} /> Đăng xuất</Text>
+              </View>
             </Pressable>
           </View>
 
@@ -219,7 +270,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     justifyContent: 'center',
-    marginHorizontal:20
+    marginHorizontal: 20
   },
   input: {
     borderColor: '#ccc',
@@ -244,7 +295,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 20,
+
   },
   avatarContainer: {
     marginTop: 20,
@@ -274,19 +326,33 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: '#1F51FF'
   },
-  btnDel: {
+  btnLogout: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#EE4B2B',
+    backgroundColor: 'tomato',
     marginLeft: 10,
   },
   btnView: {
     flexDirection: 'row',
     margin: 10
+  },
+  headerBtn: {
+  
+    width: 50,
+    aspectRatio: 1,
+    alignItems: "center",
+    justifyContent: "center",
+ 
+    marginHorizontal: 15,
+
+  
+  },
+  header1: {
+    flexDirection: 'row'
   },
 });
 

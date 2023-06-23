@@ -1,6 +1,6 @@
 import { NavigationContainer, SafeAreaView, Image, StyleSheet } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { AuthContext } from '../../src/context/AuthContext';
 import RoomScreen from '../screens/RoomManagement';
 import PostCreateScreen from '../screens/RoomCreateScreen';
@@ -30,7 +30,9 @@ import NotificationScreen from '../screens/Notification';
 import WeekCalendar from '../screens/WeekCalendar';
 import DayCalendar from '../screens/DayCalendar';
 import MonthCalendar from '../screens/MonthCalendar';
-
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import UserSetting from '../screens/UserSetting';
+import { set } from 'date-fns';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -81,16 +83,49 @@ const UserStack = createNativeStackNavigator();
 
 
 const HomeStackScreen = ({navigation,route}) => {
-if (route.state && route.state.index>0){
-  navigation.setOptions({tabBarVisible: false})
-} else {
-  navigation.setOptions({tabBarVisible: true})
-}
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    // Room
+    if (routeName === "Home"){
+      navigation.setOptions({   tabBarStyle: { backgroundColor: 'white', height: '7%', display:'flex' },});
+    }
+    // Room
+    else if (routeName === "Room"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Create"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Edit"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    //Calendar
+    else if (routeName === "Calendar"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "AddMeeting"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "EditMeeting"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Documents"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Setting"){
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+    else if (routeName === "Notification") {
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+
+   
+}, [navigation, route]);
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} options={{
         title: '',
-        headerTransparent: true,
+        headerTransparent:true
       }} />
 
       <HomeStack.Screen name="Room" component={RoomScreen} options={{
@@ -98,30 +133,27 @@ if (route.state && route.state.index>0){
       }} />
       <HomeStack.Screen name="Create" component={PostCreateScreen} options={{
         title: 'Thêm phòng họp',
-        tabBarStyle: { display: "none" },
       }} />
       <HomeStack.Screen name="Edit" component={RoomEditScreen} options={{
         title: 'Chỉnh sửa phòng họp',
-        tabBarStyle: { display: "none" },
       }} />
       <HomeStack.Screen name="AddMeeting" component={AddMeetingScreen} options={{
         title: 'Thêm lịch họp',
-        tabBarStyle: { display: "none" },
       }} />
       <HomeStack.Screen name="EditMeeting" component={EditMeetingScreen} options={{
         title: 'Chỉnh sửa lịch họp',
-        tabBarStyle: { display: "none" },
       }} />
       <HomeStack.Screen name="Calendar" component={CalendarScreen} options={{
         title: 'Quản lý lịch họp'
       }} />
       <HomeStack.Screen name="Documents" component={Documents} options={{
-        tabBarStyle: { display: 'none' },
+        title: 'Quản lý tài liệu'
       }} />
-      <HomeStack.Screen name="Setting" component={SettingScreen} />
+      <HomeStack.Screen name="Setting" component={SettingScreen} options={{
+        title: 'Cài đặt'
+      }}/>
       <HomeStack.Screen name="Notification" component={NotificationScreen} options={{
         title: 'Thông báo'
-
       }} />
 
     </HomeStack.Navigator>
@@ -131,8 +163,8 @@ if (route.state && route.state.index>0){
 const HistoryStackScreen = () => {
   return (
     <HistoryStack.Navigator>
-      <HistoryStack.Screen name='Chat' component={Documents} option={{
-        title: ''
+      <HistoryStack.Screen name='Chat' component={Documents} options={{
+        title: 'Trò chuyện'
       }} />
     </HistoryStack.Navigator>
   )
@@ -141,20 +173,34 @@ const HistoryStackScreen = () => {
 const GrowStackScreen = () => {
   return (
     <GrowStack.Navigator>
-      <GrowStack.Screen name='Mail' component={Documents} option={{
-        title: ''
+      <GrowStack.Screen name='Mail' component={Documents} options={{
+        title: 'Thư'
       }} />
     </GrowStack.Navigator>
   )
 }
 
-const UserStackScreen = () => {
+const UserStackScreen = ({navigation,route}) => {
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    // Room
+    if (routeName === "User Setting"){
+      navigation.setOptions({   tabBarStyle: { backgroundColor: 'white', height: '7%', display:'flex' },});
+    } else if (routeName === "Đổi mật khẩu") {
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+  }, [navigation, route]);
   return (
     <UserStack.Navigator>
-      <UserStack.Screen name='User Info' component={UserInfo} options={{
+      <UserStack.Screen name='User Setting' component={UserSetting} options={{
         title: '',
-        headerStyle: { backgroundColor: '#0047AB' }
+        headerTransparent: true
       }} />
+      <UserStack.Screen name='User Info' component={UserInfo} options={{
+        title: 'Đổi mật khẩu',
+        headerTransparent: true
+      }} />
+      
     </UserStack.Navigator>
   )
 }
@@ -184,11 +230,11 @@ const MainStackNavigator = () => {
             }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={35} color={color} />;
+            return <Ionicons name={iconName} size={34} color={color} />;
           },
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
-          tabBarStyle: { backgroundColor: 'white', height: '8%' },
+          tabBarStyle: { backgroundColor: 'white', height: '7%' },
           tabBarLabelStyle: { fontSize: 18 }
         })}>
         {splashLoading ? (
@@ -201,11 +247,12 @@ const MainStackNavigator = () => {
 
           />
 
-        ) : user.id_token ? (
+        ) : user.id_token ?(
           <>
             <Tab.Screen name='HomeScreen' component={HomeStackScreen} options={{
               title: 'Home',
               headerShown: false,
+              tabBarStyle: { backgroundColor: 'white', height: '7%', display:'flex' },
             }} />
             <Tab.Screen name='HistoryScreen' component={HistoryStackScreen} options={{
               title: 'Trò chuyện',

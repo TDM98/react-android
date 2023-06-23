@@ -10,6 +10,7 @@ import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
 import 'moment/locale/vi';
 
+
 const image = { uri: 'https://i.pinimg.com/564x/b9/c9/89/b9c989c25792ab5094e27170c18eb015.jpg' };
 const HomeScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(dayjs());
@@ -38,7 +39,6 @@ const HomeScreen = ({ navigation, route }) => {
     pickerRef.current.blur();
   }
 
-
   useEffect(() => {
     let timer = setInterval(() => {
       setDate(dayjs());
@@ -57,6 +57,7 @@ const HomeScreen = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.headerBtn}
             onPress={() => logout()}>
+              
             <Ionicons name='search-outline' size={38} color={'#FAF9F6'} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -75,6 +76,7 @@ const HomeScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.imgBGContainer}>
         <ImageBackground source={image} style={StyleSheet.absoluteFill}>
+  
           {/* <View style={styles.header}>
           <Text style={styles.date}>{moment(date).locale('vi').format("dddd, DD MMMM")}</Text>
           <Text style={styles.time}>{date.format("hh:mm")}</Text>
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
 
   },
   footerContainer: {
-    marginTop:'10%'
+    marginTop:'7%'
   },
   icon: {
     backgroundColor: "#FFFFFF",

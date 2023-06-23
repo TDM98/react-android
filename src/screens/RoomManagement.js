@@ -9,7 +9,8 @@ import {
   View,
   Fab,
   Pressable,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -19,6 +20,7 @@ import { primary, borderColor } from './color';
 import { AuthContext } from '../context/AuthContext';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Searchbar } from 'react-native-paper';
 const image = { uri: "https://e0.pxfuel.com/wallpapers/738/89/desktop-wallpaper-simple-minimalistic-best-phone-background-no-distractions-scenery-painting-nature-simple-sunset.jpg" };
 const actions = [
   {
@@ -43,12 +45,13 @@ const RoomScreen = ({ navigation, route }) => {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.headerBtn}
-            onPress={() => { }}>
+            onPress={closeSearch}>
             <Ionicons name='md-grid-outline' size={26} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerBtn}
-            onPress={() => { }}>
+            onPress={showSearch}
+          >
             <Ionicons name='search-outline' size={26} />
           </TouchableOpacity>
         </View>
@@ -73,6 +76,21 @@ const RoomScreen = ({ navigation, route }) => {
       });
   };
 
+  const [show, setShow] = useState(false);
+
+
+  const showSearch = () => {
+    setShow(true) ;
+  }
+  const closeSearch = () => {
+    setShow(false);
+  }
+  
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const onChangeSearch = query => setSearchQuery(query);
+
   useEffect(() => {
     getPosts();
   }, [route.params?.post]);
@@ -85,6 +103,28 @@ const RoomScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
         <Spinner visible={loading} />
+
+        {show && (
+          <View>
+          <View style={styles.searchBar}>
+              <Searchbar
+                placeholder="Tìm"
+                onChangeText={onChangeSearch}
+                value={searchQuery}
+              />
+          </View>
+           <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={closeSearch}
+              >
+                <Image
+                  source={{ uri: 'https://static.vecteezy.com/system/resources/previews/018/887/462/original/signs-close-icon-png.png' }}
+                  style={styles.buttonImageIconStyle}
+                />
+              </TouchableOpacity>
+          </View>    
+        )}
+
 
         <FlatList
           ref={flatlistRef}
@@ -214,6 +254,21 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
+  },
+  searchBar:{
+    marginTop:'3%'
+  },
+  buttonImageIconStyle: {
+    padding: 10,
+    height:'5%',
+    width: '5%',
+  },
+  headerIcon: {
+    flex: 1,
+    alignItems: "flex-end",
+    marginBottom:'6%',
+    marginRight:'5%',
+    marginTop:'2%'
   },
 });
 

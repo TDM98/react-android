@@ -25,9 +25,9 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SettingsList from 'react-native-settings-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Base64 } from 'js-base64';
-const UserInfo = ({ navigation, route }) => {
+const UserPassword = ({ navigation, route }) => {
   const [users, setUsers] = useState({});
-  const { user, logout} = useContext(AuthContext);
+  const { user, logout, loading } = useContext(AuthContext);
   const [email, setEmail] = useState({});
   const [firstName, setFirstname] = useState({});
   const [lastName, setLastname] = useState({});
@@ -35,7 +35,6 @@ const UserInfo = ({ navigation, route }) => {
   const [login, setLogin] = useState({});
   const [password, setPassword] = useState({});
   const [hidePass, setHidePass] = useState(true);
-  const [loading, setLoading] = useState(false);
   const handleSubmit = () => {
 
   }
@@ -57,30 +56,6 @@ const UserInfo = ({ navigation, route }) => {
       });
   };
 
-  const updateUserInfo = () => {
-    axios
-    .put(`${BASE_URL}/users`,{
-        firstName,
-        lastName,
-
-    },
-     {
-        headers: {
-            Authorization: `Bearer ${user.ud_token}`
-        },
-    })
-    .then(res => {
-       setUsers(res.data)
-        setLoading(false);
-        navigation.navigate('User Setting', {
-        });
-        console.log(`ok`)
-      })
-      .catch(e => {
-        setLoading(false);
-        console.log(`Error on updating post ${e.message}`);
-      });
-  };
   useEffect(() => {
     getUsers();
   }, [route.params?.userss]);
@@ -107,8 +82,7 @@ const UserInfo = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
-        <View style={styles.inputName}>
-        <Input
+        {/* <Input
           placeholder=''
           label='Họ'
           value={users.firstName}
@@ -144,8 +118,7 @@ const UserInfo = ({ navigation, route }) => {
               marginRight={17}
             />
           }
-        />
-        </View>
+        /> */}
         <Input
           placeholder=''
           label='Họ tên'
@@ -182,6 +155,61 @@ const UserInfo = ({ navigation, route }) => {
             />
           }
         />
+        <Input
+          placeholder=''
+          label='Tên đăng nhập'
+          editable={false}
+          value={users.login}
+          maxLength={20}
+
+          onChangeText={val => {
+            setLogin(val);
+          }}
+          leftIcon={
+            <Icon
+              name='user-circle'
+              size={20}
+              color='black'
+              marginRight={17}
+            />
+          }
+        />
+        <Input
+          placeholder=''
+          label='Mật khẩu'
+          value={users.password}
+          secureTextEntry={hidePass ? true : false}
+          maxLength={20}
+          onChangeText={val => {
+            setPassword(val);
+          }}
+          leftIcon={
+            <Icon
+              name='lock'
+              size={22}
+              color='black'
+              marginRight={22}
+            />
+          }
+          rightIcon={
+            <Pressable onPress={() => setHidePass(!hidePass)}>
+              <MaterialCommunityIcons name={hidePass ? 'eye-off' : 'eye'} size={22} color="#232323" />
+            </Pressable>
+          }
+        />
+        <TouchableOpacity onPress={decryptPassword}>
+          <Text>decryptPassword</Text>
+        </TouchableOpacity>
+        <View style={styles.pwTestContainer}>
+          <Text style={styles.pwTest}>Mật khẩu mới phải thỏa mãn các điều kiện sau:</Text>
+          <Text style={styles.pwTest}> - Dài tối thiểu 8 ký tự</Text>
+          <Text style={styles.pwTest}> - Bao gồm ít nhất 3 trong 4 nhóm ký tự sau:</Text>
+          <Text style={styles.pwTest}>  + Chữ cái VIẾT HOA (Từ a đến Z)</Text>
+          <Text style={styles.pwTest}>  + Chữ cái viết thường (từ a đến z)</Text>
+          <Text style={styles.pwTest}>  + chữ số (từ 0 đến 9)</Text>
+          <Text style={styles.pwTest}>  + Ký tự đặc biệt (ví dụ., !, $, #, %)</Text>
+          <Text style={styles.pwTest}> -Mật khẩu mới đặt không được trùng với mật khẩu cũ</Text>
+        </View>
         <View style={styles.btnView}>
           <Pressable
             style={({ pressed }) => [
@@ -192,7 +220,9 @@ const UserInfo = ({ navigation, route }) => {
               },
               styles.btnLogin,
             ]}
-            onPress={updateUserInfo}>
+            onPress={() => {
+          
+            }}>
             <Text style={styles.buttonText}>Lưu  <Icon name='save' size={22} /></Text>
 
           </Pressable>
@@ -292,7 +322,7 @@ const styles = StyleSheet.create({
   pwTest:{
     fontSize:18,
     color: '#005b96'
-  },
+  }
 });
 
-export default UserInfo;
+export default UserPassword;

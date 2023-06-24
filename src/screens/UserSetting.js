@@ -80,6 +80,8 @@ const UserSetting = ({ navigation, route }) => {
         })
     }, [navigation])
 
+
+    
     return (
         <View style={{ backgroundColor: '#EFEFF4', flex: 1 }}>
             <ImageBackground source={image} style={styles.image}>
@@ -96,7 +98,7 @@ const UserSetting = ({ navigation, route }) => {
                                 size={20} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.buttonTextName}>TRAN DUC MINH</Text>
+                    <Text style={styles.buttonTextName}>{users.fullName}</Text>
                     <View style={styles.btnView}>
                         <Pressable
                             style={({ pressed }) => [
@@ -134,7 +136,7 @@ const UserSetting = ({ navigation, route }) => {
 
                     </View>
                 </View>
-                <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
+                <SettingsList borderColor='#c8c7cc' defaultItemSize={70}>
 
                     {/* {this.state.toggleAuthView ?
                    <SettingsList.Item
@@ -157,11 +159,18 @@ const UserSetting = ({ navigation, route }) => {
                  } */}
                     <SettingsList.Header headerText='Bảo mật' headerStyle={{ marginTop: 15, fontSize: 22, color: 'white' }} />
                     <SettingsList.Item
-                        icon={<Image style={styles.imageStyle} source={{ uri: 'https://i.ibb.co/vqVDZZf/padlock.png' }} />}
-                        title='Đổi mật khẩu'
-
+                        icon={<Image style={styles.imageStyle} source={{ uri: 'https://i.ibb.co/nRBQ21Z/person.png' }} />}
+                        title='Thông tin cá nhân'
+                        titleStyle={styles.titleInfoStyle}
                         titleInfoStyle={styles.titleInfoStyle}
                         onPress={() => navigation.navigate('User Info')}
+                    />
+                    <SettingsList.Item
+                        icon={<Image style={styles.imageStyle} source={{ uri: 'https://i.ibb.co/vqVDZZf/padlock.png' }} />}
+                        title='Đổi mật khẩu'
+                        titleStyle={styles.titleInfoStyle}
+                        titleInfoStyle={styles.titleInfoStyle}
+                        onPress={() => navigation.navigate('User Password')}
                     />
                     <SettingsList.Item
                         icon={
@@ -172,6 +181,7 @@ const UserSetting = ({ navigation, route }) => {
                         switchOnValueChange={switchValue => onValueChange(switchValue)}
                         hasSwitch={true}
                         title='Đăng nhập bằng vân tay'
+                        titleStyle={styles.titleInfoStyle}
                     />
                       <SettingsList.Item
                         icon={
@@ -179,15 +189,17 @@ const UserSetting = ({ navigation, route }) => {
                         }
                         hasNavArrow={false}
                         title='Quản lý đăng nhập Web'
+                        titleStyle={styles.titleInfoStyle}
                     />
 
                     <SettingsList.Header headerText='Trợ giúp' headerStyle={{ marginTop: 15, fontSize: 22, color: 'white' }} />
                     <SettingsList.Item
                         icon={
-                            <Image style={styles.imageStyle} source={{uri:'https://i.ibb.co/xhzK46h/internet.png'}} />
+                            <Image style={styles.imageStyle} source={{uri:'https://i.ibb.co/mzyR64D/customer-service.png'}} />
                         }
                         hasNavArrow={false}
                         title='Test'
+                        titleStyle={styles.titleInfoStyle}
                     />
                       <SettingsList.Item
                         icon={
@@ -195,6 +207,7 @@ const UserSetting = ({ navigation, route }) => {
                         }
                         hasNavArrow={false}
                         title='Test'
+                        titleStyle={styles.titleInfoStyle}
                     />
                       <SettingsList.Item
                         icon={
@@ -202,6 +215,7 @@ const UserSetting = ({ navigation, route }) => {
                         }
                         hasNavArrow={false}
                         title='Test'
+                        titleStyle={styles.titleInfoStyle}
                     />
                 </SettingsList>
             </ImageBackground>
@@ -223,8 +237,8 @@ const styles = StyleSheet.create({
         width: 30
     },
     titleInfoStyle: {
-        fontSize: 16,
-        color: '#8e8e93'
+        fontSize: 18,
+   
     },
     image: {
         flex: 1,

@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "i18next": "^22.5.1",
     "intl-pluralrules": "^2.0.0",
+    "js-base64": "^3.7.5",
     "js-tokens": "^8.0.1",
     "moment": "^2.29.4",
     "native-base": "^3.4.28",

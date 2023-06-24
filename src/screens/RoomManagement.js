@@ -260,8 +260,8 @@ const styles = StyleSheet.create({
   },
   buttonImageIconStyle: {
     padding: 10,
-    height:'5%',
-    width: '5%',
+    height:'7%',
+    width: '7%',
   },
   headerIcon: {
     flex: 1,

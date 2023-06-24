@@ -56,7 +56,7 @@ const HomeScreen = ({ navigation, route }) => {
         <View style={styles.header1}>
           <TouchableOpacity
             style={styles.headerBtn}
-            onPress={() => logout()}>
+            >
               
             <Ionicons name='search-outline' size={38} color={'#FAF9F6'} />
           </TouchableOpacity>
